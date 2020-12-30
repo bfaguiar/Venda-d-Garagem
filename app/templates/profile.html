@@ -1,0 +1,96 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+     {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+
+            <!-- Main Content -->
+            <div id="content">
+                <div class="row">
+                    <div class="container-fluid">
+                        <div class="row profile" >
+                            <div class="col-md-3"  style="margin-top: 50px">
+                                <!-- PERFIL -->
+                                <div class="profile-sidebar">
+                                    <div class="profile-usertitle">
+                                        <div class="profile-usertitle-name">Carlos</div>
+                                        <div class="profile-usertitle-job">carlos@carlos.com</div>
+                                    </div>
+
+                                    <div class="profile-userbuttons">
+                                        <button type="button" class="btn btn-danger btn-sm">Logout</button>
+                                    </div>
+                                </div>
+                                <hr class="sidebar-divider">
+                                 <!-- ADICIONAR -->
+                                <div class="profile-sidebar" style="margin-top: 20px">
+                                    <div class="form-group" style="margin-left: 20px; margin-right:20px">
+                                        <h6 class="m-0 font-weight-bold text-primary">Add anouncement</h6>
+                                        <!-- ID -->
+                                        <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Brand/Model/Version:</label></div>
+                                        <div><select class="form-control" id="id">
+                                            <option>1</option>
+                                        </select></div>
+                                        <!-- COR -->
+                                        <div style="margin-top: 10px; margin-bottom: -5px"><label for="color">Color:</label></div>
+                                        <div><select class="form-control" id="color">
+                                            <option>1</option>
+                                        </select></div>
+                                        <!-- VALOR -->
+                                        <div style="margin-top: 10px; margin-bottom: -5px"><label for="price">Price:</label></div>
+                                        <div><select class="form-control" id="price">
+                                            <option>1</option>
+                                        </select></div>
+
+                                        <div class="profile-userbuttons" style="margin-top: 20px">
+                                            <button type="button" id="announce" class="btn btn-success btn-sm">Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- TABELA -->
+                            <div class="col-md-9">
+                                <div class="container-fluid">
+                                    <div class="card shadow mb-4" style="margin-top: 50px">
+                                        <div class="card-header py-3">
+                                            <div class="row">
+                                                <h6 class="m-0 font-weight-bold text-primary">My announcements</h6>
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Identification</th>
+                                                            <th>Price (€)</th>
+                                                            <th> </th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+
+                                                        <tr>
+                                                            <td style="width: 40%"> </td>
+                                                            <td style="width: 30%"> </td>
+                                                            <th style="width: 5%">
+                                                                <a href="#" class="btn btn-danger btn-circle btn-sm"/>
+                                                                <i class="fas fa-trash"></i>
+                                                            </th>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+     {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid" style="margin-top: 200px">
+                    <div class="profile-usertitle">
+                        <h4 class="m-0 font-weight-bold text-primary">LOGIN REQUIRED</h4>
+                    </div>
+                    <div class="profile-userbuttons" style="margin-top: 20px">
+                        <button type="button" class="btn btn-danger btn-sm"><a href="../login" style="color: white"/> Login</button>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+{% endblock %}
