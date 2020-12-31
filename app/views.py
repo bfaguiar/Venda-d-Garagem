@@ -1,5 +1,8 @@
 
 from django.shortcuts import render
+from rdflib import Graph
+from SPARQLWrapper import SPARQLWrapper, JSON, N3
+from pprint import pprint
 
 
 def index(request):
@@ -52,3 +55,42 @@ def friends(request):
     # adicionar amigo id = "add"
     # Se não existir dizer que não existe
     return render(request, 'friends.html')
+
+
+def about(request):
+    sparql = SPARQLWrapper('https://dbpedia.org/sparql')
+    #brand = request.GET['brand']
+    brand = 'BMW'
+    sparql.setQuery(f'''
+        SELECT ?name ?abst ?city ?num ?own ?prod
+        WHERE {{ dbr:{brand} rdfs:label ?name.
+                 dbr:{brand} dbo:abstract ?abst.
+                 dbr:{brand} dbo:locationCity ?city.
+                 dbr:{brand} dbo:numberOfEmployees ?num.
+                 dbr:{brand} dbo:owner ?own.
+                 dbr:{brand} dbo:production ?prod.
+            FILTER (lang(?name) = 'en')
+            FILTER (lang(?abst) = 'en')
+        }}
+    ''')
+    sparql.setReturnFormat(JSON)
+    qres = sparql.query().convert()
+
+    result = qres['results']['bindings'][0]
+    name, abst, num, own, prod, city = result['name']['value'], result['abst']['value'], result['num']['value'], result['own']['value'], result['prod']['value'], result['city']['value']
+
+    own = own.replace('_', ' ').split('/')[-1]
+    city = city.replace('_', ' ').split('/')[-1]
+
+    tparams = {
+        "name": name,
+        "abstract": abst,
+        "city": city,
+        "employees": num,
+        "owner": own,
+        "prod": prod,
+
+
+    }
+
+    return render(request, 'about.html', tparams)
