@@ -69,8 +69,7 @@ def about(request):
                  dbr:{brand} dbo:numberOfEmployees ?num.
                  dbr:{brand} dbo:owner ?own.
                  dbr:{brand} dbo:production ?prod.
-            FILTER (lang(?name) = 'en')
-            FILTER (lang(?abst) = 'en')
+            FILTER (lang(?abst) = 'pt')
         }}
     ''')
     sparql.setReturnFormat(JSON)
