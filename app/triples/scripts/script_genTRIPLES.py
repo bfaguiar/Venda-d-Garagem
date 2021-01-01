@@ -44,7 +44,7 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
                                 uco:pets "{}"@en; 
                                 uco:smoking "{}"@en;
                                 uco:currentLocation [ a schema:addressCountry "PT"@pt; 
-                                                        schema:addressRegion "{}"@pt; ]; 
+                                                        schema:addressRegion "{}"@pt ]; 
                                 uco:ModificationOrMaintenance "{}"^^xsd:integer; 
                                 uco:mileageEnd "{}"^^xsd:integer ; \n'''.format(row[12].replace(" ", "_"),
              row[13], 
