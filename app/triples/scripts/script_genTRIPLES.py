@@ -13,10 +13,13 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
 @prefix dbpedia: <http://dbpedia.org/resource/> . 
 @prefix vso:     <http://purl.org/vso/ns#> . 
 @prefix car:     <http://garagemdosusados.com/carros/#> . 
-@prefix uco:     <http://purl.org/uco/ns#> . \n ''')   
+@prefix uco:     <http://purl.org/uco/ns#> . 
+@prefix schema:  <http://schema.org/> . \n ''')   
                 line_count = line_count + 1
             else:
-                row14 = row[14].split()
+                row14 = row[14].split(" ")
+                row13 = row[13].split(" ")
+                
                 write_n3file.write('''
                 car:{} a vso:Automobile, gr:ActualProductOrServiceInstance; 
                                 gr:hasManufacturer dbpedia:{}; 
@@ -25,7 +28,7 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
                                 gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
                                                            gr:hasCurrency "EUR"^^xsd:string; 
                                                            gr:hasCurrencyValue "{}"^^xsd:float ] ; 
-                                vso:modelDate "{}"^^xsd:integer 
+                                vso:modelDate "{}"^^xsd:integer ;
                                 vso:VIN "{}"^^xsd:string; 
                                 vso:color "{}"@pt ; 
                                 vso:height "{}"^^xsd:integer ; 
@@ -43,11 +46,12 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
                                 vso:previousOwners "{}"^^xsd:integer ; 
                                 uco:pets "{}"@en; 
                                 uco:smoking "{}"@en;
-                                uco:currentLocation [ a schema:addressCountry "PT"@pt; 
+                                uco:currentLocation [ a schema:PostalAddress;
+                                                        schema:addressCountry "PT"@pt; 
                                                         schema:addressRegion "{}"@pt ]; 
                                 uco:ModificationOrMaintenance "{}"^^xsd:integer; 
-                                uco:mileageEnd "{}"^^xsd:integer ; \n'''.format(row[12].replace(" ", "_"),
-             row[13], 
+                                uco:mileageEnd "{}"^^xsd:integer . \n'''.format(row[12].replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_"),
+             row13[0], 
              row14[1] + "_"  + row14[2],
              row[21],
              row[15],
