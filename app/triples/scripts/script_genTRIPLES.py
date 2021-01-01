@@ -29,7 +29,7 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
                                 vso:VIN "{}"^^xsd:string; 
                                 vso:color "{}"@pt ; 
                                 vso:height "{}"^^xsd:integer ; 
-                                vso:length "{}"^^^xsd:integer ; 
+                                vso:length "{}"^^xsd:integer ; 
                                 vso:width "{}"^^xsd:integer ; 
                                 vso:DriveWheelConfiguration "{}"@en ; 
                                 vso:engineType "{}"^^xsd:string ; 
@@ -38,14 +38,14 @@ with open('../cars_sells.csv', 'r') as read_csvfile:
                                 vso:TransmissionTypeValue "{}"@en; 
                                 vso:FuelQuantity "{}"^^xsd:integer; 
                                 vso:fuelType "{}"@en; 
-                                vso:speed "{}"^^^xsd:integer ; 
+                                vso:speed "{}"^^xsd:integer ; 
                                 vso:accelaration "{}"^^xsd:integer ; 
                                 vso:previousOwners "{}"^^xsd:integer ; 
                                 uco:pets "{}"@en; 
                                 uco:smoking "{}"@en;
                                 uco:currentLocation [ a schema:addressCountry "PT"@pt; 
                                                         schema:addressRegion "{}"@pt; ]; 
-                                uco:ModificationOrMaintenance "{}"^^^xsd:integer; 
+                                uco:ModificationOrMaintenance "{}"^^xsd:integer; 
                                 uco:mileageEnd "{}"^^xsd:integer ; \n'''.format(row[12].replace(" ", "_"),
              row[13], 
              row14[1] + "_"  + row14[2],
