@@ -22,25 +22,26 @@
                                     <thead>
                                         <tr>
                                             <th>Identificação</th>
-                                            <th>Tração</th>
-                                            <th>CV</th>
-                                            <th>Aceleração (0-100km/h)</th>
-                                            <th>Consumo (100km)</th>
                                             <th>Cor</th>
-                                            <th>Valor (€)</th>
+                                            <th>Potência</th>
+                                            <th>Combustível</th>
+                                            <th>Localização</th>
+                                            <th>Preço</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        <tr>
-                                            <td style="width: 40%"><!--<a href="brand?entity= "/>--> </td>
-                                            <td style="width: 30%"> </td>
-                                            <td style="width: 25%"> </td>
-                                            <td style="width: 25%"> </td>
-                                            <td style="width: 25%"> </td>
-                                            <td style="width: 25%"> </td>
-                                            <td style="width: 25%"> </td>
-                                        </tr>
+                                            {%  for k,v in id.items %}
+                                            {% with id=id|get_item:k cor=cor|get_item:k hp=hp|get_item:k consumo=consumo|get_item:k loc=loc|get_item:k preco=preco|get_item:k %}
+                                            <tr>
+                                                <td style="width: 40%">{{id}}<!--<a href="brand?entity= "/>--> </td>
+                                                <td style="width: 30%">{{cor}} </td>
+                                                <td style="width: 25%">{{hp}} </td>
+                                                <td style="width: 25%">{{consumo}} </td>
+                                                <td style="width: 25%">{{loc}} </td>
+                                                <td style="width: 25%">{{preco}} </td>
+                                            </tr>
+                                            {% endwith %}
+                                            {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

@@ -1,13 +1,65 @@
-
+import json
+from s4api.graphdb_api import GraphDBApi
+from s4api.swagger import ApiClient
 from django.shortcuts import render
 from rdflib import Graph
 from SPARQLWrapper import SPARQLWrapper, JSON, N3
 from pprint import pprint
+from django.template.defaulttags import register
 
 
 def index(request):
     # aqui aparece lista de carros com os detalhes: id (marca,modelo,versão), wheel drive, horse power, aceleração, consumo, cor e preço
-    return render(request, 'index.html')
+
+    id = dict()
+    cor = dict()
+    hp = dict()
+    consumo = dict()
+    loc = dict()
+    preco = dict()
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+                PREFIX vso: <http://purl.org/vso/ns#>
+                PREFIX gr: <http://purl.org/goodrelations/v1#>
+                PREFIX uco: <http://purl.org/uco/ns#>
+                PREFIX schema: <http://schema.org/>
+
+                SELECT ?id ?cor ?hp ?consumo ?preco ?loc
+                WHERE {
+                    ?car vso:VIN ?id .
+                    ?car vso:color ?cor .
+                    ?car vso:enginePower ?hp .
+                    ?car vso:fuelType ?consumo .
+                    ?car uco:currentLocation [ schema:addressRegion ?loc ] .
+                    ?car gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ] .
+                }
+                ORDER BY ASC(?id)
+            """
+    payload_query = {"query": query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)
+
+    for e in res['results']['bindings']:
+        id[e['id']['value']] = e['id']['value']
+        cor[e['cor']['value']] = e['cor']['value'].replace("@pt", "")
+        hp[e['hp']['value']] = e['hp']['value'].replace("^^xsd:integer", "") + " CV"
+        consumo[e['consumo']['value']] = e['consumo']['value'].replace("@en", "").replace("Gasoline", "Gasolina")
+        loc[e['loc']['value']] = e['loc']['value'].replace("@pt", "")
+        preco[e['preco']['value']] = e['preco']['value'].replace("xsd:float", "") + "€"
+
+    tparams = {
+        'id': id,
+        'cor': cor,
+        'hp': hp,
+        'consumo': consumo,
+        'loc': loc,
+        'preco': preco
+    }
+    print(tparams)
+    return render(request, 'index.html', tparams)
 
 
 def login(request):
@@ -59,7 +111,7 @@ def friends(request):
 
 def about(request):
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
-    #brand = request.GET['brand']
+    # brand = request.GET['brand']
     brand = 'BMW'
     sparql.setQuery(f'''
         SELECT ?name ?abst ?city ?num ?own ?prod
@@ -76,7 +128,8 @@ def about(request):
     qres = sparql.query().convert()
 
     result = qres['results']['bindings'][0]
-    name, abst, num, own, prod, city = result['name']['value'], result['abst']['value'], result['num']['value'], result['own']['value'], result['prod']['value'], result['city']['value']
+    name, abst, num, own, prod, city = result['name']['value'], result['abst']['value'], result['num']['value'], \
+                                       result['own']['value'], result['prod']['value'], result['city']['value']
 
     own = own.replace('_', ' ').split('/')[-1]
     city = city.replace('_', ' ').split('/')[-1]
@@ -89,7 +142,11 @@ def about(request):
         "owner": own,
         "prod": prod,
 
-
     }
 
     return render(request, 'about.html', tparams)
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)
