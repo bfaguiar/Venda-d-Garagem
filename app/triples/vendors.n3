@@ -21,7 +21,7 @@
             gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
                                        gr:hasCurrency "EUR"^^xsd:string; 
                                        gr:hasCurrencyValue "8000"^^xsd:float ] ; 
-            vso:color "Laranja Lava"@pt ; 
+            vso:color "Laranja Lava"@pt ; ?car gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ] .
             vso:previousOwners "1"^^xsd:integer ; 
             uco:pets "Yes"@en; 
             uco:smoking "Yes"@en;

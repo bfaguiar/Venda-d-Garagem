@@ -30,17 +30,15 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            {%  for k,v in id.items %}
-                                            {% with id=id|get_item:k cor=cor|get_item:k hp=hp|get_item:k consumo=consumo|get_item:k loc=loc|get_item:k preco=preco|get_item:k %}
-                                            <tr>
-                                                <td style="width: 40%">{{id}}<!--<a href="brand?entity= "/>--> </td>
-                                                <td style="width: 30%">{{cor}} </td>
-                                                <td style="width: 25%">{{hp}} </td>
-                                                <td style="width: 25%">{{consumo}} </td>
-                                                <td style="width: 25%">{{loc}} </td>
-                                                <td style="width: 25%">{{preco}} </td>
-                                            </tr>
-                                            {% endwith %}
+                                            {% for x in idc %}
+                                                <tr>
+                                                    <td style="width: 40%">{{ x }}<!--<a href="brand?entity= "/>--> </td>
+                                                    <td style="width: 30%"> </td>
+                                                    <td style="width: 25%"> </td>
+                                                    <td style="width: 25%"> </td>
+                                                    <td style="width: 25%"> </td>
+                                                    <td style="width: 25%"> </td>
+                                                </tr>
                                             {% endfor %}
                                     </tbody>
                                 </table>

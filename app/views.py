@@ -10,55 +10,50 @@ from django.template.defaulttags import register
 
 def index(request):
     # aqui aparece lista de carros com os detalhes: id (marca,modelo,versão), wheel drive, horse power, aceleração, consumo, cor e preço
-
-    id = dict()
-    cor = dict()
-    hp = dict()
-    consumo = dict()
-    loc = dict()
-    preco = dict()
     endpoint = "http://localhost:7200"
-    repo_name = "cars"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
+    repo_name = "cars"
+
+    idc = dict()
+    name = dict()
+    cor = dict()
+
     query = """
-                PREFIX vso: <http://purl.org/vso/ns#>
-                PREFIX gr: <http://purl.org/goodrelations/v1#>
-                PREFIX uco: <http://purl.org/uco/ns#>
-                PREFIX schema: <http://schema.org/>
+        PREFIX vso: <http://purl.org/vso/ns#>
+        PREFIX gr: <http://purl.org/goodrelations/v1#>
+        PREFIX uco: <http://purl.org/uco/ns#>
+        PREFIX foaf:<http://xmlns.com/foaf/0.1/>
+        PREFIX schema: <http://schema.org/>
 
-                SELECT ?id ?cor ?hp ?consumo ?preco ?loc
-                WHERE {
-                    ?car vso:VIN ?id .
-                    ?car vso:color ?cor .
-                    ?car vso:enginePower ?hp .
-                    ?car vso:fuelType ?consumo .
-                    ?car uco:currentLocation [ schema:addressRegion ?loc ] .
-                    ?car gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ] .
-                }
-                ORDER BY ASC(?id)
-            """
-    payload_query = {"query": query}
-    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-    res = json.loads(res)
+        SELECT ?idc ?name ?cor
+        WHERE {
+            ?vendor ?sell [?car [vso:VIN ?idc]].
+            ?vendor ?person [foaf:nick ?name].
+            ?vendor ?sell [vso:color ?cor].
+        }
+    """
+    try:
+        payload_query = {"query": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("erro")
 
-    for e in res['results']['bindings']:
-        id[e['id']['value']] = e['id']['value']
-        cor[e['cor']['value']] = e['cor']['value'].replace("@pt", "")
-        hp[e['hp']['value']] = e['hp']['value'].replace("^^xsd:integer", "") + " CV"
-        consumo[e['consumo']['value']] = e['consumo']['value'].replace("@en", "").replace("Gasoline", "Gasolina")
-        loc[e['loc']['value']] = e['loc']['value'].replace("@pt", "")
-        preco[e['preco']['value']] = e['preco']['value'].replace("xsd:float", "") + "€"
+    for e in result['results']['bindings']:
+        idc[e['idc']['value']] = e['idc']['value']
+        name[e['name']['value']] = e['name']['value']
+        cor[e['cor']['value']] = e['cor']['value']
+
+    print(idc.values())
+
 
     tparams = {
-        'id': id,
-        'cor': cor,
-        'hp': hp,
-        'consumo': consumo,
-        'loc': loc,
-        'preco': preco
+        'idc': idc,
+        'name': name,
+        'cor': cor
     }
-    print(tparams)
+
     return render(request, 'index.html', tparams)
 
 
