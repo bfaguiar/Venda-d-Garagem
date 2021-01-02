@@ -117,6 +117,12 @@ def profile(request):
 
 
 def add_announce(request):
+    endpoint = "http://localhost:7200"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    repo_name = "cars"
+
+    # Sale specs
     color = request.POST.get('color')
     smoke = request.POST.get('smoke')
     pet = request.POST.get('pets')
@@ -124,25 +130,46 @@ def add_announce(request):
     kms = request.POST.get('km')
     value = request.POST.get('value')
     local = request.POST.get('local')
+
+    # Car
     idc = request.POST.get('id')
 
-    endpoint = "http://localhost:7200"
-    repo_name = "vendors"
-    client = ApiClient(endpoint=endpoint)
-    acessor = GraphDBApi(client)
-    insert_query = """
-            PREFIX sell:<http://garagemdosusados.com/vendas/#> .
-            PREFIX vso:<http://purl.org/vso/ns#>.    
-            PREFIX uco:<http://purl.org/uco/ns#>.
-                INSERT DATA {{
-                    #??
-                 }}
-                """.format(idc, color, smoke, pet, own, kms, value, local)
+    # User
+    person_query = """
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
+        SELECT ?name
+        WHERE {
+            ?person foaf:firstName ?name .
+        }
+    """
+    payload_query = {"query": person_query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)
+    name = res['name']['value']
+
+    # Insert all
+    insert_query = f"""
+        PREFIX vendor:<http://garagemdosusados.com/vendors/#>.
+        PREFIX sell:<http://garagemdosusados.com/vendas/#>.
+        PREFIX vso:<http://purl.org/vso/ns#>.    
+        PREFIX uco:<http://purl.org/uco/ns#>.
+        PREFIX gr:<http://purl.org/goodrelations/v1#> .  
+        INSERT DATA {{
+
+
+
+            #### ??????
+
+
+
+        }}
+    """
 
     payload_query = {"update": insert_query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
     return HttpResponseRedirect('/profile')
+
 
 def friends(request):
     # Aqui aparece nome, email e anúncios feitos por cada amigo
@@ -187,7 +214,6 @@ def about(request):
         "employees": num,
         "owner": own,
         "prod": prod,
-
     }
 
     return render(request, 'about.html', tparams)
