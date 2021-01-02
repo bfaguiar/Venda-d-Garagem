@@ -1,10 +1,10 @@
 import json
+
+from django.http import HttpResponseRedirect
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
 from django.shortcuts import render
-from rdflib import Graph
-from SPARQLWrapper import SPARQLWrapper, JSON, N3
-from pprint import pprint
+from SPARQLWrapper import SPARQLWrapper, JSON
 from django.template.defaulttags import register
 
 
@@ -88,15 +88,61 @@ def motos(request):
 
 
 def profile(request):
-    # Aqui aparece nome, email e anúncios feitos pelo próprio
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    ids = dict()
+    carid_query = """
+                PREFIX vso: <http://purl.org/vso/ns#>
+                PREFIX schema: <http://schema.org/>
+                SELECT ?id
+                WHERE {
+                    ?car vso:VIN ?id .
+                }
+                ORDER BY ASC(?id)
+            """
+    payload_query = {"query": carid_query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)
 
-    # ADICIONAR ANUNCIO DE CARRO
-    # id do carro id = "id"
-    # cor do carro id = "color"
-    # preço do carro id = "price"
-    # adicionar anuncio id = "announce"
-    return render(request, 'profile.html')
+    for e in res['results']['bindings']:
+        ids[e['id']['value']] = e['id']['value']
 
+    tparams = {
+        'id': ids,
+    }
+
+    return render(request, 'profile.html', tparams)
+
+
+def add_announce(request):
+    color = request.POST.get('color')
+    smoke = request.POST.get('smoke')
+    pet = request.POST.get('pets')
+    own = request.POST.get('owners')
+    kms = request.POST.get('km')
+    value = request.POST.get('value')
+    local = request.POST.get('local')
+    idc = request.POST.get('id')
+
+    endpoint = "http://localhost:7200"
+    repo_name = "vendors"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    insert_query = """
+            PREFIX sell:<http://garagemdosusados.com/vendas/#> .
+            PREFIX vso:<http://purl.org/vso/ns#>.    
+            PREFIX uco:<http://purl.org/uco/ns#>.
+                INSERT DATA {{
+                    #??
+                 }}
+                """.format(idc, color, smoke, pet, own, kms, value, local)
+
+    payload_query = {"update": insert_query}
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
+    return HttpResponseRedirect('/profile')
 
 def friends(request):
     # Aqui aparece nome, email e anúncios feitos por cada amigo

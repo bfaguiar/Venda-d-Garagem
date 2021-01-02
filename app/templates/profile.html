@@ -27,55 +27,59 @@
                                 <div class="profile-sidebar" style="margin-top: 20px">
                                     <div class="form-group" style="margin-left: 20px; margin-right:20px">
                                         <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
-                                        <form action="">
+                                        <form action="/add_announce">
                                             <!-- ID -->
                                             <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
+
                                             <div><select class="form-control" id="id">
-                                                <option>1</option>
+                                                {% for index in id %}
+                                                <option>{{ index }}</option>
+                                                {% endfor %}
                                             </select></div>
+
                                             <!-- COR -->
                                             <div class="row" style="margin-top: 20px">
                                                 <label for="local" style="margin-top: 8px">Cor:</label><br>
                                                 <div style="width: 82%; margin-left: 10px">
-                                                    <input type="text" id="color" name="color" class="form-control"><br>
+                                                    <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br>
                                                 </div>
                                             </div>
                                             <!-- FUMADOR -->
                                             <div>
-                                                <input type="checkbox" id="smoke" name="smoke" value="Yes">
+                                                <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke" value="Yes">
                                                 <label for="smoke">Fumador?</label><br>
                                             </div>
                                             <!-- ANIMAIS -->
                                             <div>
-                                                <input type="checkbox" id="pets" name="pets" value="Yes">
+                                                <input value = "{{ pets }}" type="checkbox" id="pets" name="pets" value="Yes">
                                                 <label for="pets">Animais?</label><br>
                                             </div>
                                             <!-- DONOS -->
                                             <div class="row" style="margin-top: 15px">
                                                 <label for="owners" style="margin-top: 8px">Donos:</label><br>
                                                 <div style="width: 73%; margin-left: 10px">
-                                                    <input type="number" id="owners" name="owners" min="1" class="form-control">
+                                                    <input value = "{{ owners }}" type="number" id="owners" name="owners" min="1" class="form-control">
                                                 </div>
                                             </div>
                                             <!-- KM -->
                                             <div class="row" style="margin-top: 15px">
                                                 <label for="owners" style="margin-top: 8px">KMs:</label><br>
                                                 <div style="width: 73%; margin-left: 24px">
-                                                    <input type="number" id="km" name="km" min="0" class="form-control">
+                                                    <input value = "{{ km }}" type="number" id="km" name="km" min="0" class="form-control">
                                                 </div>
                                             </div>
                                             <!-- VALOR -->
                                             <div class="row" style="margin-top: 15px">
                                                 <label for="owners" style="margin-top: 8px">Valor:</label><br>
                                                 <div style="width: 73%; margin-left: 20px">
-                                                    <input type="number" id="value" name="value" min="0" class="form-control">
+                                                    <input value = "{{ value }}" type="number" id="value" name="value" min="0" class="form-control">
                                                 </div>
                                             </div>
                                             <!-- LOCALIZAÇÃO -->
                                             <div class="row" style="margin-top: 15px">
                                                 <label for="local" style="margin-top: 8px">Localização:</label><br>
                                                 <div style="width: 57%; margin-left: 10px">
-                                                    <input type="text" id="color" name="color" class="form-control"><br>
+                                                    <input value = "{{ local }}" type="text" id="color" name="color" class="form-control"><br>
                                                 </div>
                                             </div>
 
