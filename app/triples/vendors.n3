@@ -1,0 +1,373 @@
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .  
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> . 
+@prefix gr:      <http://purl.org/goodrelations/v1#> .  
+@prefix vendor:  <http://garagemdosusados.com/vendors/#> .
+@prefix person:  <http://garagemdosusados.com/pessoas/#> .   
+@prefix sell:    <http://garagemdosusados.com/vendas/#> .
+@prefix foaf:    <http://xmlns.com/foaf/0.1/> .
+@prefix vso:     <http://purl.org/vso/ns#> .    
+@prefix uco:     <http://purl.org/uco/ns#> .
+@prefix schema:  <http://schema.org/> . 
+
+@prefix car:     <http://garagemdosusados.com/carros/#> .
+
+    vendor:santi a gr:Reseller;
+              foaf:nick person:santi;
+              gr:offers sell:2010_Hyundai_Elantra_Sedan_SE_PZEV .
+
+    sell:2010_Hyundai_Elantra_Sedan_SE_PZEV a gr:Offering;
+            gr:includes car:2010_Hyundai_Elantra_Sedan_SE_PZEV;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "8000"^^xsd:float ] ; 
+            vso:color "Laranja Lava"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Viana do Castelo"@pt ]; 
+            uco:mileageEnd "5000"^^xsd:integer .  
+
+    vendor:jonni a gr:Reseller;
+              foaf:nick person:jonni;
+              gr:offers sell:2011_Mercury_Milan_Premier .
+
+    sell:2011_Mercury_Milan_Premier a gr:Offering;
+            gr:includes car:2011_Mercury_Milan_Premier;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "45000"^^xsd:float ] ; 
+            vso:color "Verde"@pt ; 
+            vso:previousOwners "2"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Viana do Castelo"@pt ]; 
+            uco:mileageEnd "300000"^^xsd:integer .  
+
+    vendor:fonsi a gr:Reseller;
+              foaf:nick person:fonsi;
+              gr:offers sell:2010_Nissan_Versa_Hatchback_1_8_S_AT .
+
+    sell:2010_Nissan_Versa_Hatchback_1_8_S_AT a gr:Offering;
+            gr:includes car:2010_Nissan_Versa_Hatchback_1_8_S_AT;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "75000"^^xsd:float ] ; 
+            vso:color "Prateado"@pt ; 
+            vso:previousOwners "4"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Coimbra"@pt ]; 
+            uco:mileageEnd "150000"^^xsd:integer .  
+
+    vendor:rodri a gr:Reseller;
+              foaf:nick person:rodri;
+              gr:offers sell:2012_Ford_E_350_Super_Duty_Wagon_XL_V10 .
+
+    sell:2012_Ford_E_350_Super_Duty_Wagon_XL_V10 a gr:Offering;
+            gr:includes car:2012_Ford_E_350_Super_Duty_Wagon_XL_V10;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "35000"^^xsd:float ] ; 
+            vso:color "Prateado"@pt ; 
+            vso:previousOwners "2"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Beja"@pt ]; 
+            uco:mileageEnd "70000"^^xsd:integer .  
+
+    vendor:martin a gr:Reseller;
+              foaf:nick person:martin;
+              gr:offers sell:2012_Nissan_Titan_King_Cab_SV_4x4 .
+
+    sell:2012_Nissan_Titan_King_Cab_SV_4x4 a gr:Offering;
+            gr:includes car:2012_Nissan_Titan_King_Cab_SV_4x4;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "80000"^^xsd:float ] ; 
+            vso:color "Laranja"@pt ; 
+            vso:previousOwners "3"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Aveiro"@pt ]; 
+            uco:mileageEnd "80000"^^xsd:integer .  
+
+    vendor:tomas a gr:Reseller;
+              foaf:nick person:tomas;
+              gr:offers sell:2012_Saab_9_3_Convertible_Independence_MT .
+
+    sell:2012_Saab_9_3_Convertible_Independence_MT a gr:Offering;
+            gr:includes car:2012_Saab_9_3_Convertible_Independence_MT;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "65000"^^xsd:float ] ; 
+            vso:color "Prateado"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Aveiro"@pt ]; 
+            uco:mileageEnd "300000"^^xsd:integer .  
+
+    vendor:duarte a gr:Reseller;
+              foaf:nick person:duarte;
+              gr:offers sell:2012_Ford_Flex_Limited_AWD .
+
+    sell:2012_Ford_Flex_Limited_AWD a gr:Offering;
+            gr:includes car:2012_Ford_Flex_Limited_AWD;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "85000"^^xsd:float ] ; 
+            vso:color "Laranja"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Évora"@pt ]; 
+            uco:mileageEnd "10000"^^xsd:integer .  
+
+    vendor:migas a gr:Reseller;
+              foaf:nick person:migas;
+              gr:offers sell:2012_Mitsubishi_Galant_SE .
+
+    sell:2012_Mitsubishi_Galant_SE a gr:Offering;
+            gr:includes car:2012_Mitsubishi_Galant_SE;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "15000"^^xsd:float ] ; 
+            vso:color "Verde Corrida"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Braga"@pt ]; 
+            uco:mileageEnd "70000"^^xsd:integer .  
+
+    vendor:gabi a gr:Reseller;
+              foaf:nick person:gabi;
+              gr:offers sell:2010_Chevrolet_Silverado_1500_Crew_Cab_LTZ_4WD .
+
+    sell:2010_Chevrolet_Silverado_1500_Crew_Cab_LTZ_4WD a gr:Offering;
+            gr:includes car:2010_Chevrolet_Silverado_1500_Crew_Cab_LTZ_4WD;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "250000"^^xsd:float ] ; 
+            vso:color "Azul"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Castelo Branco"@pt ]; 
+            uco:mileageEnd "20000"^^xsd:integer .  
+
+    vendor:mari a gr:Reseller;
+              foaf:nick person:mari;
+              gr:offers sell:2012_Ford_Fiesta_SE_Sedan .
+
+    sell:2012_Ford_Fiesta_SE_Sedan a gr:Offering;
+            gr:includes car:2012_Ford_Fiesta_SE_Sedan;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "45000"^^xsd:float ] ; 
+            vso:color "Verde Corrida"@pt ; 
+            vso:previousOwners "2"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "Yes"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Viana do Castelo"@pt ]; 
+            uco:mileageEnd "60000"^^xsd:integer .  
+
+    vendor:leo a gr:Reseller;
+              foaf:nick person:leo;
+              gr:offers sell:2012_Dodge_Journey_SXT .
+
+    sell:2012_Dodge_Journey_SXT a gr:Offering;
+            gr:includes car:2012_Dodge_Journey_SXT;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "80000"^^xsd:float ] ; 
+            vso:color "Verde"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Faro"@pt ]; 
+            uco:mileageEnd "150000"^^xsd:integer .  
+
+    vendor:mat a gr:Reseller;
+              foaf:nick person:mat;
+              gr:offers sell:2010_Mercedes_Benz_C300_Sport_4MATIC .
+
+    sell:2010_Mercedes_Benz_C300_Sport_4MATIC a gr:Offering;
+            gr:includes car:2010_Mercedes_Benz_C300_Sport_4MATIC;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "20000"^^xsd:float ] ; 
+            vso:color "Prateado"@pt ; 
+            vso:previousOwners "1"^^xsd:integer ; 
+            uco:pets "Yes"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Coimbra"@pt ]; 
+            uco:mileageEnd "300000"^^xsd:integer .  
+
+    vendor:bea a gr:Reseller;
+              foaf:nick person:bea;
+              gr:offers sell:2012_Kia_Sportage_EX .
+
+    sell:2012_Kia_Sportage_EX a gr:Offering;
+            gr:includes car:2012_Kia_Sportage_EX;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "150000"^^xsd:float ] ; 
+            vso:color "Verde"@pt ; 
+            vso:previousOwners "4"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Açores"@pt ]; 
+            uco:mileageEnd "80000"^^xsd:integer .  
+
+    vendor:carol a gr:Reseller;
+              foaf:nick person:carol;
+              gr:offers sell:2010_Chevrolet_Silverado_1500_Extended_Cab_Work_Truck_5_3L .
+
+    sell:2010_Chevrolet_Silverado_1500_Extended_Cab_Work_Truck_5_3L a gr:Offering;
+            gr:includes car:2010_Chevrolet_Silverado_1500_Extended_Cab_Work_Truck_5_3L;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "20000"^^xsd:float ] ; 
+            vso:color "Amarelo"@pt ; 
+            vso:previousOwners "3"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Braga"@pt ]; 
+            uco:mileageEnd "1000"^^xsd:integer .  
+
+    vendor:marian a gr:Reseller;
+              foaf:nick person:marian;
+              gr:offers sell:2010_Toyota_Tacoma_PreRunner .
+
+    sell:2010_Toyota_Tacoma_PreRunner a gr:Offering;
+            gr:includes car:2010_Toyota_Tacoma_PreRunner;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "80000"^^xsd:float ] ; 
+            vso:color "Branco"@pt ; 
+            vso:previousOwners "5"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Viana do Castelo"@pt ]; 
+            uco:mileageEnd "100000"^^xsd:integer .  
+
+    vendor:ana a gr:Reseller;
+              foaf:nick person:ana;
+              gr:offers sell:2012_Honda_Civic_LX_Coupe_AT .
+
+    sell:2012_Honda_Civic_LX_Coupe_AT a gr:Offering;
+            gr:includes car:2012_Honda_Civic_LX_Coupe_AT;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "75000"^^xsd:float ] ; 
+            vso:color "Azul"@pt ; 
+            vso:previousOwners "2"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Santarém"@pt ]; 
+            uco:mileageEnd "70000"^^xsd:integer .  
+
+    vendor:sofi a gr:Reseller;
+              foaf:nick person:sofi;
+              gr:offers sell:2010_Chevrolet_Colorado_Work_Truck .
+
+    sell:2010_Chevrolet_Colorado_Work_Truck a gr:Offering;
+            gr:includes car:2010_Chevrolet_Colorado_Work_Truck;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "55000"^^xsd:float ] ; 
+            vso:color "Azul Corrida"@pt ; 
+            vso:previousOwners "4"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Madeira"@pt ]; 
+            uco:mileageEnd "120000"^^xsd:integer .  
+
+    vendor:fran a gr:Reseller;
+              foaf:nick person:fran;
+              gr:offers sell:2010_Honda_Odyssey_EX .
+
+    sell:2010_Honda_Odyssey_EX a gr:Offering;
+            gr:includes car:2010_Honda_Odyssey_EX;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "60000"^^xsd:float ] ; 
+            vso:color "Cinzento"@pt ; 
+            vso:previousOwners "2"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Lisboa"@pt ]; 
+            uco:mileageEnd "300000"^^xsd:integer .  
+
+    vendor:ines a gr:Reseller;
+              foaf:nick person:ines;
+              gr:offers sell:2010_Nissan_Versa_Sedan_1_8_SL .
+
+    sell:2010_Nissan_Versa_Sedan_1_8_SL a gr:Offering;
+            gr:includes car:2010_Nissan_Versa_Sedan_1_8_SL;
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "30000"^^xsd:float ] ; 
+            vso:color "Azul Corrida"@pt ; 
+            vso:previousOwners "4"^^xsd:integer ; 
+            uco:pets "No"@en; 
+            uco:smoking "No"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "Vila Real"@pt ]; 
+            uco:mileageEnd "120000"^^xsd:integer .  

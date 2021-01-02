@@ -1,0 +1,138 @@
+@prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .  
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+@prefix person:  <http://garagemdosusados.com/pessoas/#> .  
+
+
+            person:chico a foaf:Person;
+                      foaf:firstName "Francisco"@pt ;
+                      foaf:nick "chico"^^xsd:string;
+                      foaf:mbox "chico@hotmail.com"^^xsd:string;
+                      foaf:age "25"^^xsd:integer;
+                      foaf:knows person:sofi, person:mari, person:leo .
+
+            person:jonni a foaf:Person;
+                      foaf:firstName "João"@pt ;
+                      foaf:nick "jonni"^^xsd:string;
+                      foaf:mbox "jonni@gmail.com"^^xsd:string;
+                      foaf:age "50"^^xsd:integer;
+                      foaf:knows person:chico, person:mat .
+
+            person:fonsi a foaf:Person;
+                      foaf:firstName "Afonso"@pt ;
+                      foaf:nick "fonsi"^^xsd:string;
+                      foaf:mbox "fonsi@outlook.pt"^^xsd:string;
+                      foaf:age "39"^^xsd:integer;
+                      foaf:knows person:santi, person:gabi, person:tomas, person:fran, person:rodri, person:tomas, person:mat .
+
+            person:rodri a foaf:Person;
+                      foaf:firstName "Rodrigo"@pt ;
+                      foaf:nick "rodri"^^xsd:string;
+                      foaf:mbox "rodri@gmail.com"^^xsd:string;
+                      foaf:age "37"^^xsd:integer;
+                      foaf:knows person:marian, person:ines, person:martin .
+
+            person:martin a foaf:Person;
+                      foaf:firstName "Martim"@pt ;
+                      foaf:nick "martin"^^xsd:string;
+                      foaf:mbox "mar@hotmail.com"^^xsd:string;
+                      foaf:age "59"^^xsd:integer;
+                      foaf:knows person:rodri, person:tomas .
+
+            person:tomas a foaf:Person;
+                      foaf:firstName "Tomás"@pt ;
+                      foaf:nick "tomas"^^xsd:string;
+                      foaf:mbox "tomas@up.pt"^^xsd:string;
+                      foaf:age "43"^^xsd:integer;
+                      foaf:knows person:mari, person:ana, person:martin, person:migas .
+
+            person:duarte a foaf:Person;
+                      foaf:firstName "Duarte"@pt ;
+                      foaf:nick "duarte"^^xsd:string;
+                      foaf:mbox "duarte@gmail.com"^^xsd:string;
+                      foaf:age "50"^^xsd:integer;
+                      foaf:knows person:migas, person:gabi, person:chico, person:carol, person:mari, person:santi .
+
+            person:migas a foaf:Person;
+                      foaf:firstName "Miguel"@pt ;
+                      foaf:nick "migas"^^xsd:string;
+                      foaf:mbox "migas@outlook.pt"^^xsd:string;
+                      foaf:age "57"^^xsd:integer;
+                      foaf:knows person:sofi, person:mat, person:carol .
+
+            person:gabi a foaf:Person;
+                      foaf:firstName "Gabriel"@pt ;
+                      foaf:nick "gabi"^^xsd:string;
+                      foaf:mbox "gabi@gmail.com"^^xsd:string;
+                      foaf:age "20"^^xsd:integer;
+                      foaf:knows person:jonni, person:ana, person:marian, person:chico .
+
+            person:mari a foaf:Person;
+                      foaf:firstName "Maria"@pt ;
+                      foaf:nick "mari"^^xsd:string;
+                      foaf:mbox "mari@gmail.com"^^xsd:string;
+                      foaf:age "51"^^xsd:integer;
+                      foaf:knows person:martin, person:duarte, person:carol ,person:rodri, person:leo, person:marian, person:ana, person:carol, person:fonsi .
+
+            person:leo a foaf:Person;
+                      foaf:firstName "Leonor"@pt ;
+                      foaf:nick "leo"^^xsd:string;
+                      foaf:mbox "leo@yahoo.com"^^xsd:string;
+                      foaf:age "40"^^xsd:integer;
+                      foaf:knows person:mat, person:mari .
+
+            person:mat a foaf:Person;
+                      foaf:firstName "Matilde"@pt ;
+                      foaf:nick "mat"^^xsd:string;
+                      foaf:mbox "matilde@gmail.com"^^xsd:string;
+                      foaf:age "46"^^xsd:integer;
+                      foaf:knows person:jonni, person:sofi, person:tomas, person:migas , person:leo .
+
+            person:bea a foaf:Person;
+                      foaf:firstName "Beatriz"@pt ;
+                      foaf:nick "bea"^^xsd:string;
+                      foaf:mbox "bia@gmail.com"^^xsd:string;
+                      foaf:age "64"^^xsd:integer;
+                      foaf:knows person:ana, person:jonni .
+
+            person:carol a foaf:Person;
+                      foaf:firstName "Carolina"@pt ;
+                      foaf:nick "carol"^^xsd:string;
+                      foaf:mbox "carol79@gmail.com"^^xsd:string;
+                      foaf:age "55"^^xsd:integer;
+                      foaf:knows person:mat, person:ines .
+
+            person:marian a foaf:Person;
+                      foaf:firstName "Mariana"@pt ;
+                      foaf:nick "marian"^^xsd:string;
+                      foaf:mbox "amarian@gmail.com"^^xsd:string;
+                      foaf:age "30"^^xsd:integer;
+                      foaf:knows person:gabi, person:fonsi, person:ana .
+
+            person:ana a foaf:Person;
+                      foaf:firstName "Ana"@pt ;
+                      foaf:nick "ana"^^xsd:string;
+                      foaf:mbox "nan@outlook.pt"^^xsd:string;
+                      foaf:age "63"^^xsd:integer;
+                      foaf:knows person:marian, person:fonsi, person:santi, person:duarte, person:fran .
+
+            person:sofi a foaf:Person;
+                      foaf:firstName "Sofia"@pt ;
+                      foaf:nick "sofi"^^xsd:string;
+                      foaf:mbox "sof@ua.pt"^^xsd:string;
+                      foaf:age "53"^^xsd:integer;
+                      foaf:knows person:ana, person:rodri ,person:martin, person:gabi,person:ines .
+
+            person:fran a foaf:Person;
+                      foaf:firstName "Francisca"@pt ;
+                      foaf:nick "fran"^^xsd:string;
+                      foaf:mbox "franxica@gmail.com"^^xsd:string;
+                      foaf:age "53"^^xsd:integer;
+                      foaf:knows person:bea, person:mat ,person:rodri .
+
+            person:ines a foaf:Person;
+                      foaf:firstName "Inês"@pt ;
+                      foaf:nick "ines"^^xsd:string;
+                      foaf:mbox "in@gmail.com"^^xsd:string;
+                      foaf:age "45"^^xsd:integer;
+                      foaf:knows person:fran, person:jonni, person:marian, person:gabi ,person:mat ,person:rodri, person:ana .
