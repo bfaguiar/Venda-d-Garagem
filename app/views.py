@@ -6,6 +6,7 @@ from s4api.swagger import ApiClient
 from django.shortcuts import render
 from SPARQLWrapper import SPARQLWrapper, JSON
 from django.template.defaulttags import register
+import pprint
 
 
 def index(request):
@@ -39,19 +40,16 @@ def index(request):
         result = json.loads(result)
     except ValueError:
         print("erro")
-
+    
+    lista = []
+    return_template = {}
     for e in result['results']['bindings']:
-        idc[e['idc']['value']] = e['idc']['value']
-        name[e['name']['value']] = e['name']['value']
-        cor[e['cor']['value']] = e['cor']['value']
+        lista.append([e['idc']['value'], e['name']['value'], e['cor']['value']])
 
-    print(idc.values())
-
-
+    pprint.pprint(lista)
+    #return_template["caracteristicas"] = lista
     tparams = {
-        'idc': idc,
-        'name': name,
-        'cor': cor
+                'lista': lista,
     }
 
     return render(request, 'index.html', tparams)

@@ -30,11 +30,11 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                            {% for x in idc %}
+                                            {% for x in lista %}
                                                 <tr>
-                                                    <td style="width: 40%">{{ x }}<!--<a href="brand?entity= "/>--> </td>
-                                                    <td style="width: 30%"> </td>
-                                                    <td style="width: 25%"> </td>
+                                                    <td style="width: 40%">{{ x.0 }}<!--<a href="brand?entity= "/>--> </td>
+                                                    <td style="width: 30%">{{x.1}}</td>
+                                                        <td style="width: 25%">{{x.2}} </td>
                                                     <td style="width: 25%"> </td>
                                                     <td style="width: 25%"> </td>
                                                     <td style="width: 25%"> </td>
