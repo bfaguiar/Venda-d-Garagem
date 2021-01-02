@@ -23,29 +23,66 @@
                                     </div>
                                 </div>
                                 <hr class="sidebar-divider">
-                                 <!-- ADICIONAR -->
+                                 <!-- ADICIONAR ANUNCIO -->
                                 <div class="profile-sidebar" style="margin-top: 20px">
                                     <div class="form-group" style="margin-left: 20px; margin-right:20px">
                                         <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
-                                        <!-- ID -->
-                                        <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
-                                        <div><select class="form-control" id="id">
-                                            <option>1</option>
-                                        </select></div>
-                                        <!-- COR -->
-                                        <div style="margin-top: 10px; margin-bottom: -5px"><label for="color">Cor:</label></div>
-                                        <div><select class="form-control" id="color">
-                                            <option>1</option>
-                                        </select></div>
-                                        <!-- VALOR -->
-                                        <div style="margin-top: 10px; margin-bottom: -5px"><label for="price">Valor:</label></div>
-                                        <div><select class="form-control" id="price">
-                                            <option>1</option>
-                                        </select></div>
+                                        <form action="">
+                                            <!-- ID -->
+                                            <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
+                                            <div><select class="form-control" id="id">
+                                                <option>1</option>
+                                            </select></div>
+                                            <!-- COR -->
+                                            <div class="row" style="margin-top: 20px">
+                                                <label for="local" style="margin-top: 8px">Cor:</label><br>
+                                                <div style="width: 82%; margin-left: 10px">
+                                                    <input type="text" id="color" name="color" class="form-control"><br>
+                                                </div>
+                                            </div>
+                                            <!-- FUMADOR -->
+                                            <div>
+                                                <input type="checkbox" id="smoke" name="smoke" value="Yes">
+                                                <label for="smoke">Fumador?</label><br>
+                                            </div>
+                                            <!-- ANIMAIS -->
+                                            <div>
+                                                <input type="checkbox" id="pets" name="pets" value="Yes">
+                                                <label for="pets">Animais?</label><br>
+                                            </div>
+                                            <!-- DONOS -->
+                                            <div class="row" style="margin-top: 15px">
+                                                <label for="owners" style="margin-top: 8px">Donos:</label><br>
+                                                <div style="width: 73%; margin-left: 10px">
+                                                    <input type="number" id="owners" name="owners" min="1" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- KM -->
+                                            <div class="row" style="margin-top: 15px">
+                                                <label for="owners" style="margin-top: 8px">KMs:</label><br>
+                                                <div style="width: 73%; margin-left: 24px">
+                                                    <input type="number" id="km" name="km" min="0" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- VALOR -->
+                                            <div class="row" style="margin-top: 15px">
+                                                <label for="owners" style="margin-top: 8px">Valor:</label><br>
+                                                <div style="width: 73%; margin-left: 20px">
+                                                    <input type="number" id="value" name="value" min="0" class="form-control">
+                                                </div>
+                                            </div>
+                                            <!-- LOCALIZAÇÃO -->
+                                            <div class="row" style="margin-top: 15px">
+                                                <label for="local" style="margin-top: 8px">Localização:</label><br>
+                                                <div style="width: 57%; margin-left: 10px">
+                                                    <input type="text" id="color" name="color" class="form-control"><br>
+                                                </div>
+                                            </div>
 
-                                        <div class="profile-userbuttons" style="margin-top: 20px">
-                                            <button type="button" id="announce" class="btn btn-success btn-sm">Publicar</button>
-                                        </div>
+                                            <div class="profile-userbuttons" style="margin-top: 20px">
+                                                <button type="button" id="announce" class="btn btn-success btn-sm">Publicar</button>
+                                            </div>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -64,16 +101,21 @@
                                                     <thead>
                                                         <tr>
                                                             <th>Identificação</th>
+                                                            <th>Cor</th>
                                                             <th>Preço (€)</th>
+                                                            <th>KMs</th>
+                                                            <th>Local</th>
                                                             <th> </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-
                                                         <tr>
-                                                            <td style="width: 40%"> </td>
-                                                            <td style="width: 30%"> </td>
-                                                            <th style="width: 5%">
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <td> </td>
+                                                            <th style="width: 10px">
                                                                 <a href="#" class="btn btn-danger btn-circle btn-sm"/>
                                                                 <i class="fas fa-trash"></i>
                                                             </th>
