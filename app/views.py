@@ -27,12 +27,17 @@ def index(request):
         PREFIX foaf:<http://xmlns.com/foaf/0.1/>
         PREFIX schema: <http://schema.org/>
 
-        SELECT ?idc ?name ?cor
+        SELECT ?idc ?name ?cor ?hp ?comb ?loc ?preco
         WHERE {
             ?vendor ?sell [?car [vso:VIN ?idc]].
             ?vendor ?person [foaf:nick ?name].
             ?vendor ?sell [vso:color ?cor].
+            ?vendor ?sell [?car [vso:enginePower ?hp]].
+    		?vendor ?sell [?car [vso:fuelType ?comb]].
+    		?vendor ?sell [?car [ uco:currentLocation [ schema:addressRegion ?loc ]]].
+    		?vendor ?sell [?car [ gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ]]].
         }
+        ORDER BY ASC(?idc)
     """
     try:
         payload_query = {"query": query}
@@ -44,7 +49,7 @@ def index(request):
     lista = []
     return_template = {}
     for e in result['results']['bindings']:
-        lista.append([e['idc']['value'], e['name']['value'], e['cor']['value']])
+        lista.append([e['idc']['value'], e['name']['value'], e['cor']['value'], e['hp']['value']+" CV", e['comb']['value'].replace("Gasoline","Gasolina"), e['loc']['value'], e['preco']['value']+"€"])
 
     pprint.pprint(lista)
     #return_template["caracteristicas"] = lista

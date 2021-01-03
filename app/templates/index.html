@@ -21,6 +21,7 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Utilizador</th>
                                             <th>Identificação</th>
                                             <th>Cor</th>
                                             <th>Potência</th>
@@ -32,12 +33,14 @@
                                     <tbody>
                                             {% for x in lista %}
                                                 <tr>
-                                                    <td style="width: 40%">{{ x.0 }}<!--<a href="brand?entity= "/>--> </td>
-                                                    <td style="width: 30%">{{x.1}}</td>
-                                                        <td style="width: 25%">{{x.2}} </td>
-                                                    <td style="width: 25%"> </td>
-                                                    <td style="width: 25%"> </td>
-                                                    <td style="width: 25%"> </td>
+                                                    <td style="width: 7%">{{ x.1 }}<!--<a href="brand?entity= "/>--> </td>
+                                                    <td style="width: 40%">{{x.0}}</td>
+                                                    <td style="width: 10%">{{x.2}} </td>
+                                                    <td style="width: 10%">{{x.3}} </td>
+                                                    <td style="width: 10%">{{x.4}} </td>
+                                                    <td style="width: 15%">{{x.5}} </td>
+                                                    <td style="width: 9%">{{x.6}} </td>
+
                                                 </tr>
                                             {% endfor %}
                                     </tbody>
