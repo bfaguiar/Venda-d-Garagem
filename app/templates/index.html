@@ -21,26 +21,29 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Utilizador</th>
                                             <th>Identificação</th>
                                             <th>Cor</th>
-                                            <th>Potência</th>
-                                            <th>Combustível</th>
+                                            <th><i class="fas fa-gas-pump " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th><i class="fas fa-dog " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th><i class="fas fa-smoking " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th>Donos</th>
                                             <th>Localização</th>
+                                            <th>Vendedor</th>
                                             <th>Preço</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                             {% for x in lista %}
                                                 <tr>
-                                                    <td style="width: 7%">{{ x.1 }}<!--<a href="brand?entity= "/>--> </td>
-                                                    <td style="width: 40%">{{x.0}}</td>
-                                                    <td style="width: 10%">{{x.2}} </td>
-                                                    <td style="width: 10%">{{x.3}} </td>
-                                                    <td style="width: 10%">{{x.4}} </td>
-                                                    <td style="width: 15%">{{x.5}} </td>
-                                                    <td style="width: 9%">{{x.6}} </td>
-
+                                                    <td><a href="about?entity={{ x.9 }}"/>{{ x.0 }}</td>
+                                                    <td>{{ x.1 }}</td>
+                                                    <td>{{ x.2 }}</td>
+                                                    <td>{{ x.3 }}</td>
+                                                    <td>{{ x.4 }}</td>
+                                                    <td>{{ x.5 }}</td>
+                                                    <td>{{ x.6 }}</td>
+                                                    <td>{{ x.7 }}</td>
+                                                    <td>{{ x.8 }}</td>
                                                 </tr>
                                             {% endfor %}
                                     </tbody>

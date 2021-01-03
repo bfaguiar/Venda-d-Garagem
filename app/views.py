@@ -6,19 +6,13 @@ from s4api.swagger import ApiClient
 from django.shortcuts import render
 from SPARQLWrapper import SPARQLWrapper, JSON
 from django.template.defaulttags import register
-import pprint
 
 
 def index(request):
-    # aqui aparece lista de carros com os detalhes: id (marca,modelo,versão), wheel drive, horse power, aceleração, consumo, cor e preço
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     repo_name = "cars"
-
-    idc = dict()
-    name = dict()
-    cor = dict()
 
     query = """
         PREFIX vso: <http://purl.org/vso/ns#>
@@ -27,34 +21,43 @@ def index(request):
         PREFIX foaf:<http://xmlns.com/foaf/0.1/>
         PREFIX schema: <http://schema.org/>
 
-        SELECT ?idc ?name ?cor ?hp ?comb ?loc ?preco
+        SELECT ?idc ?name ?cor ?prev ?pets ?smoke ?val ?loc ?ft
         WHERE {
             ?vendor ?sell [?car [vso:VIN ?idc]].
             ?vendor ?person [foaf:nick ?name].
             ?vendor ?sell [vso:color ?cor].
-            ?vendor ?sell [?car [vso:enginePower ?hp]].
-    		?vendor ?sell [?car [vso:fuelType ?comb]].
-    		?vendor ?sell [?car [ uco:currentLocation [ schema:addressRegion ?loc ]]].
-    		?vendor ?sell [?car [ gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ]]].
+            ?vendor ?sell [vso:previousOwners ?prev].
+            ?vendor ?sell [uco:pets ?pets].
+            ?vendor ?sell [uco:smoking ?smoke].
+            ?vendor ?sell [gr:hasPriceSpecification [gr:hasCurrencyValue ?val]].
+            ?vendor ?sell [uco:currentLocation [schema:addressRegion ?loc]].
+            ?vendor ?sell [?car [vso:fuelType ?ft]].
         }
-        ORDER BY ASC(?idc)
     """
+
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
     except ValueError:
-        print("erro")
+        print("error")
     
     lista = []
-    return_template = {}
-    for e in result['results']['bindings']:
-        lista.append([e['idc']['value'], e['name']['value'], e['cor']['value'], e['hp']['value']+" CV", e['comb']['value'].replace("Gasoline","Gasolina"), e['loc']['value'], e['preco']['value']+"€"])
 
-    pprint.pprint(lista)
-    #return_template["caracteristicas"] = lista
+    for e in result['results']['bindings']:
+        lista.append([e['idc']['value'],
+                      e['cor']['value'],
+                      e['ft']['value'].replace("Gasoline", "Gasolina").replace("E85", "Diesel"),
+                      e['pets']['value'].replace("Yes", "Sim").replace("No", "Não"),
+                      e['smoke']['value'].replace("Yes", "Sim").replace("No", "Não"),
+                      e['prev']['value'],
+                      e['loc']['value'],
+                      e['name']['value'].capitalize(),
+                      e['val']['value']+'€',
+                      e['idc']['value'].split(" ")[1]])
+
     tparams = {
-                'lista': lista,
+        'lista': lista,
     }
 
     return render(request, 'index.html', tparams)
@@ -182,36 +185,30 @@ def friends(request):
 
 def about(request):
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
-    # brand = request.GET['brand']
-    brand = 'BMW'
+    brand = request.GET["entity"]
     sparql.setQuery(f'''
-        SELECT ?name ?abst ?city ?num ?own ?prod
+        SELECT ?name ?abst #?city ?own 
         WHERE {{ dbr:{brand} rdfs:label ?name.
                  dbr:{brand} dbo:abstract ?abst.
-                 dbr:{brand} dbo:locationCity ?city.
-                 dbr:{brand} dbo:numberOfEmployees ?num.
-                 dbr:{brand} dbo:owner ?own.
-                 dbr:{brand} dbo:production ?prod.
+                 #dbr:{brand} dbo:location ?city.
+                 #dbr:{brand} dbo:owner ?own.
+
             FILTER (lang(?abst) = 'pt')
         }}
     ''')
     sparql.setReturnFormat(JSON)
     qres = sparql.query().convert()
-
     result = qres['results']['bindings'][0]
-    name, abst, num, own, prod, city = result['name']['value'], result['abst']['value'], result['num']['value'], \
-                                       result['own']['value'], result['prod']['value'], result['city']['value']
+    name, abst = result['name']['value'], result['abst']['value']
 
-    own = own.replace('_', ' ').split('/')[-1]
-    city = city.replace('_', ' ').split('/')[-1]
+    #own = own.replace('_', ' ').split('/')[-1]
+    #city = city.replace('_', ' ').split('/')[-1]
 
     tparams = {
         "name": name,
         "abstract": abst,
-        "city": city,
-        "employees": num,
-        "owner": own,
-        "prod": prod,
+        #"city": city,
+        #"owner": own,
     }
 
     return render(request, 'about.html', tparams)
