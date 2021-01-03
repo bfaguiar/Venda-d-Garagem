@@ -1,4 +1,5 @@
 
+
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
@@ -25,12 +26,13 @@
 				<h3>Iniciar Sessão</h3>
 			</div>
 			<div class="card-body">
-				<form>
+				<form method="POST">
+				{% csrf_token %}   
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" id="user" placeholder="Nome de Utilizador">
+						<input type="text" class="form-control" name="user" placeholder="Nome de Utilizador">
 
 					</div>
 					<div class="input-group form-group">
@@ -39,17 +41,18 @@
 						</div>
 						<input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
 					</div>
-					<div class="row align-items-center remember">
-						<input type="checkbox">Lembrar-me
-					</div>
 					<div class="form-group">
 						<input type="submit" value="Login" id="login" class="btn float-right login_btn"><a href="../index"/>
-					</div>
+					</div> 
 				</form>
+				
 			</div>
-			<div class="card-footer">
+			{% if not bool %}
+				Nome de utilizador inválido, volte a tentar ou registe-se. 
+			{% endif %} 
+			<div class="card-footer"> 
 				<div class="d-flex justify-content-center links">
-					Não tem conta?<a href="../signup">Registar</a>
+					<a href="../signup">Registar</a>
 				</div>
 			</div>
 		</div>

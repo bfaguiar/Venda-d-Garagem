@@ -23,7 +23,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('', views.index, name='index'),
     path('login/', views.login, name='login'),
-    path('loginreq/', views.loginreq, name='loginreq'),
+    #path('loginreq/', views.loginreq, name='loginreq'),
     path('signup/', views.signup, name='signup'),
     path('motos/', views.motos, name='motos'),
     path('profile/', views.profile, name='profile'),
@@ -31,3 +31,4 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('model/', views.model, name='model'),
 ]
+ 

@@ -24,39 +24,64 @@
 				<h3>Registar</h3>
 			</div>
 			<div class="card-body">
-				<form>
+				<form method="POST"> 
+				{% csrf_token %}
+				<div class="input-group form-group">
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-signature"></i></span>
+						</div>
+						<input type="text" class="form-control" name="firstName" placeholder="Primeiro Nome">
+					</div>
+					
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-user"></i></span>
 						</div>
-						<input type="text" class="form-control" id="user" placeholder="Nome de Utilizador">
-
+						<input type="text" class="form-control" name="user" placeholder="Nome de Utilizador">
 					</div>
+
                     <div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-envelope"></i></span>
 						</div>
-						<input type="text" class="form-control" id="email" placeholder="Email">
-					</div>
+						<input type="text" class="form-control" name="email" placeholder="Email">
+					</div> 
+
+					<div class="input-group form-group"> 
+						<div class="input-group-prepend">
+							<span class="input-group-text"><i class="fas fa-male"></i></span>
+						</div>
+						<input type="text" class="form-control" name="idade" placeholder="Idade">
+					</div>  
+
 					<div class="input-group form-group">
 						<div class="input-group-prepend">
 							<span class="input-group-text"><i class="fas fa-key"></i></span>
 						</div>
 						<input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
-					</div>
-					<div class="form-group">
+					</div> 
+					<div class="form-group">  
 						<input type="submit" value="Registar" id="register" class="btn float-right login_btn">
 					</div>
-				</form>
+				</form>  
 			</div>
+			{% if not bool1 and bool2%}
+			<div class="d-flex justify-content-center links"> Já existe um utilizador com o mesmo Nome de utilizador</div>
+			{% elif bool1 and not bool2 %}
+			 <div class="d-flex justify-content-center links"> Ainda não inseriu todos os campos necessários </div> 
+			 {% endif%}
+			<br>
+			<br><br>
+			<br> 
 			<div class="card-footer">
+				
 				<div class="d-flex justify-content-center links">
 					Já tem uma conta?<a href="../login">Iniciar Sessão</a>
 				</div>
-			</div>
+			</div> 
 		</div>
 	</div>
-</div>
+</div> 
 </body>
 </html>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>

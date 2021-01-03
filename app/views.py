@@ -3,12 +3,27 @@ import json
 from django.http import HttpResponseRedirect
 from s4api.graphdb_api import GraphDBApi
 from s4api.swagger import ApiClient
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from SPARQLWrapper import SPARQLWrapper, JSON
 from django.template.defaulttags import register
+from django.http.request import HttpRequest
+
+
+user = None
+
+def getUser():
+    global user
+    return user
+
+def postUser(usr):
+    global user
+    user = usr 
+
 
 
 def index(request):
+    if user == None:
+        return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
@@ -65,12 +80,14 @@ def index(request):
 
 
 def model(request):
+    if user == None:
+        return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     repo_name = "cars"
 
-    query = '''
+    query = ''' 
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX gr: <http://purl.org/goodrelations/v1#>
@@ -124,23 +141,79 @@ def model(request):
 
 
 def login(request):
-    # username id = "user"
-    # password id = "pass"
-    # login id = "login"
-    return render(request, 'login.html')
-
-
-def loginreq(request):
-    # Este é só para redireccionar para a página do login caso não tenha login feito
-    return render(request, 'loginreq.html')
-
+    assert isinstance(request, HttpRequest)
+    if 'user' in request.POST and request.POST['user'] != '':
+            endpoint = "http://localhost:7200"
+            client = ApiClient(endpoint=endpoint)
+            acessor = GraphDBApi(client)
+            repo_name = "cars" 
+            query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                        ASK
+                        WHERE {{
+                            ?name foaf:nick "{}" .
+                            ?name foaf:nick ?nick .
+                        }}'''.format(request.POST['user'])  
+            try: 
+                payload_query = {"query": query} 
+                result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+                result = json.loads(result) 
+                print(result)   
+                print(query)
+                if (result['boolean']):
+                    print(result['boolean'])
+                    postUser(request.POST['user'])
+                    return redirect('index')
+                else:
+                    return render(request, 'login.html', {'bool' : False})
+            except  ValueError:
+                print("error")
+    return render(request, 'login.html', {'bool' : True })   
 
 def signup(request):
-    # username id = "user"
-    # email id = "email"
-    # password id = "pass"
-    # register id = "register"
-    return render(request, 'signup.html')
+    assert isinstance(request, HttpRequest) 
+    if ('user' in request.POST and request.POST['user'] != '') \
+        and ('firstName' in request.POST and request.POST['firstName'] != '') \
+            and ('email' in request.POST and request.POST['email'] != '') \
+                and ('idade' in request.POST and request.POST['idade'] != ''): 
+        endpoint = "http://localhost:7200"
+        client = ApiClient(endpoint=endpoint)
+        acessor = GraphDBApi(client)
+        repo_name = "cars" 
+        query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    ASK
+                    WHERE {{
+                        ?name foaf:nick "{}" .
+                        ?name foaf:nick ?nick . 
+                    }}'''.format(request.POST['user'])  
+        try: 
+            payload_query = {"query": query} 
+            result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+            result = json.loads(result)   
+            print(result)
+            if (result['boolean']):
+                return render(request, 'signup.html', {'bool1' : False, 'bool2' : True}) 
+        except  ValueError:
+            print("error") 
+
+        query2 = '''PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
+        INSERT DATA {{
+            person:{} a foaf:Person;
+            foaf:firstname "{}"@pt;
+            foaf:nick "{}"^^xsd:string;
+            foaf:mbox "{}"^^xsd:string;
+            foaf:age "{}"^^xsd:integer .
+            }}'''.format(request.POST['user'], request.POST['firstName'], request.POST['user'], request.POST['email'], request.POST['idade'])
+        try:
+            payload_query2 = {"update": query2} 
+            acessor.sparql_update(body=payload_query2, repo_name=repo_name)
+            postUser(request.POST['user']) 
+            return redirect(index)
+        except  ValueError: 
+            print("error")  
+    else:
+        return render(request, 'signup.html', {'bool1' : True, 'bool2' : False})
+    return render(request, 'signup.html', {'bool1' : True, 'bool2' : True})    
 
 
 def motos(request):
@@ -149,6 +222,8 @@ def motos(request):
 
 
 def profile(request):
+    if user == None:
+        return redirect('login')
     endpoint = "http://localhost:7200"
     repo_name = "cars"
     client = ApiClient(endpoint=endpoint)
@@ -178,6 +253,8 @@ def profile(request):
 
 
 def add_announce(request):
+    if user == None:
+        return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
@@ -233,6 +310,8 @@ def add_announce(request):
 
 
 def friends(request):
+    if user == None:
+        return redirect('login')
     # Aqui aparece nome, email e anúncios feitos por cada amigo
 
     # ADICIONAR AMIGO
@@ -244,6 +323,8 @@ def friends(request):
 
 
 def about(request):
+    if user == None:
+        return redirect('login')
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
     brand = request.GET["entity"]
     sparql.setQuery(f'''
