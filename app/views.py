@@ -41,11 +41,12 @@ def index(request):
         result = json.loads(result)
     except ValueError:
         print("error")
-    
+
     lista = []
 
     for e in result['results']['bindings']:
-        lista.append([e['idc']['value'],
+        lista.append([e['idc']['value'].split(" ", 2)[1],
+                      e['idc']['value'].split(" ", 2)[2],
                       e['cor']['value'],
                       e['ft']['value'].replace("Gasoline", "Gasolina").replace("E85", "Diesel"),
                       e['pets']['value'].replace("Yes", "Sim").replace("No", "Não"),
@@ -53,14 +54,73 @@ def index(request):
                       e['prev']['value'],
                       e['loc']['value'],
                       e['name']['value'].capitalize(),
-                      e['val']['value']+'€',
-                      e['idc']['value'].split(" ")[1]])
+                      e['val']['value'] + '€',
+                      e['idc']['value']])
 
     tparams = {
         'lista': lista,
     }
 
     return render(request, 'index.html', tparams)
+
+
+def model(request):
+    endpoint = "http://localhost:7200"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    repo_name = "cars"
+
+    query = '''
+            PREFIX car: <http://garagemdosusados.com/carros/#>
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX gr: <http://purl.org/goodrelations/v1#>
+            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace
+            WHERE {{
+                ?car vso:VIN "{}".
+                ?car gr:hasManufacturer ?marca.
+                ?car gr:hasMakeAndModel ?modelo.
+                ?car vso:modelDate ?data.
+                ?car vso:height ?hei.
+                ?car vso:length ?len.
+                ?car vso:width ?wi.
+                ?car vso:DriveWheelConfiguration ?dw.
+                ?car vso:gearsTotal ?gear.
+                ?car vso:enginePower ?hp.
+                ?car vso:TransmissionTypeValue ?trans.
+                ?car vso:fuelType ?fuel.
+                ?car vso:speed ?vel.
+                ?car vso:accelaration ?ace.
+            }}
+        '''.format(request.GET["entity"])
+
+    try:
+        payload_query = {"query": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("error")
+
+    lista = []
+
+    for e in result['results']['bindings']:
+        lista.append([e['marca']['value'].split("/")[-1],
+                      e['modelo']['value'].split("_")[1],
+                      e['data']['value'],
+                      e['hei']['value']+"cm",
+                      e['len']['value']+"cm",
+                      e['wi']['value']+"cm",
+                      e['dw']['value'].replace("Rear-wheel drive", "Traseira").replace("Front-wheel drive", "Dianteira").replace("All-wheel drive", "4x4"),
+                      e['gear']['value'],
+                      e['hp']['value']+"cv",
+                      e['trans']['value'].replace("Automatic transmission", "Automática").replace("Manual transmission","Manual"),
+                      e['fuel']['value'].replace("E85", "Diesel"),
+                      e['vel']['value']+"km/h",
+                      e['ace']['value']+"s"])
+
+    tparams = {
+        'lista': lista[0],
+    }
+    return render(request, 'model.html', tparams)
 
 
 def login(request):
@@ -94,7 +154,7 @@ def profile(request):
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     ids = dict()
-    carid_query = """
+    query = """
                 PREFIX vso: <http://purl.org/vso/ns#>
                 PREFIX schema: <http://schema.org/>
                 SELECT ?id
@@ -103,7 +163,7 @@ def profile(request):
                 }
                 ORDER BY ASC(?id)
             """
-    payload_query = {"query": carid_query}
+    payload_query = {"query": query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
 
@@ -187,33 +247,44 @@ def about(request):
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
     brand = request.GET["entity"]
     sparql.setQuery(f'''
-        SELECT ?name ?abst #?city ?own 
-        WHERE {{ dbr:{brand} rdfs:label ?name.
-                 dbr:{brand} dbo:abstract ?abst.
-                 #dbr:{brand} dbo:location ?city.
-                 #dbr:{brand} dbo:owner ?own.
-
-            FILTER (lang(?abst) = 'pt')
-        }}
+            SELECT ?name ?abst ?city ?own ?num ?prod ?slo
+            WHERE {{ dbr:{brand} rdfs:label ?name.
+                    OPTIONAL{{ dbr:{brand} dbo:abstract ?abst.
+                        FILTER (lang(?abst) = 'pt') .}}
+                    OPTIONAL{{ dbr:{brand} dbo:locationCity ?city.}}
+                    OPTIONAL{{ dbr:{brand} dbo:owner ?own. }}
+                    OPTIONAL{{ dbr:{brand} dbo:numberOfEmployees ?num. }}
+                    OPTIONAL{{ dbr:{brand} dbo:production ?prod. }}
+                    OPTIONAL{{ dbr:{brand} dbp:slogan ?slo. }}
+            }}
     ''')
     sparql.setReturnFormat(JSON)
     qres = sparql.query().convert()
     result = qres['results']['bindings'][0]
-    name, abst = result['name']['value'], result['abst']['value']
 
-    #own = own.replace('_', ' ').split('/')[-1]
-    #city = city.replace('_', ' ').split('/')[-1]
+    result.setdefault('abst', {'type': 'literal', 'xml:lang': 'pt', 'value': 'Indisponível'})
+    result.setdefault('city', {'type': 'literal', 'xml:lang': 'en', 'value': '-'})
+    result.setdefault('own', {'type': 'literal', 'xml:lang': 'en', 'value': '-'})
+    result.setdefault('num', {'type': 'literal', 'xml:lang': 'en', 'value': '-'})
+    result.setdefault('prod', {'type': 'literal', 'xml:lang': 'en', 'value': '-'})
+    result.setdefault('slo', {'type': 'literal', 'xml:lang': 'en', 'value': '-'})
+
+    name, abst, own, city, num, prod, slo = result['name']['value'], result['abst']['value'], result['own']['value'], \
+                                            result['city']['value'], result['num']['value'], result['prod']['value'], \
+                                            '"'+ result['slo']['value']+'"'
+
+    own = own.replace('_', ' ').split('/')[-1]
+    city = city.replace('_', ' ').split('/')[-1]
 
     tparams = {
         "name": name,
         "abstract": abst,
-        #"city": city,
-        #"owner": own,
+        "city": city,
+        "owner": own,
+        "employees": num,
+        "production": prod,
+        "slogan": slo
     }
 
     return render(request, 'about.html', tparams)
 
-
-@register.filter
-def get_item(dictionary, key):
-    return dictionary.get(key)

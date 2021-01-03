@@ -21,7 +21,8 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Identificação</th>
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
                                             <th>Cor</th>
                                             <th><i class="fas fa-gas-pump " style="margin-right:10px; margin-top:4px"></i></th>
                                             <th><i class="fas fa-dog " style="margin-right:10px; margin-top:4px"></i></th>
@@ -35,8 +36,8 @@
                                     <tbody>
                                             {% for x in lista %}
                                                 <tr>
-                                                    <td><a href="about?entity={{ x.9 }}"/>{{ x.0 }}</td>
-                                                    <td>{{ x.1 }}</td>
+                                                    <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
+                                                    <td><a href="../model?entity={{ x.10 }}"/>{{ x.1 }}</td>
                                                     <td>{{ x.2 }}</td>
                                                     <td>{{ x.3 }}</td>
                                                     <td>{{ x.4 }}</td>
@@ -44,6 +45,7 @@
                                                     <td>{{ x.6 }}</td>
                                                     <td>{{ x.7 }}</td>
                                                     <td>{{ x.8 }}</td>
+                                                    <td>{{ x.9 }}</td>
                                                 </tr>
                                             {% endfor %}
                                     </tbody>

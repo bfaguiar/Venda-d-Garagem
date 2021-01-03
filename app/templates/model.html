@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+     {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+
+            <!-- Main Content -->
+            <div id="content">
+                    <div class="container-fluid" style="margin-top:10px">
+                        <div class="card shadow mb-4" style="margin-top: 50px">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Características</h6>
+                            </div>
+                            <div class="card-body row">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Marca:</h8>
+                                <a href="../about?entity={{ lista.0 }}" style="text-indent: 0.5em"> {{ lista.0 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Modelo:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.1 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Ano:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.2 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Dimensões:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.3 }} x {{ lista.4 }} x {{ lista.5 }}</a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Tração:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.6 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Transmissão:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.9 }} de {{ lista.7 }} velocidades</a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Potência:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.8 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Combustível:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.10 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Velocidade Máxima:</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.11 }} </a>
+                            </div>
+                            <div class="card-body row" style="margin-top:-20px">
+                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Aceleração (0-100km/h):</h8>
+                                <a style="text-indent: 0.5em"> {{ lista.12 }} </a>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+            <!-- End of Main Content -->
+
+{% endblock %}
