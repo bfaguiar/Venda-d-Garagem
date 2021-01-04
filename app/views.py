@@ -53,7 +53,7 @@ def index(request):
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        result = json.loads(result)
+        result = json.loads(result) 
     except ValueError:
         print("error")
 
@@ -70,7 +70,7 @@ def index(request):
                       e['loc']['value'],
                       e['name']['value'].capitalize(),
                       e['val']['value'] + '€',
-                      e['idc']['value']])
+                      e['idc']['value']]) 
 
     tparams = {
         'lista': lista,
@@ -157,10 +157,7 @@ def login(request):
                 payload_query = {"query": query} 
                 result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
                 result = json.loads(result) 
-                print(result)   
-                print(query)
                 if (result['boolean']):
-                    print(result['boolean'])
                     postUser(request.POST['user'])
                     return redirect('index')
                 else:
@@ -189,7 +186,6 @@ def signup(request):
             payload_query = {"query": query} 
             result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
             result = json.loads(result)   
-            print(result)
             if (result['boolean']):
                 return render(request, 'signup.html', {'bool1' : False, 'bool2' : True}) 
         except  ValueError:
@@ -199,7 +195,7 @@ def signup(request):
         PREFIX person: <http://garagemdosusados.com/pessoas/#>
         INSERT DATA {{
             person:{} a foaf:Person;
-            foaf:firstname "{}"@pt;
+            foaf:firstName "{}"@pt;
             foaf:nick "{}"^^xsd:string;
             foaf:mbox "{}"^^xsd:string;
             foaf:age "{}"^^xsd:integer .
@@ -218,7 +214,7 @@ def signup(request):
 
 def motos(request):
     # Não sei se querem por motos também
-    return render(request, 'motos.html')
+    return render(request, 'motos.html') 
 
 
 def profile(request):
@@ -228,6 +224,25 @@ def profile(request):
     repo_name = "cars"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
+
+    query = ''' PREFIX foaf:<http://xmlns.com/foaf/0.1/>
+                PREFIX person: <http://garamgemdosusados.com/pessoas/#>
+                PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+                SELECT ?name ?first_name ?nick ?email
+                WHERE 
+                {{
+                    ?name foaf:nick "{}" .
+                    ?name foaf:firstName ?first_name .
+                    ?name foaf:nick ?nick .
+                    ?name foaf:mbox ?email . 
+                    }}'''.format(getUser())
+    payload_query = {"query": query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)
+    name_nick = res['results']['bindings'][0]['nick']['value']
+    name_first = res['results']['bindings'][0]['first_name']['value']
+    email = res['results']['bindings'][0]['email']['value']
+    
     ids = dict()
     query = """
                 PREFIX vso: <http://purl.org/vso/ns#>
@@ -235,10 +250,10 @@ def profile(request):
                 SELECT ?id
                 WHERE {
                     ?car vso:VIN ?id .
-                }
+                } 
                 ORDER BY ASC(?id)
             """
-    payload_query = {"query": query}
+    payload_query = {"query": query} 
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
 
@@ -247,7 +262,10 @@ def profile(request):
 
     tparams = {
         'id': ids,
-    }
+        'name_first': name_first,
+        'name_nick' : name_nick,
+        'email' : email, 
+    } 
 
     return render(request, 'profile.html', tparams)
 
@@ -270,7 +288,7 @@ def add_announce(request):
     local = request.POST.get('local')
 
     # Car
-    idc = request.POST.get('id')
+    idc = request.POST.get('id') 
 
     # User
     person_query = """
@@ -279,7 +297,7 @@ def add_announce(request):
         WHERE {
             ?person foaf:firstName ?name .
         }
-    """
+    """ 
     payload_query = {"query": person_query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
@@ -296,9 +314,9 @@ def add_announce(request):
 
 
 
-            #### ??????
+            #### ?????? 
 
-
+ 
 
         }}
     """
@@ -306,7 +324,7 @@ def add_announce(request):
     payload_query = {"update": insert_query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
-    return HttpResponseRedirect('/profile')
+    return HttpResponseRedirect('/profile') 
 
 
 def friends(request):

@@ -14,8 +14,8 @@
                                 <!-- PERFIL -->
                                 <div class="profile-sidebar">
                                     <div class="profile-usertitle">
-                                        <div class="profile-usertitle-name">Carlos</div>
-                                        <div class="profile-usertitle-job">carlos@carlos.com</div>
+                                        <div class="profile-usertitle-name">{{name_first}}</div>
+                                        <div class="profile-usertitle-job">{{email}}</div>
                                     </div>
 
                                     <div class="profile-userbuttons">
@@ -27,23 +27,23 @@
                                 <div class="profile-sidebar" style="margin-top: 20px">
                                     <div class="form-group" style="margin-left: 20px; margin-right:20px">
                                         <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
-                                        <form action="/add_announce">
+                                        <form action="/add_announce" method="POST">    
                                             <!-- ID -->
                                             <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
 
-                                            <div><select class="form-control" id="id">
-                                                {% for index in id %}
+                                            <div><select class="form-control" name="id"> 
+                                                {% for index in id %} 
                                                 <option>{{ index }}</option>
-                                                {% endfor %}
-                                            </select></div>
-
+                                                {% endfor %} 
+                                            </select></div>  
+  
                                             <!-- COR -->
-                                            <div class="row" style="margin-top: 20px">
-                                                <label for="local" style="margin-top: 8px">Cor:</label><br>
+                                            <div class="row" style="margin-top: 20px"> 
+                                                <label for="local" style="margin-top: 8px">Cor:</label><br> 
                                                 <div style="width: 82%; margin-left: 10px">
-                                                    <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br>
+                                                    <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br> 
                                                 </div>
-                                            </div>
+                                            </div> 
                                             <!-- FUMADOR -->
                                             <div>
                                                 <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
@@ -79,17 +79,17 @@
                                             <div class="row" style="margin-top: 15px">
                                                 <label for="local" style="margin-top: 8px">Localização:</label><br>
                                                 <div style="width: 57%; margin-left: 10px">
-                                                    <input value = "{{ local }}" type="text" id="color" name="color" class="form-control"><br>
+                                                    <input value = "{{ local }}" type="text" id="locale" name="locale" class="form-control"><br>
                                                 </div>
-                                            </div>
-
+                                            </div> 
+ 
                                             <div class="profile-userbuttons" style="margin-top: 20px">
                                                 <button type="button" id="announce" class="btn btn-success btn-sm">Publicar</button>
                                             </div>
                                         </form>
                                     </div>
                                 </div>
-                            </div>
+                            </div> 
                             <!-- TABELA -->
                             <div class="col-md-9">
                                 <div class="container-fluid">
