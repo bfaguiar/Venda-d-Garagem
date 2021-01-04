@@ -30,5 +30,6 @@ urlpatterns = [
     path('friends/', views.friends, name='friends'),
     path('about/', views.about, name='about'),
     path('model/', views.model, name='model'),
+    path('add_announce/', views.add_announce, name='add_announce')
 ]
  

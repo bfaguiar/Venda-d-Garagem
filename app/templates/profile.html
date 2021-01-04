@@ -16,26 +16,26 @@
                                     <div class="profile-usertitle">
                                         <div class="profile-usertitle-name">{{name_first}}</div>
                                         <div class="profile-usertitle-job">{{email}}</div>
-                                    </div>
+                                    </div> 
 
                                     <div class="profile-userbuttons">
                                         <button type="button" class="btn btn-danger btn-sm">Sair</button>
                                     </div>
-                                </div>
+                                </div> 
                                 <hr class="sidebar-divider">
                                  <!-- ADICIONAR ANUNCIO -->
                                 <div class="profile-sidebar" style="margin-top: 20px">
                                     <div class="form-group" style="margin-left: 20px; margin-right:20px">
                                         <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
-                                        <form action="/add_announce" method="POST">    
+                                        <form action="../add_announce" method="GET">    
                                             <!-- ID -->
                                             <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
 
-                                            <div><select class="form-control" name="id"> 
+                                            <div><select class="form-control" name="id" id="id">   
                                                 {% for index in id %} 
                                                 <option>{{ index }}</option>
                                                 {% endfor %} 
-                                            </select></div>  
+                                            </select></div>   
   
                                             <!-- COR -->
                                             <div class="row" style="margin-top: 20px"> 
@@ -44,7 +44,7 @@
                                                     <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br> 
                                                 </div>
                                             </div> 
-                                            <!-- FUMADOR -->
+                                            <!-- FUMADOR -->  
                                             <div>
                                                 <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
                                                 <label for="smoke">Fumador?</label><br>
@@ -56,7 +56,7 @@
                                             </div>
                                             <!-- DONOS -->
                                             <div class="row" style="margin-top: 15px">
-                                                <label for="owners" style="margin-top: 8px">Donos:</label><br>
+                                                <label for="owners" style="margin-top: 8px">Donos:</label><br> 
                                                 <div style="width: 73%; margin-left: 10px">
                                                     <input value = "{{ owners }}" type="number" id="owners" name="owners" min="1" class="form-control">
                                                 </div>
@@ -84,7 +84,7 @@
                                             </div> 
  
                                             <div class="profile-userbuttons" style="margin-top: 20px">
-                                                <button type="button" id="announce" class="btn btn-success btn-sm">Publicar</button>
+                                                <button type="submit" value="Submit"id="announce" class="btn btn-success btn-sm">Publicar</button> 
                                             </div>
                                         </form>
                                     </div>

@@ -28,7 +28,7 @@ def index(request):
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     repo_name = "cars"
-
+  
     query = """
         PREFIX vso: <http://purl.org/vso/ns#>
         PREFIX gr: <http://purl.org/goodrelations/v1#>
@@ -85,9 +85,9 @@ def model(request):
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
-    repo_name = "cars"
+    repo_name = "cars" 
 
-    query = ''' 
+    query = '''  
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX gr: <http://purl.org/goodrelations/v1#>
@@ -135,7 +135,7 @@ def model(request):
                       e['ace']['value']+"s"])
 
     tparams = {
-        'lista': lista[0],
+        'lista': lista[0], 
     }
     return render(request, 'model.html', tparams)
 
@@ -198,12 +198,12 @@ def signup(request):
             foaf:firstName "{}"@pt;
             foaf:nick "{}"^^xsd:string;
             foaf:mbox "{}"^^xsd:string;
-            foaf:age "{}"^^xsd:integer .
+            foaf:age "{}"^^xsd:integer . 
             }}'''.format(request.POST['user'], request.POST['firstName'], request.POST['user'], request.POST['email'], request.POST['idade'])
         try:
             payload_query2 = {"update": query2} 
             acessor.sparql_update(body=payload_query2, repo_name=repo_name)
-            postUser(request.POST['user']) 
+            postUser(request.POST['user'])   
             return redirect(index)
         except  ValueError: 
             print("error")  
@@ -265,7 +265,7 @@ def profile(request):
         'name_first': name_first,
         'name_nick' : name_nick,
         'email' : email, 
-    } 
+    }  
 
     return render(request, 'profile.html', tparams)
 
@@ -279,52 +279,69 @@ def add_announce(request):
     repo_name = "cars"
 
     # Sale specs
-    color = request.POST.get('color')
-    smoke = request.POST.get('smoke')
-    pet = request.POST.get('pets')
-    own = request.POST.get('owners')
-    kms = request.POST.get('km')
-    value = request.POST.get('value')
-    local = request.POST.get('local')
+    color = request.GET['color'] 
+    smoke = "No" 
+    pets = "No" 
+    if 'smoke' in request.GET:
+        smoke = "Yes" 
+    if 'pets' in request.GET:
+        pets = "Yes" 
+    own = request.GET['owners']
+    kms = request.GET['km']
+    value = request.GET['value']
+    local = request.GET['locale']
+    # Car 
+    idc = request.GET['id'].replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_")
 
-    # Car
-    idc = request.POST.get('id') 
+    print(pets)
+    print(smoke)
+    print(color)
+    print(value)
+    print(local)
+    print(idc)
+    print(kms)
+    #print(pwn)
+    #color = request.POST['color']
 
-    # User
-    person_query = """
-        PREFIX person: <http://garagemdosusados.com/pessoas/#>
-        SELECT ?name
-        WHERE {
-            ?person foaf:firstName ?name .
-        }
-    """ 
-    payload_query = {"query": person_query}
-    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-    res = json.loads(res)
-    name = res['name']['value']
+    print("OLA")
+    print(pets)
 
     # Insert all
-    insert_query = f"""
-        PREFIX vendor:<http://garagemdosusados.com/vendors/#>.
-        PREFIX sell:<http://garagemdosusados.com/vendas/#>.
-        PREFIX vso:<http://purl.org/vso/ns#>.    
-        PREFIX uco:<http://purl.org/uco/ns#>.
-        PREFIX gr:<http://purl.org/goodrelations/v1#> .  
-        INSERT DATA {{
-
-
-
-            #### ?????? 
-
- 
-
-        }}
-    """
-
+    insert_query = '''PREFIX vendor: <http://garagemdosusados.com/vendors/#>
+        PREFIX sell: <http://garagemdosusados.com/vendas/#>
+        PREFIX vso:<http://purl.org/vso/ns#>    
+        PREFIX uco:<http://purl.org/uco/ns#>
+        PREFIX gr:<http://purl.org/goodrelations/v1#>
+        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+        PREFIX schema: <http://schema.org/>
+        PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+        prefix person:  <http://garagemdosusados.com/pessoas/#>
+        prefix car:     <http://garagemdosusados.com/carros/#>
+        INSERT DATA {{  
+            vendor:{} a gr:Reseller;
+                      foaf:nick person:{};
+                      gr:offers sell:{} .
+            
+            sell:{} a gr:Offering;
+            gr:includes car:{};
+            gr:hasBunsinessFucntion gr:Sell;
+            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
+                                       gr:hasCurrency "EUR"^^xsd:string; 
+                                       gr:hasCurrencyValue "{}"^^xsd:float ] ; 
+            vso:color "{}"@pt ; 
+            vso:previousOwners "{}"^^xsd:integer ;  
+            uco:pets "{}"@en; 
+            uco:smoking "{}"@en;
+            uco:currentLocation [ a schema:PostalAddress;
+                                  schema:addressCountry "PT"@pt; 
+                                  schema:addressRegion "{}"@pt ];  
+            uco:mileageEnd "{}"^^xsd:integer .  
+        }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms); 
+    #, ing,  
     payload_query = {"update": insert_query}
-    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-
-    return HttpResponseRedirect('/profile') 
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
+    print(res)
+    return HttpResponseRedirect('/profile')  
 
 
 def friends(request):
@@ -377,13 +394,13 @@ def about(request):
 
     tparams = {
         "name": name,
-        "abstract": abst,
+        "abstract": abst, 
         "city": city,
         "owner": own,
         "employees": num,
         "production": prod,
         "slogan": slo
-    }
+    } 
 
     return render(request, 'about.html', tparams)
 

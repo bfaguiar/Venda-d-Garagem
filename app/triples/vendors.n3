@@ -11,25 +11,6 @@
 
 @prefix car:     <http://garagemdosusados.com/carros/#> .
 
-    vendor:santi a gr:Reseller;
-              foaf:nick person:santi;
-              gr:offers sell:2010_Hyundai_Elantra_Sedan_SE_PZEV .
-
-    sell:2010_Hyundai_Elantra_Sedan_SE_PZEV a gr:Offering;
-            gr:includes car:2010_Hyundai_Elantra_Sedan_SE_PZEV;
-            gr:hasBunsinessFucntion gr:Sell;
-            gr:hasPriceSpecification [ a gr:UnitPriceSpecification ; 
-                                       gr:hasCurrency "EUR"^^xsd:string; 
-                                       gr:hasCurrencyValue "8000"^^xsd:float ] ; 
-            vso:color "Laranja Lava"@pt ; ?car gr:hasPriceSpecification [ gr:hasCurrencyValue ?preco ] .
-            vso:previousOwners "1"^^xsd:integer ; 
-            uco:pets "Yes"@en; 
-            uco:smoking "Yes"@en;
-            uco:currentLocation [ a schema:PostalAddress;
-                                  schema:addressCountry "PT"@pt; 
-                                  schema:addressRegion "Viana do Castelo"@pt ]; 
-            uco:mileageEnd "5000"^^xsd:integer .  
-
     vendor:jonni a gr:Reseller;
               foaf:nick person:jonni;
               gr:offers sell:2011_Mercury_Milan_Premier .
@@ -47,7 +28,7 @@
             uco:currentLocation [ a schema:PostalAddress;
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "Viana do Castelo"@pt ]; 
-            uco:mileageEnd "300000"^^xsd:integer .  
+            uco:mileageEnd "300000"^^xsd:integer .        
 
     vendor:fonsi a gr:Reseller;
               foaf:nick person:fonsi;
@@ -370,4 +351,4 @@
             uco:currentLocation [ a schema:PostalAddress;
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "Vila Real"@pt ]; 
-            uco:mileageEnd "120000"^^xsd:integer .  
+            uco:mileageEnd "120000"^^xsd:integer .   
