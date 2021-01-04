@@ -49,7 +49,7 @@
                                                 <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
                                                 <label for="smoke">Fumador?</label><br>
                                             </div>
-                                            <!-- ANIMAIS -->
+                                            <!-- ANIMAIS --> 
                                             <div>
                                                 <input value = "{{ pets }}" type="checkbox" id="pets" name="pets">
                                                 <label for="pets">Animais?</label><br>
@@ -113,17 +113,19 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
+                                                        {% for a in anuncios %}
                                                         <tr>
-                                                            <td> </td>
-                                                            <td> </td>
-                                                            <td> </td>
-                                                            <td> </td>
-                                                            <td> </td>
+                                                            <td>{{a.7}}</td>
+                                                            <td>{{a.5}}</td>
+                                                            <td> {{a.1}}</td>
+                                                            <td> {{a.8}}</td>
+                                                            <td> {{a.2}} </td>
                                                             <th style="width: 10px">
                                                                 <a href="#" class="btn btn-danger btn-circle btn-sm"/>
                                                                 <i class="fas fa-trash"></i>
                                                             </th>
                                                         </tr>
+                                                        {% endfor %}
                                                     </tbody>
                                                 </table>
                                             </div>

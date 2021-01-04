@@ -82,7 +82,7 @@
             vso:previousOwners "3"^^xsd:integer ; 
             uco:pets "No"@en; 
             uco:smoking "No"@en;
-            uco:currentLocation [ a schema:PostalAddress;
+            uco:currentLocation [ a schema:PostalAddress;    
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "Aveiro"@pt ]; 
             uco:mileageEnd "80000"^^xsd:integer .  

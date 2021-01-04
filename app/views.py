@@ -259,12 +259,45 @@ def profile(request):
 
     for e in res['results']['bindings']:
         ids[e['id']['value']] = e['id']['value']
+    
+    query = ''' PREFIX vso: <http://purl.org/vso/ns#>
+        PREFIX gr: <http://purl.org/goodrelations/v1#>
+        PREFIX uco: <http://purl.org/uco/ns#>
+        PREFIX foaf:<http://xmlns.com/foaf/0.1/>
+        PREFIX schema: <http://schema.org/>
 
+        SELECT ?idc ?name ?cor ?prevOwners ?pets ?smoke ?val ?loc ?fuelType ?mileage
+        WHERE {{
+            ?vendor ?sell [?car [vso:VIN ?idc]].
+            ?vendor ?person [foaf:nick "{}"].
+            ?vendor ?sell [vso:color ?cor].
+            ?vendor ?sell [vso:previousOwners ?prevOwners].
+            ?vendor ?sell [uco:pets ?pets].
+            ?vendor ?sell [uco:smoking ?smoke]. 
+            ?vendor ?sell [gr:hasPriceSpecification [gr:hasCurrencyValue ?val]].
+            ?vendor ?sell [uco:currentLocation [schema:addressRegion ?loc]].
+            ?vendor ?sell [?car [vso:fuelType ?fuelType]].
+            ?vendor ?sell [uco:mileageEnd ?mileage] .
+        }}
+        '''.format(getUser())
+
+    payload_query = {"query" : query }
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)['results']['bindings']
+    print(res)    
+    #print(ids)
+    anuncios = []
+    for anuncio in res:
+        anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['loc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value']])
+
+
+    print(anuncios)
     tparams = {
-        'id': ids,
+        'id': ids, 
         'name_first': name_first,
         'name_nick' : name_nick,
         'email' : email, 
+        'anuncios' : anuncios  
     }  
 
     return render(request, 'profile.html', tparams)
@@ -272,7 +305,7 @@ def profile(request):
 
 def add_announce(request):
     if user == None:
-        return redirect('login')
+        return redirect('login') 
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
@@ -316,7 +349,7 @@ def add_announce(request):
         PREFIX schema: <http://schema.org/>
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         prefix person:  <http://garagemdosusados.com/pessoas/#>
-        prefix car:     <http://garagemdosusados.com/carros/#>
+        prefix car:     <http://garagemdosusados.com/carros/#>  
         INSERT DATA {{  
             vendor:{} a gr:Reseller;
                       foaf:nick person:{};
@@ -341,7 +374,7 @@ def add_announce(request):
     payload_query = {"update": insert_query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
     print(res)
-    return HttpResponseRedirect('/profile')  
+    return HttpResponseRedirect('/profile')   
 
 
 def friends(request):
@@ -404,3 +437,5 @@ def about(request):
 
     return render(request, 'about.html', tparams)
 
+ 
+  
