@@ -19,7 +19,7 @@
                                     </div> 
 
                                     <div class="profile-userbuttons">
-                                        <button type="button" class="btn btn-danger btn-sm">Sair</button>
+                                        <button type="button" class="btn btn-danger btn-sm" action="../signup">Sair</button>
                                     </div>
                                 </div> 
                                 <hr class="sidebar-divider">
@@ -44,7 +44,7 @@
                                                     <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br> 
                                                 </div>
                                             </div> 
-                                            <!-- FUMADOR -->  
+                                            <!-- FUMADOR -->   
                                             <div>
                                                 <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
                                                 <label for="smoke">Fumador?</label><br>
@@ -125,12 +125,12 @@
                                                                 <i class="fas fa-trash"></i>
                                                             </th>
                                                         </tr>
-                                                        {% endfor %}
+                                                        {% endfor %} 
                                                     </tbody>
                                                 </table>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> 
                                 </div>
                              </div>
                         </div>
@@ -142,3 +142,4 @@
             <!-- End of Main Content -->
 
 {% endblock %}
+ 

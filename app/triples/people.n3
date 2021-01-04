@@ -17,13 +17,13 @@
                       foaf:mbox "jonni@gmail.com"^^xsd:string;
                       foaf:age "50"^^xsd:integer;
                       foaf:knows person:chico, person:mat .
-
+ 
             person:fonsi a foaf:Person;
                       foaf:firstName "Afonso"@pt ;
                       foaf:nick "fonsi"^^xsd:string;
                       foaf:mbox "fonsi@outlook.pt"^^xsd:string;
                       foaf:age "39"^^xsd:integer;
-                      foaf:knows person:santi, person:gabi, person:tomas, person:fran, person:rodri, person:tomas, person:mat .
+                      foaf:knows person:gabi, person:tomas, person:fran, person:rodri, person:tomas, person:mat .
 
             person:rodri a foaf:Person;
                       foaf:firstName "Rodrigo"@pt ;
@@ -37,7 +37,7 @@
                       foaf:nick "martin"^^xsd:string;
                       foaf:mbox "mar@hotmail.com"^^xsd:string;
                       foaf:age "59"^^xsd:integer;
-                      foaf:knows person:rodri, person:tomas .
+                      foaf:knows person:rodri, person:tomas . 
 
             person:tomas a foaf:Person;
                       foaf:firstName "Tomás"@pt ;
@@ -51,8 +51,7 @@
                       foaf:nick "duarte"^^xsd:string;
                       foaf:mbox "duarte@gmail.com"^^xsd:string;
                       foaf:age "50"^^xsd:integer;
-                      foaf:knows person:migas, person:gabi, person:chico, person:carol, person:mari, person:santi .
-
+ 
             person:migas a foaf:Person;
                       foaf:firstName "Miguel"@pt ;
                       foaf:nick "migas"^^xsd:string;
@@ -114,7 +113,7 @@
                       foaf:nick "ana"^^xsd:string;
                       foaf:mbox "nan@outlook.pt"^^xsd:string;
                       foaf:age "63"^^xsd:integer;
-                      foaf:knows person:marian, person:fonsi, person:santi, person:duarte, person:fran .
+                      foaf:knows person:marian, person:fonsi, person:duarte, person:fran .
 
             person:sofi a foaf:Person;
                       foaf:firstName "Sofia"@pt ;

@@ -47,7 +47,7 @@
             uco:currentLocation [ a schema:PostalAddress;
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "Coimbra"@pt ]; 
-            uco:mileageEnd "150000"^^xsd:integer .  
+            uco:mileageEnd "150000"^^xsd:integer .   
 
     vendor:rodri a gr:Reseller;
               foaf:nick person:rodri;

@@ -38,15 +38,18 @@ def index(request):
 
         SELECT ?idc ?name ?cor ?prev ?pets ?smoke ?val ?loc ?ft
         WHERE {
-            ?vendor ?sell [?car [vso:VIN ?idc]].
-            ?vendor ?person [foaf:nick ?name].
-            ?vendor ?sell [vso:color ?cor].
-            ?vendor ?sell [vso:previousOwners ?prev].
-            ?vendor ?sell [uco:pets ?pets].
-            ?vendor ?sell [uco:smoking ?smoke].
-            ?vendor ?sell [gr:hasPriceSpecification [gr:hasCurrencyValue ?val]].
-            ?vendor ?sell [uco:currentLocation [schema:addressRegion ?loc]].
-            ?vendor ?sell [?car [vso:fuelType ?ft]].
+            ?vendor foaf:nick ?person .
+    		?person foaf:nick ?name .
+    		?vendor gr:offers ?offer .
+    		?offer gr:includes ?car .
+    		?offer vso:color ?cor .
+    		?offer vso:previousOwners ?prev .  
+    		?offer uco:pets ?pets .
+    		?offer uco:smoking ?smoke .
+    		?offer uco:currentLocation [schema:addressRegion ?loc] .
+    		?offer gr:hasPriceSpecification [gr:hasCurrencyValue ?val] .
+    		?car vso:fuelType ?ft .
+    		?car vso:VIN ?idc .
         }
     """
 
@@ -107,7 +110,7 @@ def model(request):
                 ?car vso:fuelType ?fuel.
                 ?car vso:speed ?vel.
                 ?car vso:accelaration ?ace.
-            }}
+            }}  
         '''.format(request.GET["entity"])
 
     try:
@@ -265,30 +268,33 @@ def profile(request):
         PREFIX uco: <http://purl.org/uco/ns#>
         PREFIX foaf:<http://xmlns.com/foaf/0.1/>
         PREFIX schema: <http://schema.org/>
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
 
-        SELECT ?idc ?name ?cor ?prevOwners ?pets ?smoke ?val ?loc ?fuelType ?mileage
-        WHERE {{
-            ?vendor ?sell [?car [vso:VIN ?idc]].
-            ?vendor ?person [foaf:nick "{}"].
-            ?vendor ?sell [vso:color ?cor].
-            ?vendor ?sell [vso:previousOwners ?prevOwners].
-            ?vendor ?sell [uco:pets ?pets].
-            ?vendor ?sell [uco:smoking ?smoke]. 
-            ?vendor ?sell [gr:hasPriceSpecification [gr:hasCurrencyValue ?val]].
-            ?vendor ?sell [uco:currentLocation [schema:addressRegion ?loc]].
-            ?vendor ?sell [?car [vso:fuelType ?fuelType]].
-            ?vendor ?sell [uco:mileageEnd ?mileage] .
-        }}
-        '''.format(getUser())
+        SELECT ?idc ?name ?cor ?prevOwners ?pets ?smoke ?val ?looc ?fuelType ?mileage
+        WHERE {{ 
+            ?vendor foaf:nick person:{} .
+    		?vendor gr:offers ?offer .
+    		?offer gr:includes ?car .
+    		?offer vso:color ?cor .
+    		?offer vso:previousOwners ?prevOwners .  
+    		?offer uco:pets ?pets .
+    		?offer uco:smoking ?smoke .
+    		?offer uco:currentLocation [schema:addressRegion ?looc] .
+    		?offer gr:hasPriceSpecification [gr:hasCurrencyValue ?val] .
+    		?offer uco:mileageEnd ?mileage .
+    		?car vso:fuelType ?fuelType .
+    		?car vso:VIN ?idc .
+        }}  
+        '''.format(getUser())  
 
     payload_query = {"query" : query }
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)['results']['bindings']
     print(res)    
     #print(ids)
-    anuncios = []
+    anuncios = [] 
     for anuncio in res:
-        anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['loc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value']])
+        anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['looc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value']])
 
 
     print(anuncios)
@@ -298,7 +304,7 @@ def profile(request):
         'name_nick' : name_nick,
         'email' : email, 
         'anuncios' : anuncios  
-    }  
+    }    
 
     return render(request, 'profile.html', tparams)
 
@@ -371,7 +377,7 @@ def add_announce(request):
             uco:mileageEnd "{}"^^xsd:integer .  
         }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms); 
     #, ing,  
-    payload_query = {"update": insert_query}
+    payload_query = {"update": insert_query} 
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
     print(res)
     return HttpResponseRedirect('/profile')   
@@ -438,4 +444,4 @@ def about(request):
     return render(request, 'about.html', tparams)
 
  
-  
+   
