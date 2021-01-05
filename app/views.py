@@ -223,6 +223,10 @@ def motos(request):
 def profile(request):
     if user == None:
         return redirect('login')
+    if request.GET.get("exit_BTN"):
+        print("EXIT_BTN")
+        postUser(None)
+        return redirect("login")
     endpoint = "http://localhost:7200"
     repo_name = "cars"
     client = ApiClient(endpoint=endpoint)

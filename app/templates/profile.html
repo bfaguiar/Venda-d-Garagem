@@ -17,10 +17,11 @@
                                         <div class="profile-usertitle-name">{{name_first}}</div>
                                         <div class="profile-usertitle-job">{{email}}</div>
                                     </div> 
-
+                                    <form method="GET">
                                     <div class="profile-userbuttons">
-                                        <button type="button" class="btn btn-danger btn-sm" action="../signup">Sair</button>
+                                        <button type="submit" class="btn btn-danger btn-sm" name="exit_BTN" id="exit_BTN"  value="Click">Sair</button>
                                     </div>
+                                    </form>
                                 </div> 
                                 <hr class="sidebar-divider">
                                  <!-- ADICIONAR ANUNCIO -->
@@ -32,7 +33,7 @@
                                             <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
 
                                             <div><select class="form-control" name="id" id="id">   
-                                                {% for index in id %} 
+                                                {% for index in id %}  
                                                 <option>{{ index }}</option>
                                                 {% endfor %} 
                                             </select></div>   
