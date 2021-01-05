@@ -23,7 +23,7 @@
                       foaf:nick "fonsi"^^xsd:string;
                       foaf:mbox "fonsi@outlook.pt"^^xsd:string;
                       foaf:age "39"^^xsd:integer;
-                      foaf:knows person:gabi, person:tomas, person:fran, person:rodri, person:tomas, person:mat .
+                      foaf:knows person: gabi, person:tomas, person:fran, person:rodri, person:tomas, person:mat .
 
             person:rodri a foaf:Person;
                       foaf:firstName "Rodrigo"@pt ;

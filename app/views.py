@@ -288,7 +288,7 @@ def profile(request):
     		?offer uco:mileageEnd ?mileage .
     		?car vso:fuelType ?fuelType .
     		?car vso:VIN ?idc .
-        }}  
+        }}   
         '''.format(getUser())  
 
     payload_query = {"query" : query }
@@ -308,7 +308,7 @@ def profile(request):
         'name_nick' : name_nick,
         'email' : email, 
         'anuncios' : anuncios  
-    }    
+    }     
 
     return render(request, 'profile.html', tparams)
 
@@ -340,7 +340,7 @@ def add_announce(request):
     print(smoke)
     print(color)
     print(value)
-    print(local)
+    print(local) 
     print(idc)
     print(kms)
     #print(pwn)
@@ -379,21 +379,106 @@ def add_announce(request):
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "{}"@pt ];  
             uco:mileageEnd "{}"^^xsd:integer .  
-        }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms); 
+        }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms);  
     #, ing,  
     payload_query = {"update": insert_query} 
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
     print(res)
     return HttpResponseRedirect('/profile')   
 
+def deleteAccount(request):
+    if getUser() == None:
+        redirect('login')
+    endpoint = "http://localhost:7200"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    repo_name = "cars"
 
-def friends(request):
+    query = ''' prefix foaf: <http://xmlns.com/foaf/0.1/>
+                select ?nick ?mbox ?age ?firstName
+                    where {{
+                        ?person foaf:nick '{}' .
+                        ?person foaf:nick ?nick .
+                        ?person foaf:mbox ?mbox .
+                        ?person foaf:firstName ?firstName .
+                        ?person foaf:age ?age .
+                        }}'''.format(getUser()) 
+
+    payload_query = {"query": query} 
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name) 
+    res = json.loads(res)
+    print(res)
+    nick = res['results']['bindings'][0]['nick']['value']
+    mbox = res['results']['bindings'][0]['mbox']['value']
+    age = res['results']['bindings'][0]['age']['value']
+    firstName = res['results']['bindings'][0]['age']['value']
+    print(nick)
+    print(mbox)
+    query = '''prefix person: <http://garagemdosusados.com/pessoas/#>
+               delete  {{
+                   person:{} ?o ?p .
+                    }} where {{
+                        person:{} ?o ?p .
+                            }}'''.format(nick,   nick)
+    payload_query = {"update": query}
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+    #//res = json.loads(res)
+    print(res)
+    print(res)
+    query = ''' PREFIX vso: <http://purl.org/vso/ns#>
+        PREFIX gr: <http://purl.org/goodrelations/v1#>
+        PREFIX uco: <http://purl.org/uco/ns#>
+        PREFIX foaf:<http://xmlns.com/foaf/0.1/>
+        PREFIX schema: <http://schema.org/>
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
+
+        SELECT ?idc
+        WHERE {{ 
+            ?vendor foaf:nick person:{} .
+    		?vendor gr:offers ?offer .
+    		?offer gr:includes ?car .
+    		?car vso:VIN ?idc .
+        }}  
+        '''.format(getUser())  
+    idcs = [] 
+    payload_query = {"query" : query }
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+    res = json.loads(res)['results']['bindings']
+    for idc in res:
+        idcs.append(idc['idc']['value']) 
+    print(idcs)
+    query = '''
+               prefix foaf: <http//xmlns.com/foaf/0.1/>
+               delete {{
+                    vendor:{} ?o ?p .              
+                   }} where {{
+                       vendor:{} ?o ?p .
+                   }}'''.format(getUser(), getUser())
+    payload_query = {"update": query}
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+    
+    for n in idcs:
+        idc = n.replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_") 
+
+        query = '''     
+            prefix sell: <http://garagemdosusados.com/vendas/#>
+            delete {{
+                sell:{} ?o ?p.
+            }}  where {{
+                sell:{} ?o ?p .
+        }}'''.format( idc, idc) 
+        payload_query = {"update": query}
+        res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+        print(res)
+    postUser(None);
+    return HttpResponseRedirect('/login') 
+def friends(request): 
     if user == None:
         return redirect('login')
     # Aqui aparece nome, email e anúncios feitos por cada amigo
 
     # ADICIONAR AMIGO
-    # nome do amigo id = "name"
+    # nome do amigo id = "name" 
     # email do amigo id = "email"
     # adicionar amigo id = "add"
     # Se não existir dizer que não existe
@@ -449,3 +534,4 @@ def about(request):
 
  
    
+ 

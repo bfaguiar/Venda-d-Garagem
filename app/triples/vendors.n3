@@ -1,5 +1,5 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .  
-@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> . 
+@prefix xsd:     <http://www.w3.org/ /XMLSchema#> . 
 @prefix gr:      <http://purl.org/goodrelations/v1#> .  
 @prefix vendor:  <http://garagemdosusados.com/vendors/#> .
 @prefix person:  <http://garagemdosusados.com/pessoas/#> .   
