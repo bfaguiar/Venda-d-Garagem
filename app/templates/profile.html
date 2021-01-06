@@ -16,12 +16,19 @@
                                     <div class="profile-usertitle">
                                         <div class="profile-usertitle-name">{{name_first}}</div>
                                         <div class="profile-usertitle-job">{{email}}</div>
-                                    </div> 
-                                    <form method="GET">
-                                    <div class="profile-userbuttons">
-                                        <button type="submit" class="btn btn-danger btn-sm" name="exit_BTN" id="exit_BTN"  value="Click">Sair</button>
                                     </div>
-                                    </form>
+                                    <div class="row" style="margin-left: 25%; margin-right: 25%">
+                                        <div class="profile-userbuttons">
+                                            <form method="GET">
+                                                <button type="submit" class="btn btn-danger btn-sm" name="exit_BTN" id="exit_BTN"  value="Click">Sair</button>
+                                            </form>
+                                        </div>
+                                        <div class="profile-userbuttons" style="margin-left: 5%">
+                                            <form method="GET" action="/deleteAccount">
+                                                <button type="submit" class="btn btn-danger btn-sm" id="delete_BTN" name="delete_BTN" value="Click">Apagar Conta</button>
+                                            </form>
+                                        </div>
+                                    </div>
                                 </div> 
                                 <hr class="sidebar-divider">
                                  <!-- ADICIONAR ANUNCIO -->
@@ -133,16 +140,9 @@
                                         </div>
                                     </div>  
                                 </div> 
-                             </div>
-                            <form method="GET" action="/deleteAccount">
-                                <div class="profile-userbuttons">
-                                    <button type="submit" class="btn btn-danger btn-sm" id="delete_BTN" name="delete_BTN" value="Click" > Remover Conta</button>
-                                </div>
-                            </form> 
+                            </div>
                         </div>
                     </div>
-
-
                 </div>
             </div>
             <!-- End of Main Content -->
