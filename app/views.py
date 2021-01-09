@@ -7,7 +7,8 @@ from django.shortcuts import redirect, render
 from SPARQLWrapper import SPARQLWrapper, JSON
 from django.template.defaulttags import register
 from django.http.request import HttpRequest
-
+from random import randint
+import random
 
 user = None
 
@@ -332,7 +333,23 @@ def add_announce(request):
 
     # Car
     idc = request.GET['id'].replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_")
-
+    break_Loop = None
+    vendor_idc = None
+    while break_Loop == None:
+        vendor_idc = idc + str(random.randint(123, 123123123123))
+        ask_query = ''' PREFIX sell: <http://garagemdosusados.com/vendas/#>
+                    PREFIX gr: <http://purl.org/goodrelations/v1#>
+                            ASK
+                            WHERE {{
+                                sell:{} a gr:Offering 
+                            }}'''.format(vendor_idc)  
+        payload_query = {"query": ask_query} 
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)  
+        print(vendor_idc) 
+        if ( not result['boolean']):
+            break_Loop = vendor_idc  
+    
     # Insert all
     insert_query = '''PREFIX vendor: <http://garagemdosusados.com/vendors/#>
         PREFIX sell: <http://garagemdosusados.com/vendas/#>
@@ -362,8 +379,8 @@ def add_announce(request):
             uco:currentLocation [ a schema:PostalAddress;
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "{}"@pt ];  
-            uco:mileageEnd "{}"^^xsd:integer .  
-        }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms);  
+            uco:mileageEnd "{}"^^xsd:integer .    
+        }}'''.format(getUser(), getUser(), vendor_idc, vendor_idc, idc, value, color, own, pets, smoke, local, kms);  
 
     payload_query = {"update": insert_query} 
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
