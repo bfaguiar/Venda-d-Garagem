@@ -23,7 +23,7 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Iniciar Sessão</h3>
+				<h3>Início de Sessão</h3>
 			</div>
 			<div class="card-body">
 				<form method="POST">
@@ -42,19 +42,19 @@
 						<input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Login" id="login" class="btn float-right login_btn"><a href="../index"/>
+						<input style="width: auto" type="submit" value="Iniciar Sessão" id="login" class="btn float-right login_btn"><a href="../index"/>
 					</div>  
 				</form>
 				
 			</div>
 			{% if not bool %}
 				Nome de utilizador inválido, volte a tentar ou registe-se. 
-			{% endif %} 
-			<div class="card-footer"> 
-				<div class="d-flex justify-content-center links">
-					<a href="../signup">Registar</a>
-				</div>
-			</div>
+			{% endif %}
+
+            <div>
+                <a style="margin-left:60px; color: white">Não possui conta?</a>
+                <a href="../signup" class="btn float-right login_btn" style="margin-bottom: 10px; margin-right: 70px">Registar</a>
+            </div>
 		</div>
 	</div> 
 </div>

@@ -11,14 +11,15 @@ from django.http.request import HttpRequest
 
 user = None
 
+
 def getUser():
     global user
     return user
 
+
 def postUser(usr):
     global user
     user = usr 
-
 
 
 def index(request):
@@ -94,7 +95,7 @@ def model(request):
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX gr: <http://purl.org/goodrelations/v1#>
-            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace
+            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace ?vin
             WHERE {{
                 ?car vso:VIN "{}".
                 ?car gr:hasManufacturer ?marca.
@@ -110,6 +111,7 @@ def model(request):
                 ?car vso:fuelType ?fuel.
                 ?car vso:speed ?vel.
                 ?car vso:accelaration ?ace.
+                ?car vso:VIN ?vin.
             }}  
         '''.format(request.GET["entity"])
 
@@ -129,13 +131,14 @@ def model(request):
                       e['hei']['value']+"cm",
                       e['len']['value']+"cm",
                       e['wi']['value']+"cm",
-                      e['dw']['value'].replace("Rear-wheel drive", "Traseira").replace("Front-wheel drive", "Dianteira").replace("All-wheel drive", "4x4"),
+                      e['dw']['value'].replace("Rear-wheel drive", "Traseira").replace("Front-wheel drive", "Dianteira").replace("All-wheel drive", "4x4").replace("Four-wheel drive", "4WD"),
                       e['gear']['value'],
                       e['hp']['value']+"cv",
                       e['trans']['value'].replace("Automatic transmission", "Automática").replace("Manual transmission","Manual"),
                       e['fuel']['value'].replace("E85", "Diesel"),
                       e['vel']['value']+"km/h",
-                      e['ace']['value']+"s"])
+                      e['ace']['value']+"s",
+                      e['vin']['value']])
 
     tparams = {
         'lista': lista[0], 
@@ -164,10 +167,11 @@ def login(request):
                     postUser(request.POST['user'])
                     return redirect('index')
                 else:
-                    return render(request, 'login.html', {'bool' : False})
-            except  ValueError:
+                    return render(request, 'login.html', {'bool': False})
+            except ValueError:
                 print("error")
-    return render(request, 'login.html', {'bool' : True })   
+    return render(request, 'login.html', {'bool': True})
+
 
 def signup(request):
     assert isinstance(request, HttpRequest) 
@@ -189,9 +193,9 @@ def signup(request):
             payload_query = {"query": query} 
             result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
             result = json.loads(result)   
-            if (result['boolean']):
-                return render(request, 'signup.html', {'bool1' : False, 'bool2' : True}) 
-        except  ValueError:
+            if result['boolean']:
+                return render(request, 'signup.html', {'bool1': False, 'bool2': True})
+        except ValueError:
             print("error") 
 
         query2 = '''PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -208,16 +212,11 @@ def signup(request):
             acessor.sparql_update(body=payload_query2, repo_name=repo_name)
             postUser(request.POST['user'])   
             return redirect(index)
-        except  ValueError: 
+        except ValueError:
             print("error")  
     else:
-        return render(request, 'signup.html', {'bool1' : True, 'bool2' : False})
-    return render(request, 'signup.html', {'bool1' : True, 'bool2' : True})    
-
-
-def motos(request):
-    # Não sei se querem por motos também
-    return render(request, 'motos.html') 
+        return render(request, 'signup.html', {'bool1': True, 'bool2': False})
+    return render(request, 'signup.html', {'bool1': True, 'bool2': True})
 
 
 def profile(request):
@@ -294,14 +293,11 @@ def profile(request):
     payload_query = {"query" : query }
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)['results']['bindings']
-    print(res)    
-    #print(ids)
+
     anuncios = [] 
     for anuncio in res:
         anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['looc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value']])
 
-
-    print(anuncios)
     tparams = {
         'id': ids, 
         'name_first': name_first,
@@ -333,21 +329,9 @@ def add_announce(request):
     kms = request.GET['km']
     value = request.GET['value']
     local = request.GET['locale']
-    # Car 
+
+    # Car
     idc = request.GET['id'].replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_")
-
-    print(pets)
-    print(smoke)
-    print(color)
-    print(value)
-    print(local) 
-    print(idc)
-    print(kms)
-    #print(pwn)
-    #color = request.POST['color']
-
-    print("OLA")
-    print(pets)
 
     # Insert all
     insert_query = '''PREFIX vendor: <http://garagemdosusados.com/vendors/#>
@@ -380,11 +364,12 @@ def add_announce(request):
                                   schema:addressRegion "{}"@pt ];  
             uco:mileageEnd "{}"^^xsd:integer .  
         }}'''.format(getUser(), getUser(), idc, idc, idc, value, color, own, pets, smoke, local, kms);  
-    #, ing,  
+
     payload_query = {"update": insert_query} 
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
     print(res)
     return HttpResponseRedirect('/profile')   
+
 
 def deleteAccount(request):
     if getUser() == None:
@@ -407,13 +392,11 @@ def deleteAccount(request):
     payload_query = {"query": query} 
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name) 
     res = json.loads(res)
-    print(res)
     nick = res['results']['bindings'][0]['nick']['value']
     mbox = res['results']['bindings'][0]['mbox']['value']
     age = res['results']['bindings'][0]['age']['value']
     firstName = res['results']['bindings'][0]['age']['value']
-    print(nick)
-    print(mbox)
+
     query = '''prefix person: <http://garagemdosusados.com/pessoas/#>
                delete  {{
                    person:{} ?o ?p .
@@ -422,9 +405,7 @@ def deleteAccount(request):
                             }}'''.format(nick,   nick)
     payload_query = {"update": query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-    #//res = json.loads(res)
-    print(res)
-    print(res)
+
     query = ''' PREFIX vso: <http://purl.org/vso/ns#>
         PREFIX gr: <http://purl.org/goodrelations/v1#>
         PREFIX uco: <http://purl.org/uco/ns#>
@@ -439,14 +420,15 @@ def deleteAccount(request):
     		?offer gr:includes ?car .
     		?car vso:VIN ?idc .
         }}  
-        '''.format(getUser())  
+        '''.format(getUser())
+
     idcs = [] 
     payload_query = {"query" : query }
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)['results']['bindings']
     for idc in res:
-        idcs.append(idc['idc']['value']) 
-    print(idcs)
+        idcs.append(idc['idc']['value'])
+
     query = '''
                prefix foaf: <http//xmlns.com/foaf/0.1/>
                delete {{
@@ -469,20 +451,16 @@ def deleteAccount(request):
         }}'''.format( idc, idc) 
         payload_query = {"update": query}
         res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-        print(res)
+
     postUser(None);
-    return HttpResponseRedirect('/login') 
-def friends(request): 
+    return HttpResponseRedirect('/login')
+
+
+def wishlist(request):
     if user == None:
         return redirect('login')
-    # Aqui aparece nome, email e anúncios feitos por cada amigo
 
-    # ADICIONAR AMIGO
-    # nome do amigo id = "name" 
-    # email do amigo id = "email"
-    # adicionar amigo id = "add"
-    # Se não existir dizer que não existe
-    return render(request, 'friends.html')
+    return render(request, 'wishlist.html')
 
 
 def about(request):
@@ -531,7 +509,3 @@ def about(request):
     } 
 
     return render(request, 'about.html', tparams)
-
- 
-   
- 

@@ -2,6 +2,9 @@
 
 {% block content %}
 
+     {% load static %}
+        <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
+
             <!-- Main Content -->
             <div id="content">
 
@@ -12,8 +15,8 @@
                     <div class="card shadow mb-4" style="margin-top: 50px">
                         <div class="card-header py-3">
                             <div class="row">
-                                <i class="fas fa-motorcycle " style="margin-right:10px; margin-top:4px"></i>
-                                <h6 class="m-0 font-weight-bold text-primary">Motociclos disponíveis para venda</h6>
+                                <i class="fas fa-star" style="margin-right:10px; margin-top:4px; color: #e9aa0b "></i>
+                                <h6 class="m-0 font-weight-bold text-primary">Lista de Desejos</h6>
                             </div>
                         </div>
                         <div class="card-body">
@@ -21,17 +24,19 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th>Mota</th>
-                                            <th>Cenas</th>
-                                            <th>Mais cenas</th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
                                         </tr>
                                     </thead>
                                     <tbody>
-
                                         <tr>
-                                            <td style="width: 40%"></td>
-                                            <td style="width: 30%"></td>
-                                            <td style="width: 25%"></td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <th style="width: 10px">
+                                                                <a href="#" class="btn btn-danger btn-circle btn-sm"/>
+                                                                <i class="fas fa-trash"></i>
+                                                            </th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -39,6 +44,7 @@
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
             <!-- End of Main Content -->
 

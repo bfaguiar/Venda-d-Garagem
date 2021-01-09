@@ -1,20 +1,24 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//PT""http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
+
 {% extends "layout.html" %}
 
 {% block content %}
 
      {% load static %}
-        <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
 
-            <!-- Main Content -->
-            <div id="content">
-                    <div class="container-fluid" style="margin-top:10px">
-                        <div class="card shadow mb-4" style="margin-top: 50px">
+        <!-- Main Content -->
+        <div id="content" typeof="car">
+            <div class="container-fluid" style="margin-top:10px">
+                <div class="row">
+                       <!-- Características -->
+                        <div class="card shadow mb-4" style="margin-top: 50px; width: 45%">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Características</h6>
                             </div>
                             <div class="card-body row">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Marca:</h8>
-                                <a href="../about?entity={{ lista.0 }}" style="text-indent: 0.5em"> {{ lista.0 }} </a>
+                                <a about="[car:{{x.13}}]" property="gr:hasManufacturer" style="text-indent: 0.5em"> {{ lista.0 }} </a>
+                                <a style="text-indent: 0.5em" href="../about?entity={{ lista.0 }}" style="text-indent: 0.5em"> -> Saber mais </a>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Modelo:</h8>
@@ -22,39 +26,66 @@
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Ano:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.2 }} </a>
+                                <a about="[car:{{x.13}}]" property="vso:modelDate" style="text-indent: 0.5em"> {{ lista.2 }} </a>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Dimensões:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.3 }} x {{ lista.4 }} x {{ lista.5 }}</a>
+                                <p style="text-indent: 0.5em">
+                                    <span about="[car:{{x.13}}]" property="vso:height" datatype="xsd:float">{{ lista.3 }}</span>
+                                     x <span about="[car:{{x.13}}]" property="vso:length" datatype="xsd:float">{{ lista.4 }}</span>
+                                     x <span about="[car:{{x.13}}]" property="vso:width" datatype="xsd:float">{{ lista.5 }}</span></p>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Tração:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.6 }} </a>
-                            </div> 
+                                <a about="[car:{{x.13}}]" property="vso:driveWheelConfiguration" style="text-indent: 0.5em"> {{ lista.6 }} </a>
+                            </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Transmissão:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.9 }} de {{ lista.7 }} velocidades</a>
+                                <p style="text-indent: 0.5em"
+                                    ><span about="[car:{{x.13}}]" property="vso:TransmissionTypeValue">{{ lista.9 }}</span>
+                                     de <span about="[car:{{x.13}}]" property="vso:gearsTotal" datatype="xsd:integer">{{ lista.7 }}</span> velocidades</p>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Potência:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.8 }} </a>
+                                <a about="[car:{{x.13}}]" property="vso:enginePower" datatype="xsd:integer" style="text-indent: 0.5em"> {{ lista.8 }} </a>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Combustível:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.10 }} </a>
+                                <a about="[car:{{x.13}}]" property="vso:fuelType" style="text-indent: 0.5em"> {{ lista.10 }} </a>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Velocidade Máxima:</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.11 }} </a>
+                                <a about="[car:{{x.13}}]" property="vso:speed" datatype="xsd:integer" style="text-indent: 0.5em"> {{ lista.11 }} </a>
                             </div>
                             <div class="card-body row" style="margin-top:-20px">
                                 <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Aceleração (0-100km/h):</h8>
-                                <a style="text-indent: 0.5em"> {{ lista.12 }} </a>
+                                <a about="[car:{{x.13}}]" property="vso:accelaration" datatype="xsd:float" style="text-indent: 0.5em"> {{ lista.12 }} </a>
                             </div>
                         </div>
-                    </div>
 
+                        <!-- Também poderá gostar de -->
+                       <div class="card shadow mb-4" style="margin-top: 50px; width: 45%; margin-left: 5%">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Também poderá gostar de:</h6>
+                            </div>
+
+                           <!-- for aqui -->
+                            <div class="card-body row">
+                                <i class="fas fa-car-side" style="margin-left:10px; margin-right:10px; margin-top:4px; color: #be2617"></i>
+
+                                <!-- MARCA, Modelo v -->
+                                <a style="text-indent: 0.5em; color: #2e2f37; text-decoration: none;" href=""> CARRO </a>
+
+                                <div class="profile-userbuttons">
+                                    <form>
+                                        <button href="" class="btn btn-danger btn-sm" style="background-color: #e9aa0b; margin-left:10px" value="Click">Ver</button>
+                                    </form>
+                                </div>
+                            </div>
+                           <!-- -->
+                        </div>
+                   </div>
+                </div>
             </div>
             <!-- End of Main Content -->
 

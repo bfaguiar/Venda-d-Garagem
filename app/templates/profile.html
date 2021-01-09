@@ -1,3 +1,4 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//PT""http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 {% extends "layout.html" %}
 
 {% block content %}
@@ -6,16 +7,25 @@
         <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
 
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" typeof="person">
                 <div class="row">
                     <div class="container-fluid">
                         <div class="row profile" >
                             <div class="col-md-3"  style="margin-top: 50px">
+
                                 <!-- PERFIL -->
                                 <div class="profile-sidebar">
+                                    <div class="profile-userpic" style="margin-left: 35%">
+                                    {% load static %}
+                                        <img src="{% static 'assets/images/avatar.jpg' %}" alt="">
+                                    </div>
                                     <div class="profile-usertitle">
-                                        <div class="profile-usertitle-name">{{name_first}}</div>
-                                        <div class="profile-usertitle-job">{{email}}</div>
+                                        <div class="profile-usertitle-name">
+                                            <a about="[person:{{name_nick}}]" property="foaf:firstName">{{name_first}}</a>
+                                        </div>
+                                        <div class="profile-usertitle-job">
+                                            <a about="[person:{{name_nick}}]" property="foaf:mbox">{{email}}</a>
+                                        </div>
                                     </div>
                                     <div class="row" style="margin-left: 25%; margin-right: 25%">
                                         <div class="profile-userbuttons">
@@ -29,9 +39,11 @@
                                             </form>
                                         </div>
                                     </div>
-                                </div> 
+                                </div>
+
                                 <hr class="sidebar-divider">
-                                 <!-- ADICIONAR ANUNCIO -->
+
+                                <!-- ADICIONAR ANUNCIO -->
                                 <div class="profile-sidebar" style="margin-top: 20px">
                                     <div class="form-group" style="margin-left: 20px; margin-right:20px">
                                         <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
@@ -97,7 +109,8 @@
                                         </form>
                                     </div> 
                                 </div>
-                            </div> 
+                            </div>
+
                             <!-- TABELA -->
                             <div class="col-md-9">
                                 <div class="container-fluid">

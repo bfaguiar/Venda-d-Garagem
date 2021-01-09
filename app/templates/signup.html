@@ -21,7 +21,9 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Registar</h3>
+				<h3>Registo</h3>
+                <a href="../login" class="btn float-right login_btn" style="margin-top: -30px; margin-right: 10px; width: auto">Voltar</a>
+
 			</div>
 			<div class="card-body">
 				<form method="POST"> 
@@ -62,23 +64,16 @@
 					</div> 
 					<div class="form-group">  
 						<input type="submit" value="Registar" id="register" class="btn float-right login_btn">
-					</div> 
+					</div>
+
+
 				</form>   
 			</div> 
 			{% if not bool1 and bool2%}
 			<div class="d-flex justify-content-center links"> Já existe um utilizador com o mesmo Nome de utilizador</div>
 			{% elif bool1 and not bool2 %}
-			 <div class="d-flex justify-content-center links"> Ainda não inseriu todos os campos necessários </div> 
+			 <div class="d-flex justify-content-center links" style="color: #be2617" s>Atenção! Ainda não inseriu todos os campos necessários </div>
 			 {% endif%}
-			<br>
-			<br><br>
-			<br> 
-			<div class="card-footer">
-				
-				<div class="d-flex justify-content-center links">
-					Já tem uma conta?<a href="../login">Iniciar Sessão</a>
-				</div>
-			</div> 
 		</div>
 	</div>
 </div> 
