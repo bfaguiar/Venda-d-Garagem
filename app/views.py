@@ -627,7 +627,7 @@ def wishlist(request):
                       e['wishes']['value'].replace("http://garagemdosusados.com/vendas/#", "")])     
     print(lista)
     tparams = {
-        'lista' :lista,
+        'lista': lista,
     }  
     return render(request, 'wishlist.html', tparams)      
   
