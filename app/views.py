@@ -23,17 +23,16 @@ def applyInference():
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX schema:  <http://schema.org/>
 
-            INSERT  {?s schema:category "Economic"}
+            INSERT  {
+                ?s schema:category "Economic"
+            }
             WHERE {
                 ?s vso:fuelType "Diesel fuel"@en
             }
-            """
-    try:
-        payload_query = {"query": query}
-        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        result = json.loads(result)
-    except ValueError:
-        print("error")
+            """ 
+
+    payload_query = {"update": query}
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
 
 
 # if(speed>300 or accelaration<4) then sport
@@ -60,12 +59,9 @@ def applyInference2():
                 }
             }
             """
-    try:
-        payload_query = {"query": query}
-        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        result = json.loads(result)
-    except ValueError:
-        print("error")
+    
+    payload_query = {"update": query}
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
 
 
@@ -267,7 +263,10 @@ def model(request):
                       e['vel']['value']+"km/h",
                       e['ace']['value']+"s",
                       e['vin']['value']])
-
+    
+    inf1 = applyInference()
+    inf2 = applyInference2()
+    print(inf1)
     tparams = {
         'lista': lista[0], 
     }
