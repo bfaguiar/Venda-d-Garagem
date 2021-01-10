@@ -595,7 +595,7 @@ def wishlist(request):
     				?nck person:wishlist ?wishes .
     				?vendor gr:offers ?wishes .
     				?vendor foaf:nick ?nick . 
-    				?nck foaf:nick ?name .
+    				?nick foaf:nick ?name .
     				?wishes gr:includes ?car .
     				?wishes vso:color ?color .
     				?wishes uco:pets ?pets .
@@ -636,7 +636,7 @@ def about(request):
     if user == None:
         return redirect('login')
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
-    brand = request.GET["entity"]
+    brand = request.GET["entity"] 
     sparql.setQuery(f'''
             SELECT ?name ?abst ?city ?own ?num ?prod ?slo
             WHERE {{ dbr:{brand} rdfs:label ?name.
