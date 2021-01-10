@@ -13,6 +13,62 @@ import random
 user = None
 
 
+# if(diesel) then economic
+def applyInference():
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX schema:  <http://schema.org/>
+
+            INSERT  {?s schema:category "Economic"}
+            WHERE {
+                ?s vso:fuelType "Diesel fuel"@en
+            }
+            """
+    try:
+        payload_query = {"query": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("error")
+
+
+# if(speed>300 or accelaration<4) then sport
+def applyInference2():
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX schema:  <http://schema.org/>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+            INSERT  { ?s schema:category "Sport"}
+            WHERE {
+                {
+                    ?s vso:speed ?speed
+                    FILTER((?speed > "300"^^xsd:integer))
+                }
+                UNION
+                {
+                   ?s vso:accelaration ?ac
+                   FILTER((?ac < "4"^^xsd:integer))
+                }
+            }
+            """
+    try:
+        payload_query = {"query": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("error")
+
+
+
 def getUser():
     global user
     return user
