@@ -46,6 +46,16 @@
                                                     <td>{{ x.7 }}</td>
                                                     <td>{{ x.8 }}</td>
                                                     <td>{{ x.9 }}</td>
+                                                    <th style="width: 5%"> 
+                                                {% if x.12  %}
+
+                                                    <a href="../rev?idc={{x.11}}&source=index" class="btn btn-danger btn-circle btn-sm"/>
+                                                    <i class="fas fa-trash"></i> 
+                                                {% else %}
+                                                    <a href="../fav?idc={{x.11}}&source=index" class="btn btn-success btn-circle btn-sm"/>   
+                                                    <i class="fas fa-star"></i>   
+                                                {% endif %}   
+                                            </th>
                                                 </tr>
                                             {% endfor %}
                                     </tbody>

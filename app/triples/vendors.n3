@@ -1,7 +1,7 @@
 @prefix rdfs:    <http://www.w3.org/2000/01/rdf-schema#> .  
 @prefix xsd:     <http://www.w3.org/XMLSchema#> . 
 @prefix gr:      <http://purl.org/goodrelations/v1#> .  
-@prefix vendor:  <http://garagemdosusados.com/vendors/#> .
+@prefix vendor:  <http://garagemdosusados.com/vendors/#> .   
 @prefix person:  <http://garagemdosusados.com/pessoas/#> .   
 @prefix sell:    <http://garagemdosusados.com/vendas/#> .
 @prefix foaf:    <http://xmlns.com/foaf/0.1/> .
@@ -13,7 +13,7 @@
 
     vendor:jonni a gr:Reseller;
               foaf:nick person:jonni;
-              gr:offers sell:2011_Mercury_Milan_Premier .
+              gr:offers sell:2011_Mercury_Milan_Premier .  
 
     sell:2011_Mercury_Milan_Premier a gr:Offering;
             gr:includes car:2011_Mercury_Milan_Premier;
@@ -24,7 +24,7 @@
             vso:color "Verde"@pt ; 
             vso:previousOwners "2"^^xsd:integer ; 
             uco:pets "No"@en; 
-            uco:smoking "Yes"@en;
+            uco:smoking "Yes"@en;  
             uco:currentLocation [ a schema:PostalAddress;
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "Viana do Castelo"@pt ]; 

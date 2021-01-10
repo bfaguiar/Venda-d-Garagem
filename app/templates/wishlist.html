@@ -24,26 +24,46 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
-                                            <th> </th>
-                                            <th> </th>
-                                            <th> </th>
+                                            
+                                            <th>Marca</th>
+                                            <th>Modelo</th>
+                                            <th>Cor</th>
+                                            <th><i class="fas fa-gas-pump " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th><i class="fas fa-dog " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th><i class="fas fa-smoking " style="margin-right:10px; margin-top:4px"></i></th>
+                                            <th>Donos</th>
+                                            <th>Localização</th> 
+                                            <th>Vendedor</th>
+                                            <th>Preço</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td> </td>
-                                            <td> </td>
-                                            <th style="width: 10px">
-                                                                <a href="#" class="btn btn-danger btn-circle btn-sm"/>
-                                                                <i class="fas fa-trash"></i>
-                                                            </th>
-                                        </tr>
+                                        
+                                            {%for x in lista %}
+                                                <tr>
+                                                    <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
+                                                    <td><a href="../model?entity={{ x.10 }}"/>{{ x.1 }}</td>
+                                                    <td>{{ x.2 }}</td>
+                                                    <td>{{ x.3 }}</td>
+                                                    <td>{{ x.4 }}</td>
+                                                    <td>{{ x.5 }}</td>
+                                                    <td>{{ x.6 }}</td>
+                                                    <td>{{ x.7 }}</td>
+                                                    <td>{{ x.8 }}</td>
+                                                    <td>{{ x.9 }}</td>
+                                                    <th style="width: 5%"> 
+
+                                                    <a href="../rev?idc={{x.11}}&source=wishlist " class="btn btn-danger btn-circle btn-sm"/>
+                                                    <i class="fas fa-trash"></i>  
+                                                     </tr> 
+                                               {% endfor %}
+                                       
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             </div>
             </div>
             <!-- End of Main Content -->

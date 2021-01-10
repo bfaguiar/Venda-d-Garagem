@@ -30,6 +30,8 @@ urlpatterns = [
     path('model/', views.model, name='model'),
     path('add_announce/', views.add_announce, name='add_announce'),
     path('deleteAccount/', views.deleteAccount, name='deleteAccount'),
-    path('remove_announcement', views.remove_announcement, name="remove_announcement")
-]
+    path('remove_announcement/', views.remove_announcement, name="remove_announcement"),
+    path('fav/', views.fav, name="fav"),
+    path('rev/', views.rev, name="rev"), 
+] 
  
