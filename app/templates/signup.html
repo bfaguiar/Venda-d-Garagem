@@ -6,7 +6,7 @@
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Neighbor's Garage</title>
+  <title>Venda d'Garagem</title>
 
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
@@ -21,7 +21,7 @@
 	<div class="d-flex justify-content-center h-100">
 		<div class="card">
 			<div class="card-header">
-				<h3>Registo</h3>
+				<h3 style="color: white">Registo</h3>
                 <a href="../login" class="btn float-right login_btn" style="margin-top: -30px; margin-right: 10px; width: auto">Voltar</a>
 
 			</div>
@@ -63,16 +63,16 @@
 						<input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
 					</div> 
 					<div class="form-group">  
-						<input type="submit" value="Registar" id="register" class="btn float-right login_btn">
+						<input type="submit" value="Registar" id="register" class="btn float-right login_btn" style="color: white">
 					</div>
 
 
 				</form>   
 			</div> 
 			{% if not bool1 and bool2%}
-			<div class="d-flex justify-content-center links"> Já existe um utilizador com o mesmo Nome de utilizador</div>
+			<div class="d-flex justify-content-center links" style="color: red"><b>Já existe um utilizador com esse username</b></div>
 			{% elif bool1 and not bool2 %}
-			 <div class="d-flex justify-content-center links" style="color: #be2617" s>Atenção! Ainda não inseriu todos os campos necessários </div>
+                <div class="d-flex justify-content-center links" style="color: red"><b>Ainda não inseriu todos os campos</b></div>
 			 {% endif%}
 		</div>
 	</div>
