@@ -264,7 +264,7 @@ def model(request):
         print("error")
 
     lista = []
-
+    categoria = None
     for e in result['results']['bindings']:
         lista.append([e['marca']['value'].split("/")[-1],
                       e['modelo']['value'].split("_")[1],
@@ -288,21 +288,22 @@ def model(request):
                PREFIX schema: <http://schema.org/>
                     
                 SELECT ?id ?cat
-                WHERE {
+                WHERE {{
                     ?car vso:VIN ?id .
                     ?car schema:category ?cat
                     FILTER(?cat = '{}')
-                }
+                }}
             '''.format(categoria)
 
     try:
-        payload_query = {"query2": query}
+        payload_query = {"query": query2}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
     except ValueError:
         print("error")
 
     carros = []
+    print(result)
     for e in result['results']['bindings']:
         carros.append(e['id']['value'])
 
