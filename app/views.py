@@ -27,12 +27,12 @@ def applyInference():
                 ?s schema:category "Economic"
             }
             WHERE {
-                ?s vso:fuelType "Diesel fuel"@en
+                ?s vso:fuelType "Diesel fuel"@en .
             }
-            """ 
+            """
 
     payload_query = {"update": query}
-    result = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
 
 # if(speed>300 or accelaration<4) then sport
@@ -49,21 +49,21 @@ def applyInference2():
             INSERT  { ?s schema:category "Sport"}
             WHERE {
                 {
-                    ?s vso:speed ?speed
+                    ?s vso:speed ?speed .
                     FILTER((?speed > "300"^^xsd:integer))
                 }
                 UNION
                 {
-                   ?s vso:accelaration ?ac
+                   ?s vso:accelaration ?ac .
                    FILTER((?ac < "4"^^xsd:integer))
                 }
             }
             """
-    
+
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
-
+'''
 #if(length < 50) then city car
 def applyInference3():
     endpoint = "http://localhost:7200"
@@ -76,33 +76,33 @@ def applyInference3():
 
             INSERT  {?s schema:category "City Car"}
             WHERE {
-                ?s vso:length ?length
+                ?s vso:length ?length .
                 FILTER((?length < "50"^^xsd:integer))
             }
             """
 
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-
+'''
 
 def getUser():
     global user
     return user
- 
+
 
 def postUser(usr):
     global user
-    user = usr 
- 
+    user = usr
+
 
 def index(request):
     if user == None:
         return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
-    acessor = GraphDBApi(client)  
+    acessor = GraphDBApi(client)
     repo_name = "cars"
-  
+
     query = """
         PREFIX vso: <http://purl.org/vso/ns#>
         PREFIX gr: <http://purl.org/goodrelations/v1#>
@@ -125,12 +125,12 @@ def index(request):
             ?car vso:fuelType ?ft .
             ?car vso:VIN ?idc . 
         } 
-    """   
+    """
 
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        result = json.loads(result) 
+        result = json.loads(result)
     except ValueError:
         print("error")
 
@@ -147,27 +147,27 @@ def index(request):
                       e['loc']['value'],
                       e['name']['value'].capitalize(),
                       e['val']['value'] + '€',
-                      e['idc']['value'], 
-                      e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])     
-    
+                      e['idc']['value'],
+                      e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])
+
     for l in lista:
         ask_query = ''' PREFIX sell: <http://garagemdosusados.com/vendas/#>
                     PREFIX person: <http://garagemdosusados.com/pessoas/#>
                             ASK
                             WHERE {{
                                 person:{} person:wishlist sell:{}
-                            }}'''.format( getUser(), l[11] )     
-        payload_query = {"query": ask_query} 
-        
+                            }}'''.format( getUser(), l[11] )
+        payload_query = {"query": ask_query}
+
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
-        if (result['boolean']):  
-            l.append( True ) 
-        else: 
-            l.append(False)   
+        if (result['boolean']):
+            l.append( True )
+        else:
+            l.append(False)
 
-    tparams = {  
-        'lista': lista, 
+    tparams = {
+        'lista': lista,
     }
 
     return render(request, 'index.html', tparams)
@@ -188,13 +188,13 @@ def fav(request):
                   }} where {{
                       ?s foaf:nick "{}"
                   }}
-    '''.format(request.GET['idc'] , getUser()) 
-    payload_query = {"update": query}  
+    '''.format(request.GET['idc'] , getUser())
+    payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
     if request.GET['source'] == "index":
         return redirect('/')
-    return redirect('profile')   
+    return redirect('profile')
 
 
 def rev(request):
@@ -212,14 +212,14 @@ def rev(request):
                   }} where {{
                       ?s foaf:nick "{}"
                   }}  
-    '''.format(request.GET['idc'], getUser())  
-    payload_query = {"update": query} 
+    '''.format(request.GET['idc'], getUser())
+    payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
     if request.GET['source'] == "index":
-        return redirect('/')  
+        return redirect('/')
     if request.GET['source'] == "wishlist":
         return redirect('wishlist')
-    return redirect('profile')    
+    return redirect('profile')
 
 
 def model(request):
@@ -228,14 +228,14 @@ def model(request):
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
-    repo_name = "cars" 
+    repo_name = "cars"
 
     query = '''  
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX gr: <http://purl.org/goodrelations/v1#>
             PREFIX schema: <http://schema.org/>
-            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace ?vin ?cat
+            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace ?vin
             WHERE {{
                 ?car vso:VIN "{}".
                 ?car gr:hasManufacturer ?marca.
@@ -252,11 +252,10 @@ def model(request):
                 ?car vso:speed ?vel.
                 ?car vso:accelaration ?ace.
                 ?car vso:VIN ?vin.
-                ?car schema:category ?cat
             }}  
         '''.format(request.GET["entity"])
 
-    try: 
+    try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
@@ -264,7 +263,6 @@ def model(request):
         print("error")
 
     lista = []
-    categoria = None
     for e in result['results']['bindings']:
         lista.append([e['marca']['value'].split("/")[-1],
                       e['modelo']['value'].split("_")[1],
@@ -280,23 +278,50 @@ def model(request):
                       e['vel']['value']+"km/h",
                       e['ace']['value']+"s",
                       e['vin']['value']])
+
+
+    applyInference()
+    applyInference2()
+    # applyInference3()
+
+    #------------Select category--------------------
+    query = '''  
+                PREFIX vso: <http://purl.org/vso/ns#>
+                PREFIX schema: <http://schema.org/>
+
+                SELECT ?cat
+                WHERE {{
+                    ?car vso:VIN "{}".
+                    ?car schema:category ?cat .
+                }}
+            '''.format(request.GET["entity"])
+    try:
+        payload_query = {"query": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("error")
+
+    categoria = None
+    for e in result['results']['bindings']:
         categoria = e['cat']['value']
 
 
-    query2 = '''  
+    #---------cars with same category--------------------
+    query = '''  
                PREFIX vso: <http://purl.org/vso/ns#>
                PREFIX schema: <http://schema.org/>
                     
-                SELECT ?id ?cat
+                SELECT ?id
                 WHERE {{
                     ?car vso:VIN ?id .
-                    ?car schema:category ?cat
+                    ?car schema:category ?cat .
                     FILTER(?cat = '{}')
-                }}
+                }}limit 5
             '''.format(categoria)
 
     try:
-        payload_query = {"query": query2}
+        payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
     except ValueError:
@@ -309,9 +334,10 @@ def model(request):
 
     tparams = {
         'lista': lista[0],
-        'carros' : carros
+        'carros': carros,
     }
     return render(request, 'model.html', tparams)
+
 
 
 def login(request):
@@ -320,17 +346,17 @@ def login(request):
             endpoint = "http://localhost:7200"
             client = ApiClient(endpoint=endpoint)
             acessor = GraphDBApi(client)
-            repo_name = "cars" 
+            repo_name = "cars"
             query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
                         ASK
                         WHERE {{
                             ?name foaf:nick "{}" .
                             ?name foaf:nick ?nick .
-                        }}'''.format(request.POST['user'])  
-            try: 
-                payload_query = {"query": query} 
+                        }}'''.format(request.POST['user'])
+            try:
+                payload_query = {"query": query}
                 result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-                result = json.loads(result) 
+                result = json.loads(result)
                 if (result['boolean']):
                     postUser(request.POST['user'])
                     return redirect('index')
@@ -341,16 +367,16 @@ def login(request):
     return render(request, 'login.html', {'bool': True})
 
 
-def signup(request): 
-    assert isinstance(request, HttpRequest) 
+def signup(request):
+    assert isinstance(request, HttpRequest)
     if ('user' in request.POST and request.POST['user'] != '') \
         and ('firstName' in request.POST and request.POST['firstName'] != '') \
             and ('email' in request.POST and request.POST['email'] != '') \
-                and ('idade' in request.POST and request.POST['idade'] != ''): 
+                and ('idade' in request.POST and request.POST['idade'] != ''):
         endpoint = "http://localhost:7200"
         client = ApiClient(endpoint=endpoint)
         acessor = GraphDBApi(client)
-        repo_name = "cars" 
+        repo_name = "cars"
         query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
                     ASK
                     WHERE {{
@@ -358,14 +384,14 @@ def signup(request):
                         ?name foaf:nick ?nick . 
                     }}'''.format(request.POST['user'])
 
-        try: 
-            payload_query = {"query": query} 
+        try:
+            payload_query = {"query": query}
             result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-            result = json.loads(result)   
+            result = json.loads(result)
             if result['boolean']:
                 return render(request, 'signup.html', {'bool1': False, 'bool2': True})
         except ValueError:
-            print("error") 
+            print("error")
 
         query2 = '''PREFIX foaf: <http://xmlns.com/foaf/0.1/>
         PREFIX person: <http://garagemdosusados.com/pessoas/#>
@@ -378,12 +404,12 @@ def signup(request):
             }}'''.format(request.POST['user'], request.POST['firstName'], request.POST['user'], request.POST['email'], request.POST['idade'])
 
         try:
-            payload_query2 = {"update": query2} 
+            payload_query2 = {"update": query2}
             acessor.sparql_update(body=payload_query2, repo_name=repo_name)
-            postUser(request.POST['user'])   
+            postUser(request.POST['user'])
             return redirect(index)
         except ValueError:
-            print("error")  
+            print("error")
     else:
         return render(request, 'signup.html', {'bool1': True, 'bool2': False})
     return render(request, 'signup.html', {'bool1': True, 'bool2': True})
@@ -395,7 +421,7 @@ def profile(request):
     if request.GET.get("exit_BTN"):
         print("EXIT_BTN")
         postUser(None)
-        return redirect("login") 
+        return redirect("login")
     endpoint = "http://localhost:7200"
     repo_name = "cars"
     client = ApiClient(endpoint=endpoint)
@@ -419,7 +445,7 @@ def profile(request):
     name_nick = res['results']['bindings'][0]['nick']['value']
     name_first = res['results']['bindings'][0]['first_name']['value']
     email = res['results']['bindings'][0]['email']['value']
-     
+
     ids = dict()
     query = """
                 PREFIX vso: <http://purl.org/vso/ns#>  
@@ -431,13 +457,13 @@ def profile(request):
                 ORDER BY ASC(?id)
             """
 
-    payload_query = {"query": query} 
+    payload_query = {"query": query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
 
     for e in res['results']['bindings']:
         ids[e['id']['value']] = e['id']['value']
-    
+
     query = ''' PREFIX vso: <http://purl.org/vso/ns#>
         PREFIX gr: <http://purl.org/goodrelations/v1#>
         PREFIX uco: <http://purl.org/uco/ns#>
@@ -460,67 +486,67 @@ def profile(request):
             ?car vso:fuelType ?fuelType .
             ?car vso:VIN ?idc .  
         }}    
-        '''.format(getUser())  
+        '''.format(getUser())
 
     payload_query = {"query" : query }
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)['results']['bindings']
-    
-    anuncios = [] 
+
+    anuncios = []
     for anuncio in res:
         idc_format = anuncio['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")
-        anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['looc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value'], idc_format]) 
- 
+        anuncios.append([anuncio['pets']['value'], anuncio['val']['value'], anuncio['looc']['value'], anuncio['prevOwners']['value'], anuncio['fuelType']['value'], anuncio['cor']['value'], anuncio['smoke']['value'], anuncio['idc']['value'], anuncio['mileage']['value'], idc_format])
+
     tparams = {
-        'id': ids, 
-        'name_first': name_first, 
+        'id': ids,
+        'name_first': name_first,
         'name_nick' : name_nick,
-        'email' : email, 
-        'anuncios' : anuncios  
-    }      
+        'email' : email,
+        'anuncios' : anuncios
+    }
 
     return render(request, 'profile.html', tparams)
 
 
 def add_announce(request):
     if user == None:
-        return redirect('login') 
+        return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
-    acessor = GraphDBApi(client) 
+    acessor = GraphDBApi(client)
     repo_name = "cars"
 
     # Sale specs
-    color = request.GET['color'] 
-    smoke = "No" 
-    pets = "No" 
+    color = request.GET['color']
+    smoke = "No"
+    pets = "No"
     if 'smoke' in request.GET:
-        smoke = "Yes" 
+        smoke = "Yes"
     if 'pets' in request.GET:
-        pets = "Yes" 
+        pets = "Yes"
     own = request.GET['owners']
     kms = request.GET['km']
     value = request.GET['value']
     local = request.GET['locale']
- 
+
     # Car
     idc = request.GET['id'].replace(" ", "_").replace("+", "Plus").replace("!", "ExclamationPoint").replace("/", "").replace('"', '').replace("''", "").replace("-", "_").replace(".", "_")
     break_Loop = None
     vendor_idc = None
-    while break_Loop == None: 
+    while break_Loop == None:
         vendor_idc = idc + str(random.randint(123, 123123123123))
         ask_query = ''' PREFIX sell: <http://garagemdosusados.com/vendas/#>
                     PREFIX gr: <http://purl.org/goodrelations/v1#>
                             ASK
                             WHERE {{ 
                                 sell:{} a gr:Offering 
-                            }}'''.format(vendor_idc)  
-        payload_query = {"query": ask_query} 
+                            }}'''.format(vendor_idc)
+        payload_query = {"query": ask_query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
         if ( not result['boolean']):
-            break_Loop = vendor_idc   
-    
+            break_Loop = vendor_idc
+
     # Insert all
     insert_query = '''PREFIX vendor: <http://garagemdosusados.com/vendors/#>
         PREFIX sell: <http://garagemdosusados.com/vendas/#>
@@ -551,11 +577,11 @@ def add_announce(request):
                                   schema:addressCountry "PT"@pt; 
                                   schema:addressRegion "{}"@pt ];  
             uco:mileageEnd "{}"^^xsd:integer .    
-        }}'''.format(getUser(), getUser(), vendor_idc, vendor_idc, idc, value, color, own, pets, smoke, local, kms);  
+        }}'''.format(getUser(), getUser(), vendor_idc, vendor_idc, idc, value, color, own, pets, smoke, local, kms);
 
-    payload_query = {"update": insert_query} 
+    payload_query = {"update": insert_query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-    return HttpResponseRedirect('/profile')   
+    return HttpResponseRedirect('/profile')
 
 
 def remove_announcement(request):
@@ -565,7 +591,7 @@ def remove_announcement(request):
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     repo_name = "cars"
- 
+
     query = '''
         prefix foaf: <http//xmlns.com/foaf/0.1/>
         delete {{
@@ -576,7 +602,7 @@ def remove_announcement(request):
 
     payload_query = {"update": query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-    
+
     query = '''     
         prefix sell: <http://garagemdosusados.com/vendas/#>   
         delete {{
@@ -585,14 +611,14 @@ def remove_announcement(request):
             sell:{} ?o ?p .
     }}'''.format( request.GET['idc'], request.GET['idc'])
 
-    payload_query = {"update": query} 
-    res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
+    payload_query = {"update": query}
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
-    return HttpResponseRedirect('/profile')  
+    return HttpResponseRedirect('/profile')
 
 
 def deleteAccount(request):
-    if getUser() == None: 
+    if getUser() == None:
         redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
@@ -607,10 +633,10 @@ def deleteAccount(request):
                         ?person foaf:mbox ?mbox .
                         ?person foaf:firstName ?firstName .
                         ?person foaf:age ?age .
-                        }}'''.format(getUser()) 
+                        }}'''.format(getUser())
 
-    payload_query = {"query": query} 
-    res = acessor.sparql_select(body=payload_query, repo_name=repo_name) 
+    payload_query = {"query": query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
     nick = res['results']['bindings'][0]['nick']['value']
     mbox = res['results']['bindings'][0]['mbox']['value']
@@ -641,11 +667,11 @@ def deleteAccount(request):
         }}  
         '''.format(getUser())
 
-    idcs = [] 
+    idcs = []
     payload_query = {"query" : query }
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)['results']['bindings']
-    for idc in res: 
+    for idc in res:
         idcs.append(idc['offer']['value'].replace("http://garagemdosusados.com/vendas/#", ""))
 
     query = ''' 
@@ -656,8 +682,8 @@ def deleteAccount(request):
                        vendor:{} ?o ?p .
                    }}'''.format(getUser(), getUser())
     payload_query = {"update": query}
-    res = acessor.sparql_update(body=payload_query, repo_name=repo_name) 
-    
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
     for n in idcs:
         query = '''     
             prefix sell: <http://garagemdosusados.com/vendas/#>
@@ -665,16 +691,16 @@ def deleteAccount(request):
                 sell:{} ?o ?p.
             }}  where {{
                 sell:{} ?o ?p .
-        }}'''.format( n, n) 
+        }}'''.format( n, n)
         payload_query = {"update": query}
         res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
     postUser(None);
-    return HttpResponseRedirect('/login')   
+    return HttpResponseRedirect('/login')
 
 
 def wishlist(request):
-    if user == None: 
+    if user == None:
         return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
@@ -707,11 +733,11 @@ def wishlist(request):
                     ?car vso:enginePower ?power .
                     ?car vso:accelaration ?accelaration .
                     ?car vso:speed ?speed .
-                    }}'''.format(getUser()) 
+                    }}'''.format(getUser())
     payload_query = {"query" : query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
     res = json.loads(res)
-    
+
     lista = []
     for e in res['results']['bindings']:
         lista.append([e['id']['value'].split(" ", 2)[1],
@@ -722,41 +748,41 @@ def wishlist(request):
                       e['smoke']['value'].replace("Yes", "Sim").replace("No", "Não"),
                       e['prev']['value'],
                       e['loc']['value'],
-                      e['name']['value'].capitalize(), 
+                      e['name']['value'].capitalize(),
                       e['val']['value'] + '€',
-                      e['id']['value'], 
+                      e['id']['value'],
                       e['wishes']['value'].replace("http://garagemdosusados.com/vendas/#", ""),
                       e['power']['value'],
                       e['accelaration']['value'],
-                      e['speed']['value']])      
+                      e['speed']['value']])
     if len(lista) > 0:
         mediaPower = 0
         mediaAccelaration = 0
         mediaSpeed = 0
         for l in lista:
             mediaPower = mediaPower + int(l[12])
-            mediaAccelaration = mediaAccelaration + float(l[13]) 
+            mediaAccelaration = mediaAccelaration + float(l[13])
             mediaSpeed = mediaSpeed + int(l[14])
-        
+
         mediaPower = int(mediaPower/len(lista))
         mediaAccelaration = mediaAccelaration/len(lista)
-        mediaSpeed = int(mediaSpeed/len(lista))   
-        
+        mediaSpeed = int(mediaSpeed/len(lista))
+
         insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed)
         suggestions = sel_wishinference()
 
     tparams = {
         'lista': lista,
-        'sugestoes': suggestions,  
-    }   
-    return render(request, 'wishlist.html', tparams)      
+        'sugestoes': suggestions,
+    }
+    return render(request, 'wishlist.html', tparams)
 
 
 def sel_wishinference():
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
-    repo_name = "cars" 
+    repo_name = "cars"
     query = '''
         PREFIX person: <http://garagemdosusados.com/pessoas/#>
         PREFIX foaf: <http://xmlns.com/foaf/0.1/>
@@ -780,10 +806,10 @@ def sel_wishinference():
             ?car vso:fuelType ?ft .
             ?car vso:VIN ?idc . 
         }} limit 5   
-    '''.format(getUser())   
+    '''.format(getUser())
     payload_query = {"query": query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-    res = json.loads(res)  
+    res = json.loads(res)
     lista = []
     for e in res['results']['bindings']:
         lista.append([e['idc']['value'].split(" ", 2)[1],
@@ -796,17 +822,17 @@ def sel_wishinference():
                       e['loc']['value'],
                       e['name']['value'].capitalize(),
                       e['val']['value'] + '€',
-                      e['idc']['value'], 
+                      e['idc']['value'],
                       e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])
 
     return lista
-    
-  
+
+
 def insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed):
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
-    repo_name = "cars" 
+    repo_name = "cars"
     query = '''prefix person: <http://garagemdosusados.com/pessoas/#>
                delete  {{
                    person:{} person:suggestion ?p .
@@ -845,7 +871,7 @@ def insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed):
                 }}
         }} 
     '''.format(getUser(), mediaPower+75, mediaAccelaration+2, mediaSpeed+50, mediaPower-75, mediaAccelaration-2, mediaSpeed-50) #}  ?o
-    payload_query = {"update" : query}  
+    payload_query = {"update" : query}
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
 
@@ -853,7 +879,7 @@ def about(request):
     if user == None:
         return redirect('login')
     sparql = SPARQLWrapper('https://dbpedia.org/sparql')
-    brand = request.GET["entity"] 
+    brand = request.GET["entity"]
     sparql.setQuery(f'''
             SELECT ?name ?abst ?city ?own ?num ?prod ?slo
             WHERE {{ dbr:{brand} rdfs:label ?name.
@@ -886,12 +912,12 @@ def about(request):
 
     tparams = {
         "name": name,
-        "abstract": abst, 
+        "abstract": abst,
         "city": city,
         "owner": own,
         "employees": num,
         "production": prod,
         "slogan": slo
-    } 
+    }
 
     return render(request, 'about.html', tparams)
