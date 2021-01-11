@@ -64,6 +64,27 @@ def applyInference2():
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
 
+#if(length < 50) then city car
+def applyInference3():
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX schema:  <http://schema.org/>
+
+            INSERT  {?s schema:category "City Car"}
+            WHERE {
+                ?s vso:length ?length
+                FILTER((?length < "50"^^xsd:integer))
+            }
+            """
+
+    payload_query = {"update": query}
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
+
 
 def getUser():
     global user
@@ -219,7 +240,8 @@ def model(request):
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
             PREFIX gr: <http://purl.org/goodrelations/v1#>
-            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace ?vin
+            PREFIX schema: <http://schema.org/>
+            SELECT ?marca ?modelo ?data ?hei ?len ?wi ?dw ?gear ?hp ?trans ?fuel ?vel ?ace ?vin ?cat
             WHERE {{
                 ?car vso:VIN "{}".
                 ?car gr:hasManufacturer ?marca.
@@ -236,6 +258,7 @@ def model(request):
                 ?car vso:speed ?vel.
                 ?car vso:accelaration ?ace.
                 ?car vso:VIN ?vin.
+                ?car schema:category ?cat
             }}  
         '''.format(request.GET["entity"])
 
@@ -263,12 +286,39 @@ def model(request):
                       e['vel']['value']+"km/h",
                       e['ace']['value']+"s",
                       e['vin']['value']])
+        categoria = e['cat']['value']
+
+
+    query2 = '''  
+               PREFIX vso: <http://purl.org/vso/ns#>
+               PREFIX schema: <http://schema.org/>
+                    
+                SELECT ?id ?cat
+                WHERE {
+                    ?car vso:VIN ?id .
+                    ?car schema:category ?cat
+                    FILTER(?cat = '{}')
+                }
+            '''.format(categoria)
+
+    try:
+        payload_query = {"query2": query}
+        result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        result = json.loads(result)
+    except ValueError:
+        print("error")
+
+    carros = []
+    for e in result['results']['bindings']:
+        carros.append(e['id']['value'])
     
     inf1 = applyInference()
     inf2 = applyInference2()
+    inf3 = applyInference3()
     print(inf1)
     tparams = {
-        'lista': lista[0], 
+        'lista': lista[0],
+        'carros' : carros
     }
     return render(request, 'model.html', tparams)
 
