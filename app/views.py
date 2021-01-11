@@ -680,7 +680,7 @@ def deleteAccount(request):
 
 
 def wishlist(request):
-    if user == None:
+    if user == None: 
         return redirect('login')
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
@@ -694,7 +694,7 @@ def wishlist(request):
                 PREFIX vso: <http://purl.org/vso/ns#>
                 PREFIX uco: <http://purl.org/uco/ns#>
                 PREFIX schema: <http://schema.org/>
-                select ?id ?name ?color ?pets ?smoke ?loc ?val ?fuelType ?prev ?wishes
+                select ?id ?name ?color ?pets ?smoke ?loc ?val ?fuelType ?prev ?wishes ?power ?accelaration ?speed 
                 where {{
                     ?nck foaf:nick "{}" .
     				?nck person:wishlist ?wishes .
@@ -710,6 +710,9 @@ def wishlist(request):
    					?wishes gr:hasPriceSpecification [gr:hasCurrencyValue ?val] .
     				?car vso:fuelType ?fuelType .
     				?car vso:VIN ?id .
+                    ?car vso:enginePower ?power .
+                    ?car vso:accelaration ?accelaration .
+                    ?car vso:speed ?speed .
                     }}'''.format(getUser()) 
     payload_query = {"query" : query}
     res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
@@ -726,15 +729,135 @@ def wishlist(request):
                       e['smoke']['value'].replace("Yes", "Sim").replace("No", "Não"),
                       e['prev']['value'],
                       e['loc']['value'],
-                      e['name']['value'].capitalize(),
+                      e['name']['value'].capitalize(), 
                       e['val']['value'] + '€',
                       e['id']['value'], 
-                      e['wishes']['value'].replace("http://garagemdosusados.com/vendas/#", "")])     
-    print(lista)
+                      e['wishes']['value'].replace("http://garagemdosusados.com/vendas/#", ""),
+                      e['power']['value'],
+                      e['accelaration']['value'],
+                      e['speed']['value']])      
+    if len(lista) > 0:
+        mediaPower = 0
+        mediaAccelaration = 0
+        mediaSpeed = 0
+        for l in lista:
+            mediaPower = mediaPower + int(l[12])
+            mediaAccelaration = mediaAccelaration + float(l[13]) 
+            mediaSpeed = mediaSpeed + int(l[14])
+        
+        mediaPower = int(mediaPower/len(lista))
+        mediaAccelaration = mediaAccelaration/len(lista)
+        mediaSpeed = int(mediaSpeed/len(lista))   
+        
+        insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed)
+        suggestions = sel_wishinference()  
+        print(mediaPower)
+        print(mediaAccelaration)
+        print(mediaSpeed)
+    #print(lista)
     tparams = {
         'lista': lista,
-    }  
+        'sugestoes': suggestions,  
+    }   
     return render(request, 'wishlist.html', tparams)      
+
+def sel_wishinference():
+    endpoint = "http://localhost:7200"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    repo_name = "cars" 
+    query = '''
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
+        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+        PREFIX gr: <http://purl.org/goodrelations/v1#>
+        PREFIX vso: <http://purl.org/vso/ns#>
+        PREFIX uco: <http://purl.org/uco/ns#>
+        PREFIX schema: <http://schema.org/>
+        select ?idc ?name ?cor ?prev ?pets ?smoke ?val ?loc ?ft ?offer where {{
+            person:{} person:suggestion ?p .
+            ?vendor gr:offers ?p .
+            ?vendor foaf:nick ?person .
+            ?person foaf:nick ?name .
+            ?vendor gr:offers ?offer .
+            ?offer gr:includes ?car .
+            ?offer vso:color ?cor .
+            ?offer vso:previousOwners ?prev .  
+            ?offer uco:pets ?pets .
+            ?offer uco:smoking ?smoke .
+            ?offer uco:currentLocation [schema:addressRegion ?loc] .
+            ?offer gr:hasPriceSpecification [gr:hasCurrencyValue ?val] .
+            ?car vso:fuelType ?ft .
+            ?car vso:VIN ?idc . 
+        }} limit 5   
+    '''.format(getUser())   
+    payload_query = {"query": query}
+    res = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+   # print(res)
+    res = json.loads(res)  
+    lista = []
+    for e in res['results']['bindings']:
+        lista.append([e['idc']['value'].split(" ", 2)[1],
+                      e['idc']['value'].split(" ", 2)[2],
+                      e['cor']['value'],
+                      e['ft']['value'].replace("Gasoline", "Gasolina").replace("E85", "Diesel"),
+                      e['pets']['value'].replace("Yes", "Sim").replace("No", "Não"),
+                      e['smoke']['value'].replace("Yes", "Sim").replace("No", "Não"),
+                      e['prev']['value'],
+                      e['loc']['value'],
+                      e['name']['value'].capitalize(),
+                      e['val']['value'] + '€',
+                      e['idc']['value'], 
+                      e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])    
+    print(lista)
+    return lista
+    
+  
+def insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed):
+    endpoint = "http://localhost:7200"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    repo_name = "cars" 
+    query = '''prefix person: <http://garagemdosusados.com/pessoas/#>
+               delete  {{
+                   person:{} person:suggestion ?p .
+                    }} where {{
+                        person:{} person:suggestion ?p .
+                            }}'''.format(getUser, getUser())
+    payload_query = {"update": query}
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
+    query = '''
+        PREFIX person: <http://garagemdosusados.com/pessoas/#>
+        PREFIX gr: <http://purl.org/goodrelations/v1#>
+        PREFIX vso: <http://purl.org/vso/ns#> 
+        PREFIX vendor: <http://garagemdosusados.com/vendors/#>
+
+        insert {{ person:{} person:suggestion ?v }} where {{
+                {{
+                    ?p gr:offers ?v .
+                    ?v gr:includes ?car .
+                    ?car vso:enginePower ?power .
+                    ?car vso:accelaration ?accelaration .
+                    ?car vso:speed ?speed .
+                    filter (?power < {})
+                    filter (?accelaration < {})
+                    filter(?speed < {}) 
+                }}
+                {{
+                    ?p gr:offers ?v .
+                    ?v gr:includes ?car .
+                    ?car vso:enginePower ?power .
+                    ?car vso:accelaration ?accelaration .
+                    filter(?power > {} )
+                    ?car vso:speed ?speed  . 
+                    filter(?accelaration > {})
+                    filter(?speed > {}) 
+                }}
+        }} 
+    '''.format(getUser(), mediaPower+75, mediaAccelaration+2, mediaSpeed+50, mediaPower-75, mediaAccelaration-2, mediaSpeed-50) #}  ?o
+    payload_query = {"update" : query}  
+    res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+   # print(res) 
   
 
 def about(request):
@@ -785,3 +908,4 @@ def about(request):
     return render(request, 'about.html', tparams)
  
 
+ 
