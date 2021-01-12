@@ -769,16 +769,16 @@ def wishlist(request):
         mediaSpeed = int(mediaSpeed/len(lista))
 
         insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed)
-        suggestions = sel_wishinference()
+       
 
     tparams = {
-        'lista': lista,
-        'sugestoes': suggestions,
-    }
+        'lista': lista,  
+        'sugestoes': sel_wishinference([carro[11] for carro in lista]),
+    } 
     return render(request, 'wishlist.html', tparams)
 
 
-def sel_wishinference():
+def sel_wishinference(carros_wishes):
     endpoint = "http://localhost:7200"
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
@@ -824,9 +824,9 @@ def sel_wishinference():
                       e['val']['value'] + '€',
                       e['idc']['value'],
                       e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])
-
-    return lista
-
+    print(lista)
+    return [l for l in lista if l[11] not in carros_wishes]
+ 
 
 def insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed):
     endpoint = "http://localhost:7200"
