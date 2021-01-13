@@ -63,7 +63,7 @@ def applyInference2():
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
     #print(result)
-'''
+
 #if(length < 50) then city car
 def applyInference3():
     endpoint = "http://localhost:7200"
@@ -83,7 +83,47 @@ def applyInference3():
 
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-'''
+
+#if(modelDate < 1990) then classic
+def applyInference4():
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX schema:  <http://schema.org/>
+
+            INSERT  {?s schema:category "Classic"}
+            WHERE {
+                ?s vso:modelDate ?date .
+                FILTER((?date < "1990"^^xsd:integer))
+            }
+            """
+
+    payload_query = {"update": query}
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
+#if(modelDate > 2019) then Latest Car
+def applyInference5():
+    endpoint = "http://localhost:7200"
+    repo_name = "cars"
+    client = ApiClient(endpoint=endpoint)
+    acessor = GraphDBApi(client)
+    query = """
+            PREFIX vso: <http://purl.org/vso/ns#>
+            PREFIX schema:  <http://schema.org/>
+
+            INSERT  {?s schema:category "Latest"}
+            WHERE {
+                ?s vso:modelDate ?date .
+                FILTER((?date > "2019"^^xsd:integer))
+            }
+            """
+
+    payload_query = {"update": query}
+    result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
 
 def getUser():
     global user
@@ -283,9 +323,11 @@ def model(request):
                       e['ace']['value']+"s",
                       e['vin']['value']])
 
+    applyInference3()
     applyInference()
     applyInference2()
-    # applyInference3()
+    applyInference4()
+    applyInference5()
 
     #------------Select category--------------------
 
