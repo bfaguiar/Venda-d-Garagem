@@ -42,7 +42,7 @@
                                             {% for x in lista %}
                                                 <tr>
                                                     <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
-                                                    <td><a href="../model?entity={{ x.10 }}"/>{{ x.1 }}</td>
+                                                    <td><a href="../model?entity={{ x.10 }}&idc={{ x.11 }}"/>{{ x.1 }}</td>
                                                     <td>{{ x.2 }}</td>
                                                     <td>{{ x.3 }}</td>
                                                     <td>{{ x.4 }}</td>
@@ -70,7 +70,15 @@
                                 <ul class="col-lg-4">
                                     <div class="card shadow mb-4">
                                         <div class="card-header py-3">
-                                            <a style="color: red"><b>{{ s.0 }}</b></a> <a style="color: #be2617">{{ s.1 }}</a>
+                                            <div class="row">
+                                                <div  style="width: 90%; margin-left: 2%"> <a style="color: red"><b>{{ s.0 }}</b></a> <a style="color: #be2617">{{ s.1 }}</a></div>
+                                                <div  style="width: 8%">
+                                                      <a><i class="fas fa-star" style="color: #e9aa0b"></i></a>
+                                                        <!--href="../fav?name={{s.10}}&source=model"  ?? -->
+                                                </div>
+                                            </div>
+
+
                                         </div>
                                         <div class="card-body">
                                             <div class="row no-gutters align-items-center">
@@ -86,7 +94,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-auto">
-                                                    <a target="_blank" rel="nofollow" href="../model?entity={{ s.10 }}">Saber mais &rarr;</a>
+                                                    <a href="../model?entity={{ s.10 }}&idc={{ s.11 }}">Saber mais &rarr;</a>
                                                 </div>
                                             </div>
 

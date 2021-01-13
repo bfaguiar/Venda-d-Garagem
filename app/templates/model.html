@@ -67,21 +67,22 @@
                         <!-- Também poderá gostar de -->
                        <div class="card shadow mb-4" style="margin-top: 50px; width: 45%; margin-left: 5%">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Também poderá gostar de:</h6>
+                                <h6 class="m-0 font-weight-bold text-primary">Automóveis semelhantes:</h6>
                             </div>
 
                            <!-- for aqui -->
                            {% for x in carros %}
                             <div class="card-body row">
-                                <i class="fas fa-car-side" style="margin-left:10px; margin-right:10px; margin-top:4px; color: #be2617"></i>
+                                <div style="width: 80%">
+                                    <i class="fas fa-car-side" style="margin-left:10px; margin-right:10px; margin-top:4px; color: #be2617"></i>
 
-                                <!-- MARCA, Modelo v -->
-                                <a style="text-indent: 0.5em; color: #2e2f37; text-decoration: none;" > {{ x }} </a>
-
-                                <div class="profile-userbuttons">
+                                    <!-- MARCA, Modelo v -->
+                                    <a style="text-indent: 0.5em; color: #2e2f37; text-decoration: none;" > {{ x.1 }} </a>
+                                </div>
+                                <div class="profile-userbuttons" style="align-content: end">
                                     <form>
                                         <button class="btn btn-danger btn-sm" style="background-color: #e9aa0b; margin-left:10px; " value="Click">
-                                            <a style= "color: #2e2f37; text-decoration: none;" href="../model?entity={{ x }}"> Ver </a>
+                                            <a style= "color: #2e2f37; text-decoration: none; " href="../model?entity={{ x.1 }}&idc={{ x.0 }}"> Ver </a>
                                         </button>
                                     </form>
                                 </div>

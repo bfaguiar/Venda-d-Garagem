@@ -27,7 +27,7 @@ def applyInference():
                 ?s schema:category "Economic"
             }
             WHERE {
-                ?s vso:fuelType "Diesel fuel"@en .
+                ?s vso:fuelType "E85"@en . 
             }
             """
 
@@ -62,7 +62,7 @@ def applyInference2():
 
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-
+    #print(result)
 '''
 #if(length < 50) then city car
 def applyInference3():
@@ -110,7 +110,7 @@ def index(request):
         PREFIX foaf:<http://xmlns.com/foaf/0.1/>
         PREFIX schema: <http://schema.org/>
 
-        SELECT ?idc ?name ?cor ?prev ?pets ?smoke ?val ?loc ?ft ?offer
+        SELECT ?idc ?name ?cor ?prev ?pets ?smoke ?val ?loc ?ft ?offer ?car
         WHERE { 
             ?vendor foaf:nick ?person .
             ?person foaf:nick ?name .
@@ -148,7 +148,8 @@ def index(request):
                       e['name']['value'].capitalize(),
                       e['val']['value'] + '€',
                       e['idc']['value'],
-                      e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])
+                      e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", ""),
+                      e['car']['value'].replace("http://garagemdosusados.com/carros/#", "")])
 
     for l in lista:
         ask_query = ''' PREFIX sell: <http://garagemdosusados.com/vendas/#>
@@ -169,7 +170,7 @@ def index(request):
     tparams = {
         'lista': lista,
     }
-
+    #print(lista)
     return render(request, 'index.html', tparams)
 
 
@@ -258,6 +259,7 @@ def model(request):
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        #print(result)
         result = json.loads(result)
     except ValueError:
         print("error")
@@ -279,25 +281,27 @@ def model(request):
                       e['ace']['value']+"s",
                       e['vin']['value']])
 
-
     applyInference()
     applyInference2()
     # applyInference3()
 
     #------------Select category--------------------
+
     query = '''  
                 PREFIX vso: <http://purl.org/vso/ns#>
                 PREFIX schema: <http://schema.org/>
-
+                PREFIX car: <http://garagemdosusados.com/carros/#>
                 SELECT ?cat
                 WHERE {{
-                    ?car vso:VIN "{}".
-                    ?car schema:category ?cat .
+                    car:{} schema:category ?cat .
                 }}
-            '''.format(request.GET["entity"])
+            '''.format(request.GET["idc"])
+    print("OLA")
+    print(request.GET["idc"])
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+        #print(result)
         result = json.loads(result)
     except ValueError:
         print("error")
@@ -312,10 +316,10 @@ def model(request):
                PREFIX vso: <http://purl.org/vso/ns#>
                PREFIX schema: <http://schema.org/>
                     
-                SELECT ?id
+                SELECT ?car ?vin
                 WHERE {{
-                    ?car vso:VIN ?id .
                     ?car schema:category ?cat .
+                    ?car vso:VIN ?vin
                     FILTER(?cat = '{}')
                 }}limit 5
             '''.format(categoria)
@@ -328,9 +332,9 @@ def model(request):
         print("error")
 
     carros = []
-    print(result)
+
     for e in result['results']['bindings']:
-        carros.append(e['id']['value'])
+        carros.append([e['car']['value'].replace("http://garagemdosusados.com/carros/#", ""), e['vin']['value']])
 
     tparams = {
         'lista': lista[0],
@@ -714,7 +718,7 @@ def wishlist(request):
                 PREFIX vso: <http://purl.org/vso/ns#>
                 PREFIX uco: <http://purl.org/uco/ns#>
                 PREFIX schema: <http://schema.org/>
-                select ?id ?name ?color ?pets ?smoke ?loc ?val ?fuelType ?prev ?wishes ?power ?accelaration ?speed 
+                select ?id ?name ?color ?pets ?smoke ?loc ?val ?fuelType ?prev ?wishes ?power ?accelaration ?speed ?car
                 where {{
                     ?nck foaf:nick "{}" .
                     ?nck person:wishlist ?wishes .
@@ -770,7 +774,7 @@ def wishlist(request):
 
         insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed)
        
-
+    print(lista)
     tparams = {
         'lista': lista,  
         'sugestoes': sel_wishinference([carro[11] for carro in lista]),
@@ -824,7 +828,7 @@ def sel_wishinference(carros_wishes):
                       e['val']['value'] + '€',
                       e['idc']['value'],
                       e['offer']['value'].replace("http://garagemdosusados.com/vendas/#", "")])
-    print(lista)
+
     return [l for l in lista if l[11] not in carros_wishes]
  
 

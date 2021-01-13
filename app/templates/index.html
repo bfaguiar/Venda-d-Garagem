@@ -38,7 +38,7 @@
                                         {% for x in lista %}
                                             <tr>
                                                 <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
-                                                <td><a href="../model?entity={{ x.10 }}"/>{{ x.1 }}</td>
+                                                <td><a href="../model?entity={{ x.10 }}&idc={{ x.12 }}"/>{{ x.1 }}</td>
                                                 <td>{{ x.2 }}</td>
                                                 <td>{{ x.3 }}</td>
                                                 <td>{{ x.4 }}</td>
@@ -48,7 +48,7 @@
                                                 <td>{{ x.8 }}</td>
                                                 <td>{{ x.9 }}</td>
                                                 <th style="width: 3%">
-                                                    {% if x.12  %}
+                                                    {% if x.13  %}
                                                         <a href="../rev?idc={{x.11}}&source=index" class="btn btn-outline-secondary btn-circle btn-sm"/>
                                                         <i class="fas fa-star" style="color: #e9aa0b"></i>
                                                     {% else %}
