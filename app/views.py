@@ -195,7 +195,9 @@ def fav(request):
 
     if request.GET['source'] == "index":
         return redirect('/')
-    return redirect('profile')
+    if request.GET['source'] == "wishlist":
+        return redirect('wishlist')
+    return redirect('profile')  
 
 
 def rev(request):
