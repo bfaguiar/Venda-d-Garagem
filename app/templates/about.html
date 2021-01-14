@@ -5,49 +5,48 @@
      {% load static %}
         <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
 
-            <!-- Main Content -->
-            <div id="content">
-                <div class="row" style="margin-left:30px; margin-top:30px">
-                    <h6 style="margin-right:10px; margin-top:8px">Sobre: </h6>
-                    <h4 class="m-0 font-weight-bold text-primary" >{{ name }}</h4>
+    <!-- Main Content -->
+    <div id="content">
+        <div class="row" style="margin-left:30px; margin-top:30px">
+            <h6 style="margin-right:10px; margin-top:8px">Sobre: </h6>
+            <h4 class="m-0 font-weight-bold text-primary" >{{ name }}</h4>
+        </div>
+        <div class="container-fluid" style="margin-top:10px">
+            <div class="card shadow mb-4" style="margin-top: 50px">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Abstrato</h6>
                 </div>
-                    <div class="container-fluid" style="margin-top:10px">
-                        <div class="card shadow mb-4" style="margin-top: 50px">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Abstrato</h6>
-                            </div>
-                            <div style="text-indent: 2em" class="card-body">
-                                <a> {{ abstract }} </a>
-                            </div>
-                        </div>
-                        <div class="card shadow mb-4" style="margin-top: 50px">
-                            <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Curiosidades</h6>
-                            </div>
-                            <div class="card-body row">
-                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Cidade originária:</h8>
-                                <a style="text-indent: 0.5em"> {{ city }} </a>
-                            </div>
-                            <div class="card-body row">
-                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Dono/a:</h8>
-                                <a style="text-indent: 0.5em"> {{ owner }} </a>
-                            </div>
-                            <div class="card-body row">
-                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Número de Funcionários:</h8>
-                                <a style="text-indent: 0.5em"> {{ employees }} </a>
-                            </div>
-                            <div class="card-body row">
-                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Produção Anual:</h8>
-                                <a style="text-indent: 0.5em"> {{ production }} </a>
-                            </div>
-                            <div class="card-body row">
-                                <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Slogan:</h8>
-                                <a style="text-indent: 0.5em"> {{ slogan }} </a>
-                            </div>
-                        </div>
-                    </div>
-
+                <div style="text-indent: 2em" class="card-body">
+                    <a> {{ abstract }} </a>
+                </div>
             </div>
-            <!-- End of Main Content -->
+            <div class="card shadow mb-4" style="margin-top: 50px">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Curiosidades</h6>
+                </div>
+                <div class="card-body row">
+                    <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Cidade originária:</h8>
+                    <a style="text-indent: 0.5em"> {{ city }} </a>
+                </div>
+                <div class="card-body row">
+                    <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Dono/a:</h8>
+                    <a style="text-indent: 0.5em"> {{ owner }} </a>
+                </div>
+                <div class="card-body row">
+                    <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Número de Funcionários:</h8>
+                    <a style="text-indent: 0.5em"> {{ employees }} </a>
+                </div>
+                <div class="card-body row">
+                    <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Produção Anual:</h8>
+                    <a style="text-indent: 0.5em"> {{ production }} </a>
+                </div>
+                <div class="card-body row">
+                    <h8 style="text-indent: 2em" class="m-0 font-weight-bold text-primary" >Slogan:</h8>
+                    <a style="text-indent: 0.5em"> {{ slogan }} </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End of Main Content -->
 
 {% endblock %}

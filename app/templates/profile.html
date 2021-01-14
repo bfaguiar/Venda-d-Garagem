@@ -6,159 +6,159 @@
      {% load static %}
         <link rel="stylesheet" href="{% static 'assets/css/profile.css' %}">
 
-            <!-- Main Content -->
-            <div id="content" typeof="person">
-                <div class="row">
-                    <div class="container-fluid">
-                        <div class="row profile" >
-                            <div class="col-md-3"  style="margin-top: 50px">
+    <!-- Main Content -->
+    <div id="content" typeof="person">
+        <div class="row">
+            <div class="container-fluid">
+                <div class="row profile" >
+                    <div class="col-md-3"  style="margin-top: 50px">
 
-                                <!-- PERFIL -->
-                                <div class="profile-sidebar">
-                                    <div class="profile-userpic" style="margin-left: 35%">
-                                    {% load static %}
-                                        <img src="{% static 'assets/images/avatar.jpg' %}" alt="">
-                                    </div>
-                                    <div class="profile-usertitle">
-                                        <div class="profile-usertitle-name">
-                                            <a about="[person:{{name_nick}}]" property="foaf:firstName">{{name_first}}</a>
-                                        </div>
-                                        <div class="profile-usertitle-job">
-                                            <a about="[person:{{name_nick}}]" property="foaf:mbox">{{email}}</a>
-                                        </div>
-                                    </div>
-                                    <div class="row" style="margin-left: 15%; margin-right: 5%">
-                                        <div class="profile-userbuttons">
-                                            <form method="GET">
-                                                <button type="submit" class="btn btn-danger btn-sm" name="exit_BTN" id="exit_BTN"  value="Click">Sair</button>
-                                            </form>
-                                        </div>
-                                        <div class="profile-userbuttons" style="margin-left: 5%">
-                                            <form method="GET" action="/deleteAccount">
-                                                <button type="submit" class="btn btn-danger btn-sm" id="delete_BTN" name="delete_BTN" value="Click">Apagar Conta</button>
-                                            </form>
-                                        </div>
-                                    </div>
+                        <!-- PERFIL -->
+                        <div class="profile-sidebar">
+                            <div class="profile-userpic" style="margin-left: 35%">
+                            {% load static %}
+                                <img src="{% static 'assets/images/avatar.jpg' %}" alt="">
+                            </div>
+                            <div class="profile-usertitle">
+                                <div class="profile-usertitle-name">
+                                    <a about="[person:{{name_nick}}]" property="foaf:firstName">{{name_first}}</a>
                                 </div>
-
-                                <hr class="sidebar-divider">
-
-                                <!-- ADICIONAR ANUNCIO -->
-                                <div class="profile-sidebar" style="margin-top: 20px">
-                                    <div class="form-group" style="margin-left: 20px; margin-right:20px">
-                                        <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
-                                        <form action="../add_announce" method="GET">    
-                                            <!-- ID -->
-                                            <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
-
-                                            <div><select class="form-control" name="id" id="id">   
-                                                {% for index in id %}  
-                                                <option>{{ index }}</option>
-                                                {% endfor %} 
-                                            </select></div>   
-  
-                                            <!-- COR -->
-                                            <div class="row" style="margin-top: 20px"> 
-                                                <label for="local" style="margin-top: 8px">Cor:</label><br> 
-                                                <div style="width: 82%; margin-left: 10px">
-                                                    <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br> 
-                                                </div>
-                                            </div> 
-                                            <!-- FUMADOR -->   
-                                            <div>
-                                                <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
-                                                <label for="smoke">Fumador?</label><br>
-                                            </div>
-                                            <!-- ANIMAIS --> 
-                                            <div>
-                                                <input value = "{{ pets }}" type="checkbox" id="pets" name="pets">
-                                                <label for="pets">Animais?</label><br>
-                                            </div>
-                                            <!-- DONOS -->
-                                            <div class="row" style="margin-top: 15px">
-                                                <label for="owners" style="margin-top: 8px">Donos:</label><br> 
-                                                <div style="width: 73%; margin-left: 10px">
-                                                    <input value = "{{ owners }}" type="number" id="owners" name="owners" min="1" class="form-control">
-                                                </div>
-                                            </div>
-                                            <!-- KM -->
-                                            <div class="row" style="margin-top: 15px">
-                                                <label for="owners" style="margin-top: 8px">KMs:</label><br>
-                                                <div style="width: 73%; margin-left: 24px">
-                                                    <input value = "{{ km }}" type="number" id="km" name="km" min="0" class="form-control">
-                                                </div>
-                                            </div>
-                                            <!-- VALOR -->
-                                            <div class="row" style="margin-top: 15px">
-                                                <label for="owners" style="margin-top: 8px">Valor:</label><br>
-                                                <div style="width: 73%; margin-left: 20px">
-                                                    <input value = "{{ value }}" type="number" id="value" name="value" min="0" class="form-control">
-                                                </div>
-                                            </div>
-                                            <!-- LOCALIZAÇÃO -->
-                                            <div class="row" style="margin-top: 15px">
-                                                <label for="local" style="margin-top: 8px">Localização:</label><br>
-                                                <div style="width: 57%; margin-left: 10px">
-                                                    <input value = "{{ local }}" type="text" id="locale" name="locale" class="form-control"><br>
-                                                </div>
-                                            </div> 
- 
-                                            <div class="profile-userbuttons" style="margin-top: 20px">
-                                                <button type="submit" value="Submit"id="announce" class="btn btn-success btn-sm">Publicar</button> 
-                                            </div>
-                                        </form>
-                                    </div> 
+                                <div class="profile-usertitle-job">
+                                    <a about="[person:{{name_nick}}]" property="foaf:mbox">{{email}}</a>
                                 </div>
                             </div>
+                            <div class="row" style="margin-left: 15%; margin-right: 5%">
+                                <div class="profile-userbuttons">
+                                    <form method="GET">
+                                        <button type="submit" class="btn btn-danger btn-sm" name="exit_BTN" id="exit_BTN"  value="Click">Sair</button>
+                                    </form>
+                                </div>
+                                <div class="profile-userbuttons" style="margin-left: 5%">
+                                    <form method="GET" action="/deleteAccount">
+                                        <button type="submit" class="btn btn-danger btn-sm" id="delete_BTN" name="delete_BTN" value="Click">Apagar Conta</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
 
-                            <!-- TABELA -->
-                            <div class="col-md-9">
-                                <div class="container-fluid">
-                                    <div class="card shadow mb-4" style="margin-top: 50px">
-                                        <div class="card-header py-3">
-                                            <div class="row">
-                                                <h6 class="m-0 font-weight-bold text-primary">Meus anúncios</h6>
-                                            </div>
+                        <hr class="sidebar-divider">
+
+                        <!-- ADICIONAR ANUNCIO -->
+                        <div class="profile-sidebar" style="margin-top: 20px">
+                            <div class="form-group" style="margin-left: 20px; margin-right:20px">
+                                <h6 class="m-0 font-weight-bold text-primary">Adicionar anúncio</h6>
+                                <form action="../add_announce" method="GET">
+                                    <!-- ID -->
+                                    <div style="margin-top: 20px; margin-bottom: -5px"><label for="id">Marca/Modelo/Versão:</label></div>
+
+                                    <div><select class="form-control" name="id" id="id">
+                                        {% for index in id %}
+                                        <option>{{ index }}</option>
+                                        {% endfor %}
+                                    </select></div>
+
+                                    <!-- COR -->
+                                    <div class="row" style="margin-top: 20px">
+                                        <label for="local" style="margin-top: 8px">Cor:</label><br>
+                                        <div style="width: 82%; margin-left: 10px">
+                                            <input value = "{{ color }}" type="text" id="color" name="color" class="form-control"><br>
                                         </div>
-                                        <div class="card-body">
-                                            <div class="table-responsive">
-                                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Identificação</th>
-                                                            <th>Cor</th>
-                                                            <th>Preço (€)</th>
-                                                            <th>KMs</th>
-                                                            <th>Local</th>
-                                                            <th> </th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {% for a in anuncios %}
-                                                        <tr>
-                                                            <td>{{a.7}}</td>
-                                                            <td>{{a.5}}</td>
-                                                            <td> {{a.1}}</td>
-                                                            <td> {{a.8}}</td>
-                                                            <td> {{a.2}} </td>
-                                                            <th style="width: 10px">
-                                                                <a href="../remove_announcement?idc={{a.9}}"  class="btn btn-danger btn-circle btn-sm"/>
-                                                                <i class="fas fa-trash"></i>   
-                                                            </th> 
-                                                        </tr>
-                                                        {% endfor %} 
-                                                    </tbody>
-                                                </table>
-                                            </div>
+                                    </div>
+                                    <!-- FUMADOR -->
+                                    <div>
+                                        <input value = "{{ smoke }}" type="checkbox" id="smoke" name="smoke">
+                                        <label for="smoke">Fumador?</label><br>
+                                    </div>
+                                    <!-- ANIMAIS -->
+                                    <div>
+                                        <input value = "{{ pets }}" type="checkbox" id="pets" name="pets">
+                                        <label for="pets">Animais?</label><br>
+                                    </div>
+                                    <!-- DONOS -->
+                                    <div class="row" style="margin-top: 15px">
+                                        <label for="owners" style="margin-top: 8px">Donos:</label><br>
+                                        <div style="width: 73%; margin-left: 10px">
+                                            <input value = "{{ owners }}" type="number" id="owners" name="owners" min="1" class="form-control">
                                         </div>
-                                    </div>  
-                                </div> 
+                                    </div>
+                                    <!-- KM -->
+                                    <div class="row" style="margin-top: 15px">
+                                        <label for="owners" style="margin-top: 8px">KMs:</label><br>
+                                        <div style="width: 73%; margin-left: 24px">
+                                            <input value = "{{ km }}" type="number" id="km" name="km" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!-- VALOR -->
+                                    <div class="row" style="margin-top: 15px">
+                                        <label for="owners" style="margin-top: 8px">Valor:</label><br>
+                                        <div style="width: 73%; margin-left: 20px">
+                                            <input value = "{{ value }}" type="number" id="value" name="value" min="0" class="form-control">
+                                        </div>
+                                    </div>
+                                    <!-- LOCALIZAÇÃO -->
+                                    <div class="row" style="margin-top: 15px">
+                                        <label for="local" style="margin-top: 8px">Localização:</label><br>
+                                        <div style="width: 57%; margin-left: 10px">
+                                            <input value = "{{ local }}" type="text" id="locale" name="locale" class="form-control"><br>
+                                        </div>
+                                    </div>
+
+                                    <div class="profile-userbuttons" style="margin-top: 20px">
+                                        <button type="submit" value="Submit"id="announce" class="btn btn-success btn-sm">Publicar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TABELA -->
+                    <div class="col-md-9">
+                        <div class="container-fluid">
+                            <div class="card shadow mb-4" style="margin-top: 50px">
+                                <div class="card-header py-3">
+                                    <div class="row">
+                                        <h6 class="m-0 font-weight-bold text-primary">Meus anúncios</h6>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Identificação</th>
+                                                    <th>Cor</th>
+                                                    <th>Preço (€)</th>
+                                                    <th>KMs</th>
+                                                    <th>Local</th>
+                                                    <th> </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for a in anuncios %}
+                                                <tr>
+                                                    <td>{{a.7}}</td>
+                                                    <td>{{a.5}}</td>
+                                                    <td> {{a.1}}</td>
+                                                    <td> {{a.8}}</td>
+                                                    <td> {{a.2}} </td>
+                                                    <th style="width: 10px">
+                                                        <a href="../remove_announcement?idc={{a.9}}"  class="btn btn-danger btn-circle btn-sm"/>
+                                                        <i class="fas fa-trash"></i>
+                                                    </th>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- End of Main Content -->
+        </div>
+    </div>
+    <!-- End of Main Content -->
 
 {% endblock %}
  

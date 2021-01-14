@@ -2,69 +2,67 @@
 
 {% block content %}
 
-            <!-- Main Content -->
-            <div id="content">
+    <!-- Main Content -->
+    <div id="content">
+        <div class="container-fluid">
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
-
-                    <!-- DataTale -->
-                    <div class="card shadow mb-4" style="margin-top: 50px">
-                        <div class="card-header py-3">
-                            <div class="row">
-                                <i class="fas fa-car-side" style="margin-right:10px; margin-top:4px; color: #169b6b"></i>
-                                <h6 class="m-0 font-weight-bold text-primary">Automóveis disponíveis para venda</h6>
-                            </div>
-                        </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Marca</th>
-                                            <th>Modelo</th>
-                                            <th>Cor</th>
-                                            <th><i class="fas fa-gas-pump " style="margin-right:10px; margin-top:4px"></i></th>
-                                            <th><i class="fas fa-dog " style="margin-right:10px; margin-top:4px"></i></th>
-                                            <th><i class="fas fa-smoking " style="margin-right:10px; margin-top:4px"></i></th>
-                                            <th>Donos</th>
-                                            <th>Localização</th> 
-                                            <th>Vendedor</th>
-                                            <th>Preço</th>
-                                            <th> </th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for x in lista %}
-                                            <tr>
-                                                <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
-                                                <td><a href="../model?entity={{ x.10 }}&idc={{ x.12 }}"/>{{ x.1 }}</td>
-                                                <td>{{ x.2 }}</td>
-                                                <td>{{ x.3 }}</td>
-                                                <td>{{ x.4 }}</td>
-                                                <td>{{ x.5 }}</td>
-                                                <td>{{ x.6 }}</td>
-                                                <td>{{ x.7 }}</td>
-                                                <td>{{ x.8 }}</td>
-                                                <td>{{ x.9 }}</td>
-                                                <th style="width: 3%">
-                                                    {% if x.13  %}
-                                                        <a href="../rev?idc={{x.11}}&source=index" class="btn btn-outline-secondary btn-circle btn-sm"/>
-                                                        <i class="fas fa-star" style="color: #e9aa0b"></i>
-                                                    {% else %}
-                                                        <a href="../fav?idc={{x.11}}&source=index" class="btn btn-outline-secondary  btn-circle btn-sm"/>
-                                                        <i class="fas fa-star"></i>
-                                                    {% endif %}
-                                                </th>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
+            <!-- DataTale -->
+            <div class="card shadow mb-4" style="margin-top: 50px">
+                <div class="card-header py-3">
+                    <div class="row">
+                        <i class="fas fa-car-side" style="margin-right:10px; margin-top:4px; color: #169b6b"></i>
+                        <h6 class="m-0 font-weight-bold text-primary">Automóveis disponíveis para venda</h6>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                            <thead>
+                                <tr>
+                                    <th>Marca</th>
+                                    <th>Modelo</th>
+                                    <th>Cor</th>
+                                    <th><i class="fas fa-gas-pump " style="margin-right:10px; margin-top:4px"></i></th>
+                                    <th><i class="fas fa-dog " style="margin-right:10px; margin-top:4px"></i></th>
+                                    <th><i class="fas fa-smoking " style="margin-right:10px; margin-top:4px"></i></th>
+                                    <th>Donos</th>
+                                    <th>Localização</th>
+                                    <th>Vendedor</th>
+                                    <th>Preço</th>
+                                    <th> </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for x in lista %}
+                                    <tr>
+                                        <td><a href="../about?entity={{ x.0 }}"/>{{ x.0 }}</td>
+                                        <td><a href="../model?entity={{ x.10 }}&idc={{ x.12 }}"/>{{ x.1 }}</td>
+                                        <td>{{ x.2 }}</td>
+                                        <td>{{ x.3 }}</td>
+                                        <td>{{ x.4 }}</td>
+                                        <td>{{ x.5 }}</td>
+                                        <td>{{ x.6 }}</td>
+                                        <td>{{ x.7 }}</td>
+                                        <td>{{ x.8 }}</td>
+                                        <td>{{ x.9 }}</td>
+                                        <th style="width: 3%">
+                                            {% if x.13  %}
+                                                <a href="../rev?idc={{x.11}}&source=index" class="btn btn-outline-secondary btn-circle btn-sm"/>
+                                                <i class="fas fa-star" style="color: #e9aa0b"></i>
+                                            {% else %}
+                                                <a href="../fav?idc={{x.11}}&source=index" class="btn btn-outline-secondary  btn-circle btn-sm"/>
+                                                <i class="fas fa-star"></i>
+                                            {% endif %}
+                                        </th>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
-            <!-- End of Main Content -->
+        </div>
+    </div>
+    <!-- End of Main Content -->
 
 {% endblock %}

@@ -1,65 +1,66 @@
-
-
 {% block content %}
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
 
-<head>
-  <meta charset="utf-8">
-  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <html lang="en">
 
-  <title>Venda d'Garagem</title>
+        <head>
+          <meta charset="utf-8">
+          <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+          <title>Venda d'Garagem</title>
 
-  {% load static %}
-    <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
-</head>
+          <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+          <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
+          <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
-<body>
-<div class="container">
-	<div class="d-flex justify-content-center h-100">
-		<div class="card">
-			<div class="card-header">
-				<h3 style="color: white">Início de Sessão</h3>
-			</div>
-			<div class="card-body">
-				<form method="POST">
-				{% csrf_token %}   
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-user"></i></span>
-						</div>
-						<input type="text" class="form-control" name="user" placeholder="Nome de Utilizador">
+          {% load static %}
+            <link rel="stylesheet" href="{% static 'assets/css/login.css' %}">
+        </head>
 
-					</div>
-					<div class="input-group form-group">
-						<div class="input-group-prepend">
-							<span class="input-group-text"><i class="fas fa-key"></i></span>
-						</div> 
-						<input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
-					</div>
-					<div class="form-group">
-						<input style="width: auto; color: white" type="submit" value="Iniciar Sessão" id="login" class="btn float-right login_btn"><a href="../index"/>
-					</div>  
-				</form>
-				
-			</div>
-			{% if not bool %}
-				Nome de utilizador inválido, volte a tentar ou registe-se. 
-			{% endif %}
+        <body>
+            <div class="container">
+                <div class="d-flex justify-content-center h-100">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 style="color: white">Início de Sessão</h3>
+                        </div>
+                        <div class="card-body">
+                            <form method="POST">
+                            {% csrf_token %}
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="text" class="form-control" name="user" placeholder="Nome de Utilizador">
 
-            <div>
-                <a style="margin-left:60px; color: white">Não possui conta?</a>
-                <a href="../signup" class="btn float-right login_btn" style="margin-bottom: 10px; margin-right: 70px">Registar</a>
+                                </div>
+                                <div class="input-group form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="fas fa-key"></i></span>
+                                    </div>
+                                    <input type="password" class="form-control" id="pass" placeholder="Palavra-Passe">
+                                </div>
+                                <div class="form-group">
+                                    <input style="width: auto" type="submit" value="Iniciar Sessão" id="login" class="btn float-right login_btn"><a href="../index"/>
+                                </div>
+                            </form>
+
+                        </div>
+                        {% if not bool %}
+                            Nome de utilizador inválido, volte a tentar ou registe-se.
+                        {% endif %}
+
+                        <div>
+                            <a style="margin-left:60px; color: white">Não possui conta?</a>
+                            <a href="../signup" class="btn float-right login_btn" style="margin-bottom: 10px; margin-right: 70px">Registar</a>
+                        </div>
+                    </div>
+                </div>
             </div>
-		</div>
-	</div> 
-</div>
-</body>
-</html>
+        </body>
+    </html>
+
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
 {% endblock %}

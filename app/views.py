@@ -13,7 +13,7 @@ import random
 user = None
 
 
-# if(diesel) then economic
+# if(diesel) then economic :)
 def applyInference():
     endpoint = "http://localhost:7200"
     repo_name = "cars"
@@ -62,7 +62,7 @@ def applyInference2():
 
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
-    #print(result)
+
 
 #if(length < 50) then city car
 def applyInference3():
@@ -84,6 +84,7 @@ def applyInference3():
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
+
 #if(modelDate < 1990) then classic
 def applyInference4():
     endpoint = "http://localhost:7200"
@@ -103,6 +104,7 @@ def applyInference4():
 
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
+
 
 #if(modelDate > 2019) then Latest Car
 def applyInference5():
@@ -197,20 +199,19 @@ def index(request):
                             ASK
                             WHERE {{
                                 person:{} person:wishlist sell:{}
-                            }}'''.format( getUser(), l[11] )
+                            }}'''.format(getUser(), l[11])
         payload_query = {"query": ask_query}
 
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
         result = json.loads(result)
-        if (result['boolean']):
-            l.append( True )
+        if result['boolean']:
+            l.append(True)
         else:
             l.append(False)
 
     tparams = {
         'lista': lista,
     }
-    #print(lista)
     return render(request, 'index.html', tparams)
 
 
@@ -256,6 +257,7 @@ def rev(request):
                       ?s foaf:nick "{}"
                   }}  
     '''.format(request.GET['idc'], getUser())
+
     payload_query = {"update": query}
     result = acessor.sparql_update(body=payload_query, repo_name=repo_name)
     if request.GET['source'] == "index":
@@ -272,7 +274,6 @@ def model(request):
     client = ApiClient(endpoint=endpoint)
     acessor = GraphDBApi(client)
     repo_name = "cars"
-
     query = '''  
             PREFIX car: <http://garagemdosusados.com/carros/#>
             PREFIX vso: <http://purl.org/vso/ns#>
@@ -301,7 +302,6 @@ def model(request):
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        #print(result)
         result = json.loads(result)
     except ValueError:
         print("error")
@@ -329,8 +329,7 @@ def model(request):
     applyInference4()
     applyInference5()
 
-    #------------Select category--------------------
-
+    # ------------ Select category --------------------
     query = '''  
                 PREFIX vso: <http://purl.org/vso/ns#>
                 PREFIX schema: <http://schema.org/>
@@ -340,12 +339,10 @@ def model(request):
                     car:{} schema:category ?cat .
                 }}
             '''.format(request.GET["idc"])
-    print("OLA")
-    print(request.GET["idc"])
+
     try:
         payload_query = {"query": query}
         result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-        #print(result)
         result = json.loads(result)
     except ValueError:
         print("error")
@@ -354,8 +351,7 @@ def model(request):
     for e in result['results']['bindings']:
         categoria = e['cat']['value']
 
-
-    #---------cars with same category--------------------
+    # --------- Cars with same category --------------------
     query = '''  
                PREFIX vso: <http://purl.org/vso/ns#>
                PREFIX schema: <http://schema.org/>
@@ -387,31 +383,30 @@ def model(request):
     return render(request, 'model.html', tparams)
 
 
-
 def login(request):
     assert isinstance(request, HttpRequest)
     if 'user' in request.POST and request.POST['user'] != '':
-            endpoint = "http://localhost:7200"
-            client = ApiClient(endpoint=endpoint)
-            acessor = GraphDBApi(client)
-            repo_name = "cars"
-            query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-                        ASK
-                        WHERE {{
-                            ?name foaf:nick "{}" .
-                            ?name foaf:nick ?nick .
-                        }}'''.format(request.POST['user'])
-            try:
-                payload_query = {"query": query}
-                result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
-                result = json.loads(result)
-                if (result['boolean']):
-                    postUser(request.POST['user'])
-                    return redirect('index')
-                else:
-                    return render(request, 'login.html', {'bool': False})
-            except ValueError:
-                print("error")
+        endpoint = "http://localhost:7200"
+        client = ApiClient(endpoint=endpoint)
+        acessor = GraphDBApi(client)
+        repo_name = "cars"
+        query = ''' PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+                    ASK
+                    WHERE {{
+                        ?name foaf:nick "{}" .
+                        ?name foaf:nick ?nick .
+                    }}'''.format(request.POST['user'])
+        try:
+            payload_query = {"query": query}
+            result = acessor.sparql_select(body=payload_query, repo_name=repo_name)
+            result = json.loads(result)
+            if (result['boolean']):
+                postUser(request.POST['user'])
+                return redirect('index')
+            else:
+                return render(request, 'login.html', {'bool': False})
+        except ValueError:
+            print("error")
     return render(request, 'login.html', {'bool': True})
 
 
@@ -817,8 +812,7 @@ def wishlist(request):
         mediaSpeed = int(mediaSpeed/len(lista))
 
         insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed)
-       
-    print(lista)
+
     tparams = {
         'lista': lista,  
         'sugestoes': sel_wishinference([carro[11] for carro in lista]),
@@ -923,6 +917,7 @@ def insert_wishinference(mediaPower, mediaAccelaration, mediaSpeed):
     res = acessor.sparql_update(body=payload_query, repo_name=repo_name)
 
 
+# Runtime DBPedia with SPARQLWrapper
 def about(request):
     if user == None:
         return redirect('login')

@@ -34,4 +34,4 @@ urlpatterns = [
     path('fav/', views.fav, name="fav"),
     path('rev/', views.rev, name="rev"), 
 ] 
- 
+
